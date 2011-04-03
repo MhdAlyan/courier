@@ -1,0 +1,238 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Double Precision, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pcp 0.10\n"
+"Report-Msgid-Bugs-To: http://www.courier-mta.org\n"
+"POT-Creation-Date: 2011-01-22 17:08-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pcp.c:59
+msgid "today"
+msgstr ""
+
+#: pcp.c:60
+msgid "tomorrow"
+msgstr ""
+
+#: pcp.c:67
+msgid "from"
+msgstr ""
+
+#: pcp.c:72
+msgid "to"
+msgstr ""
+
+#: pcp.c:77
+msgid "event"
+msgstr ""
+
+#: pcp.c:82
+msgid "on"
+msgstr ""
+
+#: pcp.c:188
+#, c-format
+msgid ""
+"LOGIN ERROR:\n"
+"%s\n"
+msgstr ""
+
+#: pcp.c:200 pcp.c:1451
+#, c-format
+msgid "ERROR: Unable to obtain authentication token from the server.\n"
+msgstr ""
+
+#: pcp.c:295
+#, c-format
+msgid ""
+"Conflict: %s\n"
+"    (%s)\n"
+msgstr ""
+
+#: pcp.c:314
+msgid "with"
+msgstr ""
+
+#: pcp.c:362
+msgid "until"
+msgstr ""
+
+#: pcp.c:467
+#, c-format
+msgid "Created event %s\n"
+msgstr ""
+
+#: pcp.c:511
+#, c-format
+msgid ""
+"\n"
+"Enter event information, terminate with EOF (usually CTRL-D)\n"
+"\n"
+msgstr ""
+
+#: pcp.c:599
+msgid "all"
+msgstr ""
+
+#: pcp.c:781
+msgid "CANCELLED: "
+msgstr ""
+
+#: pcp.c:783
+msgid "(event not yet commited) "
+msgstr ""
+
+#: pcp.c:806
+#, c-format
+msgid "%d events found.\n"
+msgstr ""
+
+#: pcp.c:1086
+#, c-format
+msgid "Event: %s\n"
+msgstr ""
+
+#: pcp.c:1110
+#, c-format
+msgid "       %s\n"
+msgstr ""
+
+#: pcp.c:1115
+#, c-format
+msgid "    **** CANCELLED ****\n"
+msgstr ""
+
+#: pcp.c:1117
+#, c-format
+msgid "    **** EVENT NOT YET COMMITED ****\n"
+msgstr ""
+
+#: pcp.c:1120
+#, c-format
+msgid "    Participant: %s\n"
+msgstr ""
+
+#: pcp.c:1251
+#, c-format
+msgid "Attachment: %s (%s)\n"
+msgstr ""
+
+#: pcp.c:1322
+#, c-format
+msgid ""
+"    (The following text was converted from %s)\n"
+"\n"
+msgstr ""
+
+#: pcp.c:1424
+#, c-format
+msgid "Password: "
+msgstr ""
+
+#: pcp.c:1480
+#, c-format
+msgid ""
+"ERROR:\n"
+"%s\n"
+msgstr ""
+
+#: pcp.c:1501 pcp.c:1531
+#, c-format
+msgid "ERROR: ACLs not supported.\n"
+msgstr ""
+
+#: pcp.c:1645
+#, c-format
+msgid ""
+"Usage: pcp [options] [command]\n"
+"\n"
+"Options:\n"
+"   -c           - add/uncancel event that conflicts with an existing event\n"
+"   -s subject   - specify event subject\n"
+"   -C charset   - specify your local charset (default %s)\n"
+"   -m           - standard input is already a MIME-formatted message\n"
+"   -e           - list event ids\n"
+"\n"
+msgstr ""
+
+#: pcp.c:1657
+msgid ""
+"Commands:\n"
+"   init\n"
+"   login USERID\n"
+"   logout\n"
+"   add from FROM to TO [ from FROM to TO...]\n"
+"   update ID from FROM to TO [ from FROM to TO...]\n"
+"   list [all] [from FROM] [to TO] [event ID]\n"
+"   cancel ID\n"
+"   uncancel ID\n"
+"   delete ID\n"
+"   connect [/pathname]\n"
+"   sconnect [/pathname]\n"
+"   setacl [MODIFY|CONFLICT|LIST|RETR|NONE]*\n"
+"   listacl\n"
+msgstr ""
+
+#: pcp.c:1750
+msgid "add"
+msgstr ""
+
+#: pcp.c:1751
+msgid "update"
+msgstr ""
+
+#: pcp.c:1753
+msgid "init"
+msgstr ""
+
+#: pcp.c:1759
+msgid "login"
+msgstr ""
+
+#: pcp.c:1768
+msgid "connect"
+msgstr ""
+
+#: pcp.c:1786
+msgid "sconnect"
+msgstr ""
+
+#: pcp.c:1805
+msgid "cancel"
+msgstr ""
+
+#: pcp.c:1814
+msgid "delete"
+msgstr ""
+
+#: pcp.c:1823
+msgid "uncancel"
+msgstr ""
+
+#: pcp.c:1865
+#, c-format
+msgid "Error: -s is required\n"
+msgstr ""
+
+#: pcp.c:1878
+msgid "list"
+msgstr ""
+
+#: pcp.c:1883
+msgid "setacl"
+msgstr ""
+
+#: pcp.c:1899
+msgid "listacl"
+msgstr ""
