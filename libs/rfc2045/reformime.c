@@ -1028,9 +1028,6 @@ int rc=0;
 		case 'X':
 			do_extract=extract_pipe;
 			break;
-		case 'v':
-			printf("%s\n", rcsid);
-			exit(0);
 		case 'V':
 			dovalidate=1;
 			break;

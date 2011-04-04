@@ -223,3 +223,5 @@ Content-Type: text/plain; charset='iso-8859-15'
 $x
 EOF
 ) | tr 'X' '\244' | ./reformime -u | tail -32
+
+rm testsuite.dat

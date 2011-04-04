@@ -2,9 +2,6 @@
 # Copyright 1998 - 2011 Double Precision, Inc.  See COPYING for
 # distribution information.
 
-
-DISTCLEANFILES=testsuite.dat
-
 noinst_LTLIBRARIES=librfc2045.la
 noinst_PROGRAMS=reformime makemime headercheck testrfc3676parser
 

@@ -1,4 +1,4 @@
-**
+/*
 ** Copyright 2002-20011, Double Precision Inc.
 **
 ** See COPYING for distribution information.
