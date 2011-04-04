@@ -1,0 +1,138 @@
+# Copyright 2000-2008 Double Precision, Inc.  See COPYING for
+# distribution information.
+
+AUTOMAKE_OPTIONS=dist-bzip2
+
+datascriptdir=$(pkgdatadir)
+datascript_SCRIPTS=sysconftool sysconftoolize.pl sysconftoolcheck
+datascript_DATA=sysconftoolize.am
+
+acdir=@ACDIR@
+ac_DATA=sysconftool.m4
+
+EXTRA_DIST=COPYING COPYING.GPL
+man_MANS=sysconftool.1 sysconftoolcheck.1 sysconftool.7
+noinst_DATA=sysconftool.1.html sysconftoolcheck.1.html sysconftool.7.html
+
+CLEANFILES=$(man_MANS) $(noinst_DATA)
+
+EXTRA_DIST= \
+  sysconftool.1.html.in sysconftool.7.html.in sysconftoolcheck.1.html.in \
+  sysconftool.1.in sysconftool.7.in sysconftoolcheck.1.in \
+  testsuite testsuite.txt sysconftool.spec sysconftoolize.am index.html
+
+
+if HAVE_SGML
+sysconftool.1.html.in: sysconftool1.sgml docbook/sgml2html
+	docbook/sgml2html sysconftool1.sgml sysconftool.1.html.in
+
+sysconftool.1.in: sysconftool1.sgml docbook/sgml2man
+	docbook/sgml2man sysconftool1.sgml sysconftool.1.in
+	mv sysconftool.1 sysconftool.1.in
+
+sysconftool.7.html.in: sysconftool7.sgml docbook/sgml2html
+	docbook/sgml2html sysconftool7.sgml sysconftool.7.html.in
+
+sysconftool.7.in: sysconftool7.sgml docbook/sgml2man
+	docbook/sgml2man sysconftool7.sgml sysconftool.7.in
+	mv sysconftool.7 sysconftool.7.in
+
+sysconftoolcheck.1.html.in: sysconftoolcheck.sgml docbook/sgml2html
+	docbook/sgml2html sysconftoolcheck.sgml sysconftoolcheck.1.html.in
+
+sysconftoolcheck.1.in: sysconftoolcheck.sgml docbook/sgml2man
+	docbook/sgml2man sysconftoolcheck.sgml sysconftoolcheck.1.in
+	mv sysconftoolcheck.1 sysconftoolcheck.1.in
+endif
+
+sysconftool.1.html: sysconftool.1.html.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sysconftool.7.html: sysconftool.7.html.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sysconftoolcheck.1.html: sysconftoolcheck.1.html.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sysconftool.1: sysconftool.1.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sysconftool.7: sysconftool.7.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sysconftoolcheck.1: sysconftoolcheck.1.in
+	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+check:
+	@SHELL@ $(srcdir)/testsuite @PERL@ 2>&1 | cmp -s - $(srcdir)/testsuite.txt
+
+install-exec-hook:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	rm -f $(DESTDIR)$(bindir)/sysconftoolize
+	rm -f $(DESTDIR)$(bindir)/sysconftoolcheck
+	$(LN_S) $(datadir)/sysconftool/sysconftoolize.pl $(DESTDIR)$(bindir)/sysconftoolize
+	$(LN_S) $(datadir)/sysconftool/sysconftoolcheck $(DESTDIR)$(bindir)/sysconftoolcheck
+
+uninstall-local:
+	rm -f $(DESTDIR)$(bindir)/sysconftoolize $(DESTDIR)$(bindir)/sysconftoolcheck
+
+rpm: rpm-build
+
+rpm-build:
+	$(MAKE) -$(MAKEFLAGS) bump.rpm.release
+	$(MAKE) -$(MAKEFLAGS) dist
+	$(MAKE) -$(MAKEFLAGS) dorpm
+
+dorpm:
+	rm -rf rpm/BUILD/*
+	rm -f rpm/RPMS/*/*
+	rm -f rpm/SOURCES/*
+	rm -f rpm/SPECS/*
+	rm -f rpm/SRPMS/*
+	rpmbuild -ta --target noarch sysconftool-@VERSION@.tar.bz2
+
+bump.rpm.release: sysconftool.spec
+	VERSION="x"; \
+	test -f $(srcdir)/rpm.release && . $(srcdir)/rpm.release; \
+	NEXT_RELEASE=0; \
+	test "$$VERSION" = "@VERSION@" && NEXT_RELEASE="$$RELEASE"; \
+	RELEASE=`expr $$NEXT_RELEASE + 1`; \
+	echo "VERSION=@VERSION@" >$(srcdir)/rpm.release; \
+	echo "RELEASE=$$RELEASE" >>$(srcdir)/rpm.release; \
+	sed 's/^Release: .*/Release: '$$RELEASE'/' \
+		<sysconftool.spec >sysconftool.spec.new; \
+	mv sysconftool.spec.new sysconftool.spec
+
+distrelease:
+	socksify cvs update
+	$(MAKE) rpm
+	socksify cvs commit
+	socksify cvs tag -F sysconftool-latest
+	socksify cvs rtag -r sysconftool-latest \
+		`echo sysconftool-@VERSION@ | tr '.' '-'` sysconftool
+	rm -f sysconftool.spec
+	$(MAKE)
+	$(MAKE)
+	$(MAKE) dist
+	$(MAKE) dorpm
+
+upload-beta:
+	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
+	socksify scp @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig courier.sourceforge.net:/home/groups/c/co/courier/htdocs/beta/courier/.
+	socksify ssh courier.sourceforge.net echo @PACKAGE@-@VERSION@.tar.bz2 \>/home/groups/c/co/courier/courier.beta
+
+upload-dist:
+	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
+	socksify perl -e 'use Net::FTP; $$ftp=Net::FTP->new("upload.sourceforge.net.", Debug => 1, Passive => 1 ) || die; $$ftp->login("anonymous", "anonymous") || die; $$ftp->cwd("/incoming") && $$ftp->binary() && $$ftp->hash(1) && $$ftp->put("@PACKAGE@-@VERSION@.tar.bz2") && $$ftp->put("@PACKAGE@-@VERSION@.tar.bz2.sig") && exit 0; die;'
+
+release-dist:
+	test -z "$(SFPASSWD)" && exit 1; exit 0
+	./changelog.pl >changelog.txt
+	emacs releasenotes.txt
+	test -f releasenotes.txt || exit 1
+	socksify ../sftools/release.pl mrsam $(SFPASSWD) courier @PACKAGE@ @VERSION@ releasenotes.txt changelog.txt @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
+	socksify ssh courier.sourceforge.net rm -f /home/groups/c/co/courier/@PACKAGE@.beta
+
+htmldoc: $(noinst_DATA) index.html
+	for f in $^; do d=`basename $$f`; tidy -i -q --tidy-mark no --doctype transitional --input-encoding utf8 --output-encoding utf8 -asxml <$$f >$$f.tmp ; xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/sysconftool.xsl $$f.tmp  >html/$$d; rm -f $$f.tmp; done
