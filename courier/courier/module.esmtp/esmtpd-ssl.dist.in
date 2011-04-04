@@ -1,4 +1,4 @@
-##VERSION: $Id: esmtpd-ssl.dist.in,v 1.14 2010/02/02 22:30:00 mrsam Exp $
+##VERSION: $Id$
 #
 # esmtpd-ssl created from esmtpd-ssl.dist by sysconftool
 #
