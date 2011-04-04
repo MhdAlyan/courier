@@ -139,8 +139,6 @@ bump.rpm.release: cone.spec
 
 distrelease:
 	cd cone/po && make update-po
-	svn update
-	svn commit
 	$(MAKE) distcheck 'DISTCHECK_CONFIGURE_FLAGS=CPPFLAGS="-I /usr/include/ncursesw"'
 	$(MAKE) rpm
 	$(MAKE) -$(MAKEFLAGS)
