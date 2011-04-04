@@ -84,8 +84,6 @@ dist-hook:
 release: dist
 
 distrelease:
-	svn update
-	svn commit
 	umask 022; $(MAKE) distcheck
 	$(MAKE) rpm
 	$(MAKE)
