@@ -491,3 +491,10 @@ Message
 >
  space
 EOF
+
+rm -f testsuite.recipe
+rm -f testsuite.msg
+rm -f testsuite.chk
+rm -f testmailbot.msg
+rm -f testmailbot.1
+rm -f testsuite.dat

@@ -8,9 +8,6 @@ INCLUDES=@AUTHINCLUDE@
 DISTCLEANFILES=uidgid testmailbot.*
 CLEANFILES=maildrop.html maildrop.1 maildropfilter.7 maildropfilter.html
 
-distclean-local:
-	for f in testsuite* ; do test "$$f" = testsuite.in && continue ; test "$$f" = testsuite.txt.idn && continue ; test "$$f" = testsuite.txt.noidn && continue ; rm -rf $$f ; done
-
 DBLIB=@dblibrary@
 
 BUILT_SOURCES=	maildrop.html.in maildrop.1.in \

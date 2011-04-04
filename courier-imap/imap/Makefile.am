@@ -12,9 +12,6 @@ DISTCLEANFILES=imapd.pam pop3d.pam imapd.cnf pop3d.cnf
 CLEANFILES=imapd.8 imapd.html mkimapdcert.html mkimapdcert.8 \
 	courierpop3d.html courierpop3d.8 mkpop3dcert.html mkpop3dcert.8
 
-distclean-local:
-	rm -rf confmdtest*
-
 EXTRA_DIST=testsuite testsuite.txt smaptestsuite smaptestsuite.txt \
 	BUGS BUGS.html README README.html imapd.authpam \
 	pop3d.authpam system-auth.authpam system-auth2.authpam\
@@ -171,6 +168,7 @@ check-am:
 	@chmod +x testsuitefix.pl
 	LC_ALL=C; export LC_ALL; $(srcdir)/testsuite | ./testsuitefix.pl | sort | cmp -s - $(srcdir)/testsuite.txt
 	LC_ALL=C; export LC_ALL; test "@smap@" = "yes" || exit 0; @SHELL@ $(srcdir)/smaptestsuite | ./testsuitefix.pl | sort | cmp -s - $(srcdir)/smaptestsuite.txt
+	rm -rf confmdtest
 
 testsuite-imap:
 	@LC_ALL=C; export LC_ALL; $(srcdir)/testsuite | ./testsuitefix.pl | sort

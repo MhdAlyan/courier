@@ -10,3 +10,5 @@ rm -f testbdb.dat
 ./testbdb testbdb.dat
 ./testbdb testbdb.dat -foo
 ./testbdb testbdb.dat
+
+rm -f testbdb.dat

@@ -6,8 +6,6 @@
 LIBGDBMSOURCES=gdbmobj.h gdbmobj.c gdbmobj2.c gdbmobj3.c
 TESTGDBMSOURCES=testgdbm.C
 
-CLEANFILES=testgdbm.dat
-
 if FOUND_GDBM
 noinst_LTLIBRARIES=libgdbmobj.la
 noinst_PROGRAMS=testgdbm

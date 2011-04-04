@@ -8,7 +8,7 @@ noinst_LIBRARIES=libthreadlib.a
 noinst_DATA=libthread.dep
 noinst_PROGRAMS=threadtest
 
-CLEANFILES=libthread.dep t
+CLEANFILES=libthread.dep
 
 if HAVE_PTHREADS
 threadc=pthread.c
@@ -30,3 +30,4 @@ check-am: threadtest
 	@echo '------------- Testing threadlib ---------------'
 	@sh $(srcdir)/testsuite | tee t
 	@cmp -s t $(srcdir)/testsuite.txt
+	@rm -f t

@@ -6,8 +6,6 @@
 LIBDBOBJSOURCES=bdbobj.h bdbobj.c bdbobj2.c bdbobj3.c
 TESTBDBSOURCES=testbdb.C
 
-CLEANFILES=testbdb.dat
-
 if FOUND_DB
 noinst_LTLIBRARIES=libbdbobj.la
 noinst_PROGRAMS=testbdb
