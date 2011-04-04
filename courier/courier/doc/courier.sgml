@@ -1,0 +1,2590 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- Copyright 1998 - 2010 Double Precision, Inc.  See COPYING for -->
+<!-- distribution information. -->
+<refentry>
+  <info><author><firstname>Sam</firstname><surname>Varshavchik</surname><contrib>Author</contrib></author><productname>Courier Mail Server</productname></info>
+
+  <refmeta>
+    <refentrytitle>courier</refentrytitle>
+    <manvolnum>8</manvolnum>
+    <refmiscinfo>Double Precision, Inc.</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>courier</refname>
+    <refpurpose>The <application moreinfo="none">Courier</application> mail server</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis sepchar=" ">
+      <command moreinfo="none">courier</command>
+      <group choice="req" rep="norepeat">
+	<arg choice="plain" rep="norepeat">start</arg>
+	<arg choice="plain" rep="norepeat">stop</arg>
+	<arg choice="plain" rep="norepeat">restart</arg>
+	<arg choice="plain" rep="norepeat">flush</arg>
+	<arg choice="plain" rep="norepeat">
+	  <arg choice="plain" rep="norepeat">flush</arg>
+	  <arg choice="plain" rep="norepeat"><replaceable>qid</replaceable></arg>
+        </arg>
+	<arg choice="plain" rep="norepeat">
+	  <arg choice="plain" rep="norepeat">clear</arg>
+	  <arg choice="plain" rep="norepeat"><replaceable>user@domain</replaceable></arg>
+        </arg>
+	<arg choice="plain" rep="norepeat">
+	  <arg choice="plain" rep="norepeat">clear</arg>
+          <arg choice="plain" rep="norepeat">all</arg>
+        </arg>
+	<arg choice="plain" rep="norepeat">
+	  <arg choice="plain" rep="norepeat">show</arg>
+          <arg choice="plain" rep="norepeat">all</arg>
+        </arg>
+      </group>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+    <para>
+The <application moreinfo="none">Courier</application> mail server is a modular multi-protocol E-mail transport agent. The
+<command moreinfo="none">courier</command> command is an administrative command, and most of
+its options are only available to the superuser.</para>
+
+    <para>
+"<command moreinfo="none">courier start</command>" starts the server by running
+<command moreinfo="none">@datadir@/courierctl.start</command> in the background.
+"<command moreinfo="none">courier stop</command>" immediately stops all the <application moreinfo="none">Courier</application> mail server processes and
+aborts all current mail deliveries.
+"<command moreinfo="none">courier restart</command>" restarts the <application moreinfo="none">Courier</application> mail server server.
+A restart is often needed for certain configuration changes to take effect.
+"<command moreinfo="none">courier restart</command>" waits for all current deliveries to
+complete
+before restarting. This is the "nice" way to restart the mail server.
+"<command moreinfo="none">courier flush</command>" takes all undelivered messages in the
+queue and
+attempts to deliver them immediately, instead of waiting until their next
+scheduled attempted delivery time. "<command moreinfo="none">courier flush</command>" can be
+optionally followed by a message queue ID in order to schedule an immediate
+delivery attempt for only a single message. Message queue IDs are displayed
+by the
+<ulink url="mailq.html"><citerefentry>
+	  <refentrytitle>mailq</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink> command.</para>
+
+    <para>
+Please note that <command moreinfo="none">courier start</command> runs the main
+<application moreinfo="none">Courier</application> mail server
+scheduling engine only. It does not start any other daemons that you may
+have, such as the ESMTP or the IMAP daemon.</para>
+
+    <para>
+"<command moreinfo="none">courier show all</command>" lists all E-mail addresses currently
+blacklisted for backscatter.
+"<command moreinfo="none">courier clear user@domain</command>" manually clears
+&lt;user@domain&gt; from the backscatter blacklist.
+"<command moreinfo="none">courier clear all</command>" removes all addresses from the
+backscatter blacklist.
+When the <application moreinfo="none">Courier</application> mail server encounters a delivery failure to an E-mail address the <application moreinfo="none">Courier</application> mail server
+may stop accepting any more messages to the same address in order
+to minimize generation of so-called "backscatter bounces".
+This does not occur in all cases, see "Backscatter suppresion" in the <application moreinfo="none">Courier</application> mail server's
+installation instructions for more information.</para>
+
+    <para>
+The <application moreinfo="none">Courier</application> mail server will resume accepting messages to the blacklisted address if
+the delivery attempt originally encountered a temporary failure, and a
+subsequent retry succesfully delivered the message, or if more than two
+hours elapsed since the delivery failure.
+Use the "clear" command to manually clear the E-mail address from the
+backscatter blacklist.  This may be useful if the undeliverable message
+is manually removed from the <application moreinfo="none">Courier</application> mail server's mail queue, using the "cancel" command.
+Even if the message is cancelled, the
+<application moreinfo="none">Courier</application> mail server will continue to
+refuse accepting
+mail for this address for up to two hours.  The "clear" command can be use
+to reenable mail acceptance before then.</para>
+
+
+    <refsect2>
+      <title>CONFIGURATION FILES</title>
+
+      <para>
+The <application moreinfo="none">Courier</application> mail server uses several configuration files which are located in
+<filename moreinfo="none">@sysconfdir@</filename>.
+These configuration files are plain text files
+that can be modified with any text editor.  In certain instances a
+subdirectory is used, and all plain text files in the subdirectory are
+concatenated and are considered to be a single, consolidated, configuration
+file. Unless otherwise specified, you must run
+<command moreinfo="none">courier restart</command>
+for any changes to these files to take effect.</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term><filename moreinfo="none">aliasfilteracct</filename></term>
+	  <listitem>
+	    <para>
+This file contains one line, containing the home directory of the account
+that's used for filtering mail addressed to local alias lists.</para>
+
+	    <para>
+When mail filtering is enabled, local recipients have the ability to
+define mail filters which can selectively reject unwanted mail.
+<filename moreinfo="none">@sysconfdir@/aliases</filename> may define local mail aliases that contain
+one or more recipients.  If it is desired to use local mail filtering for
+mail addressed to an alias address, designate a local account that will be
+used to specify filtering instructions, and put its home directory into this
+control file.  The filtering argument will be
+"<filename moreinfo="none">alias-<replaceable>address</replaceable></filename>"
+where <replaceable>address</replaceable> is the name of the
+alias.  See
+<ulink url="localmailfilter.html"><citerefentry><refentrytitle>localmailfilter</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink> for more
+information.</para>
+
+	    <para>
+Due to technical limitations, content filtering is not available for
+multiple-recipient aliases.</para>
+
+	    <para>
+Changes to this file take effect immediately.</para>
+
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">authdaemonrc</filename></term>
+	  <listitem>
+
+	    <para>
+This file configures the <command moreinfo="none">authdaemond</command> authentication proxy.
+See
+<ulink url="authlib.html"><citerefentry><refentrytitle>authlib</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink>
+for more information.</para>
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">authldaprc</filename></term>
+	  <listitem>
+	    <para>
+This file configures LDAP authentication.  See
+<ulink url="authlib.html"><citerefentry><refentrytitle>authlib</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">authmysqlrc</filename></term>
+	  <listitem>
+
+	    <para>
+This file configures MySQL authentication.  See
+<ulink url="authlib.html"><citerefentry><refentrytitle>authlib</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink>
+for more information.</para>
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">autoresponsesquota</filename></term>
+	  <listitem>
+
+	    <para>
+This file sets the systemwide quota on autoreplies, if autoreplies and mail
+filtering are enabled. Note that this can only really be effective if there
+is no login access to the mail account, since this autoreply quota can be
+trivially overriden.</para>
+
+	    <para>
+The <filename moreinfo="none">autoresponsesquota</filename> file contains one line:
+"<literal moreinfo="none">C<replaceable>nnn</replaceable></literal>" or
+"<literal moreinfo="none">S<replaceable>nnn</replaceable></literal>" (or both strings, on the same line). <literal moreinfo="none">C<replaceable>nnn</replaceable></literal>: allow up to #nnn
+autoreplies to be created. <literal moreinfo="none">S<replaceable>nnn</replaceable></literal>: allow up to #nnn bytes as the total size of
+all autoreplies, combined.  If both <literal moreinfo="none">C<replaceable>nnn</replaceable></literal> and <literal moreinfo="none">S<replaceable>nnn</replaceable></literal> are specified, both quotas
+apply. If this file does not exist, there is no limit on autoreplies. This
+quota setting applies systemwide. To override the quota setting for a
+particular Maildir, create the <filename moreinfo="none">autoresponsesquota</filename> file in that
+Maildir (which takes precedence).</para>
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">backuprelay</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line, containing a name of a machine where mail
+will be rerouted if it cannot be immediately delivered. Spaces are not
+allowed in this file.</para>
+
+	    <para>
+Mail gets rerouted if it cannot be delivered after the time interval
+specified by the <filename moreinfo="none">warntime</filename> configuration file. When
+<filename moreinfo="none">backuprelay</filename> is provided a delayed delivery status notification
+will NOT be generated. The message will be rerouted even if the recipient's
+delivery status notification setting does not include a delayed notification
+request.</para>
+
+	    <para>
+This feature is intended for use by relays that handle large quantities of
+mail, where you don't want to accumulate a large mail queue for unreachable
+mail servers. Please note that ALL undeliverable mail will be rerouted in
+this fashion. Even if the recipient of a message is a local recipient - and
+the recipient's mail filter is rejecting the message with a temporary error
+code - the message will still be rerouted if it's undeliverable after the
+specified amount of time.</para>
+
+	    <para>
+Although currently SMTP is the only meaningful application for this
+feature, the <application moreinfo="none">Courier</application> mail server is a protocol-independent mail server, and the backup relay
+function can be extended to other protocols, as they become available.</para>
+
+	    <para>
+Multiple backup relays can be used by simply assigning multiple <acronym>IP</acronym>
+addresses to the same machine name. Note that the <application moreinfo="none">Courier</application> mail server checks for both MX and
+A records for the machine specified in this configuration file.</para>
+
+	    <para>
+It's important to note that when this setting is specified, warning messages
+get turned off for all messages, including messages addressed to local
+recipients. If a temporary delivery error prevents a message from being
+delivered to a local mailbox, it remains in the queue until the temporary
+error condition gets cleared. Normally, if the message remains in the
+queue beyond the warning interval, the warning message gets generated.
+When this setting is specified, the warning message gets replaced with
+a forward to the backup relay, but this occurs only for messages that are
+delivered via SMTP.</para>
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">batchsize</filename></term>
+	  <listitem>
+	    <para>
+This file contains one line, containing a single number. This number
+specifies the absolute maximum number of recipients for a single message. If
+the <application moreinfo="none">Courier</application> mail server receives a message with more recipients, the message is duplicated as
+often as necessary until each copy of the message has no more than
+<filename moreinfo="none">batchsize</filename> recipients. If <filename moreinfo="none">batchsize</filename> is missing, it
+defaults to 100 recipients per message.</para>
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">bofh</filename></term>
+	  <listitem>
+
+	    <para>
+This configuration file configures domain-based junk mail filters. Lines
+in this configuration files that begin with the # character are considered
+comments, and are ignored.  The remaining lines contain the following
+directives, in any order:</para>
+	    <variablelist>
+	      <varlistentry>
+		<term><literal moreinfo="none">badfrom <replaceable>user@domain</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail with the return
+address of <literal moreinfo="none">&lt;user@domain&gt;</literal>.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">badfrom <replaceable>@domain</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail with the return address
+of <literal moreinfo="none">&lt;anything@domain&gt;</literal>.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">badfrom <replaceable>@.domain</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail with the return address
+of <literal moreinfo="none">&lt;anything@anything.domain&gt;</literal>.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">badfrom <replaceable>user@.domain</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail with the return address
+of <literal moreinfo="none">&lt;user@anything.domain&gt;</literal>.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">badmx <replaceable>N</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail with a return address in any
+mail domain whose listed mail servers include server "<replaceable>N</replaceable>". "<replaceable>N</replaceable>" is an <acronym>IP</acronym>
+address.  The <envar>BOFHCHECKDNS</envar> option in the <filename moreinfo="none">esmtp</filename> configuration
+file must also be enabled (this is the default setting) in order for this
+additional checking to take place. Note that this is "best effort" check.
+A <acronym>DNS</acronym> failure to look up A records for hostnames returned in the MX
+record may hide the blacklisted server from view.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">freemail <replaceable>domain</replaceable> [<replaceable>domain2</replaceable>] [<replaceable>domain3</replaceable>]...</literal></term>
+		<listitem>
+		  <para>
+Reject all mail with a return address
+<replaceable>&lt;anything@domain&gt;</replaceable> unless the
+mail is received from a mail relay whose hostname is in the same domain.
+"<replaceable>domain2</replaceable>" and "<replaceable>domain3</replaceable>" are optional, and specifies other domains that
+the mail relay's hostname may belong to.  For example: "<replaceable>freemail
+example.com domain.com</replaceable>" specifies that mail with a return address
+<replaceable>@example.com</replaceable> will be accepted only from a mail relay with a hostname in
+the <replaceable>example.com</replaceable> or <replaceable>domain.com</replaceable> domain. Note that this setting requires
+that <acronym>DNS</acronym> lookup be enabled for incoming ESMTP connections (which is the
+default setting).</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">spamtrap <replaceable>user@domain</replaceable></literal></term>
+		<listitem>
+		  <para>
+Reject all mail that has
+<replaceable>&lt;user@domain&gt;</replaceable> listed as one of its recipients.
+</para>
+
+		  <note>
+		    <para>
+For local mailboxes, '<literal moreinfo="none">domain</literal>' must be set to the
+contents of the <filename moreinfo="none">me</filename>
+configuration file, or the server's hostname. Also, this check is made
+after any alias processing takes place. Suggested usage: create a single
+local spamtrap account, then create aliases in the alias file that point
+to the spamtrap account.</para>
+		  </note>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><literal moreinfo="none">maxrcpts <replaceable>N</replaceable> [hard]</literal></term>
+		<listitem>
+		  <para>
+Accept the first <replaceable>N</replaceable> recipient addresses
+per message, maximum. The remaining recipients are rejected. An optional
+verbatim token "hard" specifies that the remaining recipients will
+immediately be returned as undeliverable (otherwise the remaining
+recipients are rejected as "temporary unavailable", and may be accepted
+on a later delivery attempt). If not specified, the first 100 recipients
+are accepted.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHCHECKHELO=1</literal></term>
+		<listitem>
+		  <para>
+Verify the hostname provided in the ESMTP HELO/EHLO statement.
+<quote>opt BOFHCHECKHELO=1</quote> is a global default, which may be
+overridden by setting the <envar>BOFHCHECKHELO</envar> environment
+variable in the SMTP access file.
+See
+<ulink url="makesmtpaccess.html"><citerefentry><refentrytitle>makesmtpaccess</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information.
+<quote>opt BOFHCHECKHELO=1</quote> enables ESMTP HELO/EHLO checking by
+default, and ESMTP HELO/EHLO checking may be turned off for individual <acronym>IP</acronym>
+address ranges by setting
+<envar>BOFHCHECKHELO</envar> to <literal moreinfo="none">0</literal>
+using
+<ulink url="makesmtpaccess.html"><citerefentry><refentrytitle>makesmtpaccess</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>.
+Alternatively, HELO/EHLO checking may be turned off by default, and enabled
+for specific <acronym>IP</acronym> address ranges by using
+<ulink url="makesmtpaccess.html"><citerefentry><refentrytitle>makesmtpaccess</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+to set
+<envar>BOFHCHECKHELO</envar> to <literal moreinfo="none">1</literal>.
+See
+<ulink url="makesmtpaccess.html"><citerefentry><refentrytitle>makesmtpaccess</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHHEADERLIMIT=<replaceable>n</replaceable></literal></term>
+
+		<listitem>
+		  <para>
+Reject messages whose headers exceed <replaceable>n</replaceable> bytes in
+size (minimum 1,000 bytes, default 100,000 bytes).</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHNOBASE64TEXT=1</literal></term>
+		<listitem>
+		  <para>
+Reject messages with base64-encoded <literal moreinfo="none">text/plain</literal> or
+<literal moreinfo="none">text/html</literal> content.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFHELO=</literal><replaceable>keywords</replaceable></term>
+		<listitem>
+		  <para>
+Use Sender Policy Framework to verify the <literal moreinfo="none">HELO</literal> or
+<literal moreinfo="none">EHLO</literal> domain sent by the connecting SMTP client.
+See <link linkend="SPF">Sender Policy Framework Keywords</link> below for
+a list of possible keywords.</para>
+		  <para>
+SPF checking is not used for
+<literal moreinfo="none">HELO</literal> or
+<literal moreinfo="none">EHLO</literal> commands that specify an <acronym>IP</acronym> address instead of
+a domain name.</para>
+
+		  <note>
+		    <para>
+This setting may be used in combination with
+<literal moreinfo="none">opt BOFHCHECKHELO=1</literal>.
+The <literal moreinfo="none">BOFHCHECKHELO=1</literal> check is disabled
+if SPF verification of the <literal moreinfo="none">HELO</literal>/<literal moreinfo="none">EHLO</literal>
+results in the SPF status of <quote>pass</quote>.
+This makes sense: if the <literal moreinfo="none">HELO</literal>/<literal moreinfo="none">EHLO</literal>
+domains complies with the domain's SPF, it is not necessary to check it
+further.</para>
+		  </note>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFMAILFROM=</literal><replaceable>keywords</replaceable></term>
+		<listitem>
+		  <para>
+Use Sender Policy Framework to verify the return address in the
+<literal moreinfo="none">MAIL FROM</literal> command sent by the connecting SMTP client.
+See <link linkend="SPF">Sender Policy Framework Keywords</link> below for
+a list of possible keywords.</para>
+
+		  <note>
+		    <para>
+No SPF checking is done for if the <literal moreinfo="none">MAIL FROM</literal> command
+specifies an empty return address (a bounce).
+There's nothing to check.</para>
+		  </note>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFFROM=</literal><replaceable>keywords</replaceable></term>
+		<listitem>
+		  <para>
+Use Sender Policy Framework to verify the return address in the
+<literal moreinfo="none">From:</literal> header.
+See <link linkend="SPF">Sender Policy Framework Keywords</link> below for
+important information, and a list of possible keywords.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFHARDERROR=</literal><replaceable>keywords</replaceable></term>
+		<listitem>
+		  <para>
+This setting lists the unacceptable SPF results that should result in
+a permanent error.
+All other unacceptable SPF results are kicked back with a temporary error
+indication, inviting the sender to try again later.</para>
+
+		  <para>
+The default setting for <envar>BOFHSPFHARDERROR</envar> is
+<literal moreinfo="none">fail,softfail</literal>.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFTRUSTME=1</literal></term>
+		<listitem>
+		  <para>
+Disable all SPF checks for any connecting client that has relaying privileges
+(<envar>RELAYCLIENT</envar> is explicitly set, or inherited after a successful
+SMTP authentication).</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSPFNOVERBOSE=1</literal></term>
+		<listitem>
+		  <para>
+This setting disables custom SPF rejection messages.
+Any SPF rejection message specified by the SPF policy is replaced by a stock,
+bland message.
+The author of this SPF implementation believes that there's a minor security
+issue with letting an external site control the error messages issued by
+your mail server.
+The same author does not believe that this is such a big deal, but
+security-sensitive minds may choose to enable this setting, and sleep
+easy at night.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">opt BOFHSUPPRESSBACKSCATTER=</literal><replaceable>list</replaceable></term>
+
+		<listitem>
+		  <para>
+This is one of the two settings that controls which messages are subject to
+backscatter suppression.
+The other setting, <literal moreinfo="none">ESMTP_BLOCKBACKSCATTER</literal> is set in the
+<filename moreinfo="none">courierd</filename> configuration file, which contains further
+documentation.</para>
+
+		  <para>
+<quote>list</quote> is a comma-separated list of message sources.
+The possible message sources are:</para>
+
+		  <variablelist>
+		    <varlistentry>
+		      <term><literal moreinfo="none">authsmtp</literal></term>
+		      <listitem>
+			<para>
+Messages received via <acronym>SMTP</acronym> from clients with relaying
+privileges (authenticated <acronym>SMTP</acronym>, or <acronym>IP</acronym> addresses that always
+have relaying privileges.</para>
+		      </listitem>
+		    </varlistentry>
+		    <varlistentry>
+		      <term><literal moreinfo="none">smtp</literal></term>
+		      <listitem>
+			<para>
+All other messages received via <acronym>SMTP</acronym>.</para>
+		      </listitem>
+		    </varlistentry>
+		    <varlistentry>
+		      <term><literal moreinfo="none">none</literal></term>
+		      <listitem>
+			<para>
+Do not suppress backscatter messages from any source.</para>
+		      </listitem>
+		    </varlistentry>
+		  </variablelist>
+		  <para>
+The default setting is <quote>opt BOFHSUPPRESSBACKSCATTER=smtp</quote>.
+The other possible values are
+<quote>opt BOFHSUPPRESSBACKSCATTER=smtp,authsmtp</quote>
+(which suppresses backscatter from all <acronym>SMTP</acronym> mail), and
+<quote>opt BOFHSUPPRESSBACKSCATTER=none</quote>.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">calendarmode</filename></term>
+	  <listitem>
+
+	    <para>
+This configuration file enables basic calendaring features in the webmail
+server.  Calendaring is currently considered experimental in nature, and the
+current implementation provides basic calendaring services. If this file does
+not exist, calendaring options are disabled.  If this file exists it should
+contain a single word: "local".  For example:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+echo "local" &gt;@sysconfdir@/calendarmode
+</programlisting>
+	    </informalexample>
+
+	    <para>
+This configuration file must be globally readable, so make sure that your
+umask is not set too tight.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">courierd</filename></term>
+	  <listitem>
+
+	    <para>
+This configuration file specifies several parameters relating to general
+the <application moreinfo="none">Courier</application> mail server configuration. A default configuration file will be installed, and
+you should consult its contents for additional information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">defaultdomain</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line whose contents is a valid mail domain. Most
+header rewriting functions will append <filename moreinfo="none">@defaultdomain</filename> to all
+E-mail addresses that do not specify a domain. If <filename moreinfo="none">defaultdomain</filename>
+is missing, the <application moreinfo="none">Courier</application> mail server uses the contents of the <filename moreinfo="none">me</filename> control file.</para>
+
+	    <para>
+When the ESMTP server receives a <quote>RCPT TO</quote> command containing
+the address <literal moreinfo="none">&lt;user@[<replaceable>ip.address</replaceable>]&gt;</literal>,
+and the <acronym>IP</acronym> address is the same as the <acronym>IP</acronym> address of the socket it's listening
+on, the ESMTP server replaces the <acronym>IP</acronym> address with the contents of the
+<filename moreinfo="none">defaultdomain</filename> control file.
+If <filename moreinfo="none">defaultdomain</filename>
+is missing, the <application moreinfo="none">Courier</application> mail server uses the contents of the <filename moreinfo="none">me</filename> control file.
+</para>
+
+	    <para>
+The contents of <filename moreinfo="none">defaultdomain</filename> are also appended to return
+addresses to mail sent from the <application moreinfo="none">Courier</application> mail server's webmail server, if they don't already
+have a domain. If <filename moreinfo="none">defaultdomain</filename> does not exist,
+the <application moreinfo="none">Courier</application> mail server's
+webmail server obtain the machine hostname, and uses that.</para>
+	    <note>
+	      <para>
+The mail domain in <filename moreinfo="none">defaultdomain</filename> should be
+one of the local domains,
+as defined by the
+<filename moreinfo="none">locals</filename> and the <filename moreinfo="none">hosteddomains</filename>
+control files.</para>
+
+	      <para>
+Otherwise, if a domain-less address in mail headers gets
+augmented with <filename moreinfo="none">defaultdomain</filename> and
+the recipient replies to the message, upon receipt Courier won't recognize
+the recipient address as a local mailbox.
+This might not necessarily be wrong, but the consequences of such an action
+must be clearly understood.</para>
+
+	    </note>
+
+	    <warning>
+	      <para>
+If you change the contents of this configuration file, it may be necessary
+to rerun the <command moreinfo="none">makealiases</command> command again,
+else your mail will
+promptly begin to bounce.  If you don't have this configuration file defined,
+and you change the system's network host name, you may also need to run
+<command moreinfo="none">makealiases</command>.</para>
+	    </warning>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">dotextension</filename></term>
+	  <listitem>
+	    <para>
+This file contains one line whose contents specify the name of dot-files in
+users' home directories which contain delivery instructions. If this file
+does not exist,
+the <application moreinfo="none">Courier</application> mail server reads <filename moreinfo="none">$HOME/.courier</filename>,
+<filename moreinfo="none">$HOME/.courier-foo</filename>, <filename moreinfo="none">$HOME/.courier-default</filename>, and so
+on. If this file contains the text "qmail",
+the <application moreinfo="none">Courier</application> mail server will instead read
+<filename moreinfo="none">$HOME/.qmail</filename>, $<filename moreinfo="none">HOME/.qmail-foo</filename>,
+<filename moreinfo="none">$HOME/.qmail-default</filename>, and so on.</para>
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">dsnfrom</filename></term>
+	  <listitem>
+	    <para>
+This file contains one line specifying the contents of the
+<literal moreinfo="none">From:</literal>
+header that the <application moreinfo="none">Courier</application> mail server puts in all delivery status notifications. This file
+specifies a complete header, except for the "From: " part. If
+<filename moreinfo="none">dsnfrom</filename> is missing, then the <application moreinfo="none">Courier</application> mail server uses the following
+header:
+<literal moreinfo="none">"<application moreinfo="none">Courier</application> mail server mail server at <filename moreinfo="none">me</filename>" &lt;@&gt;</literal></para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">dsnlimit</filename></term>
+	  <listitem>
+
+	    <para>
+Maximum size, in bytes, of a message whose contents are included in
+delivery status notifications. By default, the entire message is only
+included in non-delivery notices (failures). Only the headers will be
+returned for delay notifications (warnings) and return receipts; or for
+failures if the original message is larger than <filename moreinfo="none">dsnlimit</filename>.
+If missing, <filename moreinfo="none">dsnlimit</filename> is set to 32K.</para>
+
+	    <para>
+The sender can request that the entire message be returned even on delayed
+notices or return receipts, however the <application moreinfo="none">Courier</application> mail server will ignore this request if the
+message size exceeds this limit.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">enablefiltering</filename></term>
+	  <listitem>
+
+	    <para>
+This configuration file enables the global mail filtering API for selected
+mail sources.
+This
+file, if it exists, contains a single line of text that specifies which kind
+of mail will be filtered. The possible values are:</para>
+	    <variablelist>
+	      <varlistentry>
+		<term><literal moreinfo="none">esmtp</literal></term>
+		<listitem>
+		  <para>
+Enables global mail filtering for
+mail received via ESMTP.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">local</literal></term>
+		<listitem>
+		  <para>
+Specifies that mail received from logged on users,
+via sendmail, and mail forwarded from
+<ulink url="dot-courier.html"><citerefentry><refentrytitle>dot-courier</refentrytitle><manvolnum>5</manvolnum></citerefentry></ulink>
+will be filtered using the global mail filtering API.</para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+		<term><literal moreinfo="none">uucp</literal></term>
+		<listitem>
+		  <para>
+Specifies that mail received from UUCP will be filtered.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+
+	    <para>
+If you want to specify more than one source of mail, such as ESMTP and
+local mail, specify both <filename moreinfo="none">esmtp</filename> and
+<filename moreinfo="none">local</filename>, separated by a space character.</para>
+
+	    <note>
+	      <para>
+The global mail filtering API is described, in detail, in the
+<ulink url="courierfilter.html">
+<citerefentry>
+	  <refentrytitle>courierfilter</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink> manual page.
+This is NOT the traditional user-controlled mail filtering, such as
+<ulink url="maildrop.html">
+<citerefentry>
+	  <refentrytitle>maildrop</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>.
+A global mail filter is a daemon process that selectively accepts or rejects
+incoming mail, based on arbitrary criteria.</para>
+	    </note>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpacceptmailfor</filename></term>
+	  <listitem>
+
+	    <para>
+This file lists all domains that the <application moreinfo="none">Courier</application> mail server accepts mail for via ESMTP. This
+file is in the same format as the <filename moreinfo="none">locals</filename> file. If this file is
+missing, the <application moreinfo="none">Courier</application> mail server uses the
+single domain specified in <filename moreinfo="none">me</filename> (or the
+system machine name).</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpacceptmailfor.dat</filename></term>
+	  <listitem>
+
+	    <para>
+This is a binary database file that lists additional domains that the <application moreinfo="none">Courier</application> mail server
+accepts mail for, just like <filename moreinfo="none">esmtpacceptmailfor</filename>. A binary
+database file will be faster than a flat text file when the number of domains
+is large. The <application moreinfo="none">Courier</application> mail server will accept mail for domains listed in either
+<filename moreinfo="none">esmtpacceptmailfor</filename> or <filename moreinfo="none">esmtpacceptmailfor.dat</filename>.
+<filename moreinfo="none">esmtpacceptmailfor.dat</filename> is created by the
+<command moreinfo="none">makeacceptmailfor</command> command.  You can use both
+<filename moreinfo="none">esmtpacceptmailfor.dat</filename> and <filename moreinfo="none">esmtpacceptmailfor</filename> at
+the same time.  Put your most popular domains in
+<filename moreinfo="none">esmtpacceptmailfor</filename>, and put the rest of them into
+<filename moreinfo="none">esmtpacceptmailfor.dat</filename>.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpauthclient</filename></term>
+	  <listitem>
+
+	    <para>
+This configuration file configures ESMTP authentication for the ESMTP
+client.  This is a text file of zero or more lines that contain the following
+fields:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+relay userid password
+</programlisting>
+	    </informalexample>
+
+	    <para>
+When the <application moreinfo="none">Courier</application> mail server connects to a remote ESMTP <literal moreinfo="none">relay</literal>,
+the <application moreinfo="none">Courier</application> mail server will
+authenticate itself using <literal moreinfo="none">userid</literal> and <literal moreinfo="none">password</literal>.  These fields
+are separated by one or more whitespace characters. Because this file
+contains passwords, it must not be world or group readable, and owned by the
+user "<literal moreinfo="none">@mailuser@</literal>".</para>
+
+	    <para>
+ESMTP negotiation will take place, and the <application moreinfo="none">Courier</application> mail server will use a SASL
+authentication method supported by both the <application moreinfo="none">Courier</application> mail server and the remote ESMTP server.
+Currently the <application moreinfo="none">Courier</application> mail server supports PLAIN, LOGIN and CRAM-MD5 authentication. CRAM-MD5
+is preferred over the other two, and PLAIN is preferred over LOGIN.</para>
+
+	    <para>
+The <application moreinfo="none">Courier</application> mail server also supports ESMTP over SSL (the ESMTP STARTTLS extension). If
+ESMTP STARTTLS is enabled, STARTTLS will be used to establish a secure link
+first.  The authentication will take place afterwards, over a secure
+channel.</para>
+
+	    <para>
+Changes to this file take effect, more or less, immediately (existing
+connections are not affected, but new connections will read the updated
+data).</para>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpd</filename></term>
+	  <listitem>
+
+	    <para>
+This file is used to initialize the environment and parameters for
+<command moreinfo="none">courieresmtpd</command>. A default file will be provided during
+installation. See the comments in the file for more information. For changes
+to this file to take effect you run the <command moreinfo="none">esmtpd stop</command> command
+followed by <command moreinfo="none">esmtpd start</command>.</para>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpdelay</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies how long
+<command moreinfo="none">courieresmtp</command> waits after a failure to contact the remote mail
+server before another attempt is made. <command moreinfo="none">courieresmtp</command> (not to be
+confused with <command moreinfo="none">courieresmtpd</command>) delivers outgoing mail to remote
+mail servers. The timeout is specified as an integral number, optionally
+followed by m - minutes, or h - hours.  Otherwise it is specified in
+seconds.</para>
+
+	    <para>
+The <command moreinfo="none">courieresmtp</command> process delivers mail that's routed to
+external mail relays, via ESMTP. When attempting to initally contact a mail
+server <command moreinfo="none">courieresmtp</command> waits for the amount of time specified by
+<filename moreinfo="none">esmtptimeoutconnect</filename> (see below).
+<filename moreinfo="none">esmtptimeoutconnect</filename> is usually set to a relatively long period
+of time, in order to accomodate slow mail servers. A large number of messages
+queued up for an unreachable mail server can tie up delivery slots that can
+be put to a better use by reassigning them for mail to another domain.
+Although the <application moreinfo="none">Courier</application> mail server does not usually assign all delivery slots for messages to
+the same domain (this is a tuneable parameter), it is still not very healthy
+to have a bunch of <command moreinfo="none">courieresmtp</command> daemons spinning their wheels,
+doing nothing.</para>
+
+	    <para>
+The situation worsens when there is a large number of mail relays that
+accept mail for the same domain, and all of them are unreachable due to a
+network failure.  That's because the <filename moreinfo="none">esmtptimeout</filename> waiting period
+is used for each individual mail relay.  Multiply <filename moreinfo="none">esmtptimeout</filename>
+by the number of servers to see how large the delay really will be.</para>
+
+	    <para>
+<filename moreinfo="none">esmtpdelay</filename> is implemented internally in the
+<command moreinfo="none">courieresmtp</command> module. The main the <application moreinfo="none">Courier</application> mail server scheduling daemon is not
+aware of what's happening internally in <command moreinfo="none">courieresmtp</command>. When
+<command moreinfo="none">courieresmtp</command> fails to contact any mail relay for the domain, the
+message is postponed, and the <filename moreinfo="none">esmtpdelay</filename> timer is set. Any
+additional messages received by the same <command moreinfo="none">courieresmtp</command> daemon
+(for the same domain), are immediately postponed without any attempt to
+contact a remote mail relay. When the amount of time set by
+<filename moreinfo="none">esmtpdelay</filename> expires, <command moreinfo="none">courieresmtp</command> will attempt to
+make another delivery attempt as usual.</para>
+
+	    <para>
+If <filename moreinfo="none">esmtpdelay</filename> does not exist, the default delay is five
+minutes. Any messages that are postponed look like any other temporary
+failure to <command moreinfo="none">courierd</command>. Delivery attempts are rescheduled as if a
+real temporary failure took place. Therefore it does not make sense to set
+<filename moreinfo="none">esmtpdelay</filename> to be greater than <filename moreinfo="none">retryalpha</filename> (see
+below). When <filename moreinfo="none">retryalpha</filename> is smaller is <filename moreinfo="none">esmtpdelay</filename>,
+you'll just messages spinning through the mail queue, with useless delivery
+attempts being attempted because <filename moreinfo="none">esmtpdelay</filename> still hasn't
+expired.</para>
+
+	    <para>
+Occasionally you might observe somewhat strange behavior on systems with
+heavy mail traffic. <filename moreinfo="none">esmtpdelay</filename> applies separately to each
+individual instance of <command moreinfo="none">courieresmtp</command>. When a remote mail server
+keeps going up and down, it is possible to end up with multiple
+<command moreinfo="none">courieresmtp</command> daemons handling mail for the same domain, but only
+some of them will encounter a network failure, purely by the luck of the
+draw. The remaining daemons will be able to establish a connection. So you'll
+end up with some <command moreinfo="none">courieresmtp</command> daemons being able to deliver mail
+immediately, while the rest are still waiting patiently for
+<filename moreinfo="none">esmtpdelay</filename> to expire, postponing all messages in the meantime.
+Some messages - but not all - will be immediately postponed without a
+delivery attempt, becauses they ended up getting to a daemon which is waiting
+for <filename moreinfo="none">esmtpdelay</filename> to expire.</para>
+
+	    <para>
+Another anomalous situation may happen when a <command moreinfo="none">courieresmtp</command>
+daemon gets reassigned to another domain, and then receives more mail for the
+previous domain.  This can happen when you have a lot of mail going through.
+Although the <application moreinfo="none">Courier</application> mail server tries to shuffle all mail for same domain into one pile, the
+scheduler still tries to dispatch mail on "first-come, first-serve" basis, as
+much as possible. When that happens another delivery attempt will be made
+immediately, because the previous <filename moreinfo="none">esmtpdelay</filename> was cancelled when
+the daemon got reassigned to another domain.</para>
+
+	    <para>
+There can also be occasional abnormalities that affect systems with light
+traffic. When there is a domain with several mail relays of equal priority,
+one mail relay is chosen at random for the connection attempt. If some of the
+equal-priority mail relays are unreachable and a <command moreinfo="none">courieresmtp</command>
+daemon picks it, it will start the <filename moreinfo="none">esmtpdelay</filename> timer and refuse
+to deliver any more mail until it expires, even if most of the mail servers
+are functional. This will happen only with mail relays of the lowest
+priority. Otherwise, <command moreinfo="none">courieresmtp</command> will always try to contact
+another mail relay of a still lower priority, before giving up and setting
+the <filename moreinfo="none">esmtpdelay</filename> timer. Another <command moreinfo="none">courieresmtp</command> daemon
+will not be started for the same domain if there's already an existing one,
+so all delivery attempts will be turned away until <filename moreinfo="none">esmtpdelay</filename>
+expires. Another <command moreinfo="none">courieresmtp</command> daemon will be started only in the
+event of multiple simultaneous delivery attempts that happen to coincide at
+the same time.</para>
+
+	    <para>
+This is somewhat mitigated by the fact that all <command moreinfo="none">courieresmtp</command>
+daemons are killed after a short period of total inactivity (currently one
+minute), so that longer intervals specified by <filename moreinfo="none">esmtpdelay</filename> are
+ignored. Note, however, that receiving a message to deliver, and then
+postponing it immediately, does count as some activity.</para>
+
+	    <para>
+<filename moreinfo="none">esmtpdelay</filename> can be turned off by setting it to 0 seconds.
+<filename moreinfo="none">esmtpdelay</filename> is designed for servers that handle heavy amount of
+mail that wish to avoid having outbound delivery slots tied up due to network
+failures, at an expense of an occasional anomalous behavior due to harmless
+paranoia. <filename moreinfo="none">esmtpdelay</filename> may prove to actually make things worse for
+systems that carry only light mail traffic, if they are burdened with a task
+of exchanging mail primarily with external systems that are not properly
+maintained.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtpgreeting</filename></term>
+	  <listitem>
+
+	    <para>
+The complete greeting banner displayed by <command moreinfo="none">courieresmtpd</command>.
+Changes to this file take effect immediately.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtphelo</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text, what the <application moreinfo="none">Courier</application> mail server calls itself in the
+<literal moreinfo="none">EHLO</literal> or <literal moreinfo="none">HELO</literal> command sent to a remote SMTP server.
+<filename moreinfo="none">me</filename> is used if this file does not exist.</para>
+
+	    <para>
+<filename moreinfo="none">esmtphelo</filename> may also be set to a special value of
+<quote>*</quote>:</para>
+
+	    <informalexample>
+	      <programlisting format="linespecific">
+echo '*' &gt;esmtphelo
+</programlisting>
+	    </informalexample>
+
+	    <para>
+(Note the single quotes, to prevent <quote>*</quote> from being expanded
+by the shell).
+The <application moreinfo="none">Courier</application> mail server will take the <acronym>IP</acronym> address of the local side of the connection to
+the remote SMTP server, look up the <acronym>IP</acronym> address in <acronym>DNS</acronym>,
+and use the hostname from the reverse <acronym>DNS</acronym> lookup.
+This might be useful when the <application moreinfo="none">Courier</application> mail server server is multihomed.
+The <application moreinfo="none">Courier</application> mail server will look up the local <acronym>IP</acronym> address of each individual connection,
+and use that in its <literal moreinfo="none">EHLO</literal> or <literal moreinfo="none">HELO</literal>
+command.</para>
+
+	    <note>
+	      <para>
+Functioning <acronym>DNS</acronym> is required.
+Using the <filename moreinfo="none">hosts</filename> file, or an equivalent, won't work.
+This function uses the <application moreinfo="none">Courier</application> mail server's native <acronym>DNS</acronym> resolver, which
+reads <filename moreinfo="none">/etc/resolv.conf</filename> and queries the listed
+<acronym>DNS</acronym> servers directly.</para>
+	    </note>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtproutes</filename></term>
+	  <listitem>
+
+	    <para>
+This file is used by the ESMTP module, and it contains one or more lines in
+the following form:</para>
+
+	    <informalexample>
+	      <programlisting format="linespecific">
+<replaceable>domain</replaceable>:<replaceable>relay</replaceable>[,<replaceable>port</replaceable>][/SECURITY=STARTTLS][/SECURITY=NONE]
+</programlisting>
+	    </informalexample>
+
+	    <para>
+<replaceable>domain</replaceable> is any SMTP domain. <replaceable>relay</replaceable> specifies a
+fixed mail relay for this domain. <replaceable>relay</replaceable> is optionally followed
+by a comma and a port number, to specify a port other than the default port
+25. If an address's domain is not found in <filename moreinfo="none">esmtproutes</filename>,
+the <application moreinfo="none">Courier</application> mail server
+looks for MX and A records as usual (and always delivers to port 25). If the
+domain is found in <filename moreinfo="none">esmtproutes</filename>, however, any MX or A records for
+the domain are ignored; instead the <application moreinfo="none">Courier</application> mail server delivers the message to the specified
+relay.</para>
+
+	    <para>
+<replaceable>relay</replaceable> can be another domain, or an explicit <acronym>IP</acronym> address inside
+brackets. For example, if <filename moreinfo="none">esmtproutes</filename> contains the following:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+example.com: relay.domain.com
+domain.com: [192.168.0.2]
+</programlisting>
+	    </informalexample>
+	    <para>
+Mail for <literal moreinfo="none">example.com</literal> is delivered to
+<literal moreinfo="none">relay.domain.com</literal>, ignoring any MX records for
+<literal moreinfo="none">example.com</literal>. Mail for <literal moreinfo="none">domain.com</literal> will be delivered
+to the machine at <acronym>IP</acronym> address 192.168.0.2. All other domains will have their MX
+and A records looked up.</para>
+
+	    <note>
+	      <para>
+Unlike Qmail, the <application moreinfo="none">Courier</application> mail server
+looks up MX and A records for
+<literal moreinfo="none">relay.example.com</literal> (Qmail only looks up A records).</para>
+	    </note>
+
+	    <para>
+<filename moreinfo="none">esmtproutes</filename> may contain comments, any line that starts with
+the # character is ignored. Also, wildcards are allowed:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+ .example.com: [192.168.0.3],26
+</programlisting>
+	    </informalexample>
+	    <para>
+This specifies that any address of the form
+<literal moreinfo="none">&lt;anything@anything.example.com&gt;</literal> will be delivered to the
+mail server at this <acronym>IP</acronym> address, but on port 26.</para>
+
+	    <para>
+<filename moreinfo="none">esmtproutes</filename> is read from top to bottom, stopping as soon as a
+first match is found.</para>
+
+	    <para>
+<literal moreinfo="none">domain</literal> may be empty, this specifies a smarthost for all
+domains. For example, if <filename moreinfo="none">esmtproutes</filename> contains the following
+text:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+example.com: relay.example.com
+        :[192.168.0.4]
+</programlisting>
+	    </informalexample>
+	    <para>
+This specifies that all mail to <literal moreinfo="none">example.com</literal> is rerouted to
+<literal moreinfo="none">relay.example.com</literal>. All other mail is routed to the <acronym>IP</acronym>
+address <literal moreinfo="none">192.168.0.4</literal>.</para>
+
+	    <para>
+If relay is empty, the <application moreinfo="none">Courier</application> mail server
+interprets it as an explicit directive to use
+MX and A records from <acronym>DNS</acronym>. For example:</para>
+
+	    <informalexample>
+	      <programlisting format="linespecific">
+example.com:
+:[192.168.0.4]
+</programlisting>
+	    </informalexample>
+
+	    <para>
+This uses MX and A records for all messages to <literal moreinfo="none">example.com</literal>.
+All other mail is rerouted to the <acronym>IP</acronym> address
+<literal moreinfo="none">192.168.0.4</literal>.</para>
+
+	    <para>
+The optional <literal moreinfo="none">/SECURITY=STARTTLS</literal> flag indicates that mail to
+this domain should be automatically upgraded to use the <literal moreinfo="none">SECURITY</literal>
+ESMTP extension. See the <application moreinfo="none">Courier</application> mail server installation notes for a description of
+<literal moreinfo="none">SECURITY</literal>, what it does, and how to configure it.</para>
+
+	    <para>
+The <literal moreinfo="none">/SECURITY=NONE</literal> flag prevents the <application moreinfo="none">Courier</application> mail server from using the
+<literal moreinfo="none">STARTTLS</literal> ESMTP extension even if the remote server claims to
+support it.  Use this flag to deliver mail to misconfigured Microsoft
+Exchange relays that claim to support STARTTLS, but always report a failure
+to a STARTTLS request.</para>
+
+	    <para>
+Changes to this file take effect immediately, more or less. Existing
+<command moreinfo="none">courieresmtp</command> processes that already have an established
+connection will ignore any changes.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeout</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies the timeout for an SMTP
+command. The timeout is specified as an integral number, optionally followed
+by m - minutes, or h - hours.  Otherwise it is specified in seconds. This
+timeout is used for all SMTP commands, unless the SMTP command has a
+dedicated timeout defined by a different configuration file. The default
+timeout is ten minutes.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeoutconnect</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies the timeout for an SMTP
+connection attempt.  Most <acronym>TCP</acronym>/<acronym>IP</acronym> stacks wait an extraordinary long period of
+time for SMTP connections to go through. This configuration setting limits
+the amount of time the <application moreinfo="none">Courier</application> mail server waits for the SMTP connection to complete. The
+default timeout is one minute. Set <filename moreinfo="none">esmtptimeoutconnect</filename> to 0 in
+order to use whatever default timeout your <acronym>TCP</acronym>/<acronym>IP</acronym> stack uses.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeoutdata</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies the timeout for
+transferring the message contents or individual replies. The default timeout
+is five minutes. You WILL HAVE TO bump this up if you're on a slow link, and
+you want to send large messages. A 28.8Kbps link can be optimistically
+expected to push 3,000 bytes per second. With a five minute cutoff, you will
+not be able to send or receive anything larger than about 870 Kb. You have no
+business sending or receiving 870 Kb messagesl, if all  you have is an analog
+28.8Kbps connection.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeouthelo</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies the timeout for the
+initial EHLO or HELO command. The <application moreinfo="none">Courier</application> mail server will wait this amount of time to
+receive the initial greeting banner from the remote SMTP server, and a
+response to the subsequent EHLO/HELO command. The default value is 5
+minutes.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeoutkeepalive</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies how often outbound SMTP
+sessions are kept idle after delivering a message. After the <application moreinfo="none">Courier</application> mail server connects to
+an SMTP server and completes the attempt to deliver the message, the SMTP
+session is kept idle for this time interval before being shut down. If
+the <application moreinfo="none">Courier</application> mail server receives another message for the same domain, it will be delivered
+using the existing SMTP session, instead of establishing a new one. Note that
+some SMTP servers have a very short idle timeout, Qmail's is only two
+minutes. The default value is 60 seconds.</para>
+
+	    <para>
+Note that there's also a separate limit to the maximum number of
+simultaneous SMTP sessions to the same domain.  That limit is currently four,
+which is adequate for nearly every situation, so for now it will be set by an
+undocumented configuration file.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeoutkeepaliveping</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies how often the <application moreinfo="none">Courier</application> mail server will
+issue a useless RSET command when the connection is idle (see
+<filename moreinfo="none">esmtptimeoutkeepalive</filename>). While waiting for any more messages to
+deliver to the same domain, or for the <filename moreinfo="none">esmtptimeoutkeepalive</filename>
+interval to expire, <command moreinfo="none">courieresmtp</command> will transmit RSET commands at
+regular intervals specified by this configuration file. The default value is
+0 seconds, which turns off the keepalive ping altogether. This configuration
+settings must be for a shorter time interval than
+<filename moreinfo="none">esmtptimeoutkeepalive</filename> for it to make any sense. Note that other
+system administrators may consider this to be a very rude thing to do. Also
+keep in mind that this may generate quite a bit of idle traffic. If you have
+the <application moreinfo="none">Courier</application> mail server configured for a maximum number of 200 outbound SMTP sessions and a
+30 second <filename moreinfo="none">esmtptimeoutkeepaliveping</filename> setting, then you can have
+as much as an average of around seven pings every second!</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">esmtptimeoutquit</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line of text that specifies how long the <application moreinfo="none">Courier</application> mail server waits
+for the external SMTP server to acknowledge the QUIT command, before the <application moreinfo="none">Courier</application> mail server
+unilaterally tears down the connection. The default value is 10 seconds. This
+must be a small value because the <application moreinfo="none">Courier</application> mail server needs to be able to shut down quickly,
+on very short notice.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">faxqueuetime</filename></term>
+	  <listitem>
+
+	    <para>
+This file specifies how long the <application moreinfo="none">Courier</application> mail server normally tries to repeatedly resend a
+fax message (if the <literal moreinfo="none">courierfax</literal> module is enabled).
+The default E-mail message retry timeout
+(the <filename moreinfo="none">queuetime</filename> setting)
+is one week, which is a reasonable
+timeout value for E-mail messages (taking into account downed circuits,
+or crashed servers).
+However, it doesn't make sense to keep trying to redeliver fax messages
+for a whole week.</para>
+
+	    <para>
+<filename moreinfo="none">faxqueuetime</filename> specifies the timeout for fax messages.
+This time interval is specified in the same way as
+<filename moreinfo="none">queuetime</filename>
+(see <filename moreinfo="none">queuetime</filename> for more information).</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">faxnotifyrc</filename></term>
+	  <listitem>
+	    <para>
+This file specifies which mailbox the <application moreinfo="none">Courier</application> mail server should deliver received faxes
+(if this option is enabled).
+See the <application moreinfo="none">Courier</application> mail server's installation notes for more information.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">faxrc</filename></term>
+	  <listitem>
+	    <para>
+This file configures the <application moreinfo="none">Courier</application> mail server's outbound faxing and dialing parameters.
+Consult the comments in the default file for additional information, and
+the
+<ulink url="courierfax.html"><citerefentry><refentrytitle>courierfax</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+manual page for more information.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">hosteddomains</filename></term>
+	  <listitem>
+
+	    <para>
+This file lists locally-hosted domains.  It is very similar in function to
+the <filename moreinfo="none">locals</filename> control file.  Any address with a domain listed in
+<filename moreinfo="none">hosteddomains</filename> is considered to be a local address.  The
+difference between <filename moreinfo="none">hosteddomains</filename> and <filename moreinfo="none">locals</filename> is that
+domains listed in <filename moreinfo="none">hosteddomains</filename> are not removed from individual
+addresses before looking up the location of their mailboxes.  For example, if
+the domain "<literal moreinfo="none">example.com</literal>" appears in <filename moreinfo="none">locals</filename>, the
+address <literal moreinfo="none">user@example.com</literal> will have <literal moreinfo="none">example.com</literal>
+removed, and then the <application moreinfo="none">Courier</application> mail server will look for a local mailbox named
+"<literal moreinfo="none">user</literal>".</para>
+
+	    <para>
+If the domain "<literal moreinfo="none">example.com</literal>" appears in
+<filename moreinfo="none">hosteddomains</filename> instead, the
+<application moreinfo="none">Courier</application> mail server will look for a local mailbox
+named "<literal moreinfo="none">user@example.com</literal>" instead.</para>
+
+	    <para>
+The contents of the <filename moreinfo="none">hosteddomains</filename> configuration file is a
+list of domains, one per line, in lowercase.  You must run the
+<command moreinfo="none">makehosteddomains</command> command for any changes to take
+effect.</para>
+
+	    <para>
+Additionally, <filename moreinfo="none">hosteddomains</filename> can specify simple domain
+aliases.
+See the complete description in the
+<ulink url="makehosteddomains.html"><citerefentry><refentrytitle>makehosteddomains</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+manual page.</para>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">ldapaddressbook</filename></term>
+	  <listitem>
+
+	    <para>
+This file is used by the webmail server.  It contain a default systemwide
+list of accessible LDAP address books. A default file will be installed,
+listing some common Internet address books.  Each line in this file contains
+the following information:</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+name&lt;tab&gt;host&lt;tab&gt;port&lt;tab&gt;suffix&lt;tab&gt;binddn&lt;tab&gt;bindpw
+</programlisting>
+	    </informalexample>
+
+	    <para>
+"<token>&lt;tab&gt;</token>" is the ASCII tab character.
+
+
+<quote>name</quote> is the
+unique name for this LDAP server. <quote>host</quote> and <quote>port</quote> specify the
+connection parameters. <quote>suffix</quote> specifies the root LDAP entry whose
+subtree gets searched. The <quote>binddn</quote> and <quote>bindpw</quote> fields are not
+presently used (they were used in earlier version of
+the webmail server, before the
+LDAP search interface was rewritten and simplified).</para>
+
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">ldapaliasrc</filename></term>
+	  <listitem>
+
+	    <para>
+This file is used by the courierldapaliasd process. See
+<ulink url="courierldapaliasd.html"><citerefentry><refentrytitle>courierldapaliasd</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">locallowercase</filename></term>
+	  <listitem>
+
+	    <para>
+If this file exists, the <application moreinfo="none">Courier</application> mail
+server will not distinguish being lowercase and
+uppercase local accounts, so that <literal moreinfo="none">john@example.com</literal> and
+<literal moreinfo="none">John@example.com</literal> will refer to the same local mailbox (where
+<literal moreinfo="none">example.com</literal> is your domain). <literal moreinfo="none">Postmaster</literal>,
+<literal moreinfo="none">postmaster</literal>, and <literal moreinfo="none">POSTMASTER</literal> always refer to the same
+account, even if <filename moreinfo="none">locallowercase</filename> does not exist.</para>
+
+	    <note>
+	      <para>
+If <filename moreinfo="none">locallowercase</filename> exists you cannot have any system
+accounts that contain uppercase letters. <filename moreinfo="none">locallowercase</filename> applies
+only to local mail.  Mail addressed to external domains will always have the
+case of the addresses preserved.</para>
+	    </note>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">locals</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one or more lines of text, where each line contains a
+valid mail domain. Any E-mail address without <literal moreinfo="none">@domain</literal>, or with a
+domain that can be found in <filename moreinfo="none">locals</filename> will be considered to be an
+address of a local mailbox. A domain can be specified with a leading dot:
+</para>
+	    <informalexample>
+	      <programlisting format="linespecific">
+ .domain.com
+</programlisting>
+	    </informalexample>
+
+	    <para>
+This is called a "wildcard". Any domain ending in <literal moreinfo="none">domain.com</literal>,
+such as <literal moreinfo="none">a.domain.com</literal>, <literal moreinfo="none">b.domain.com</literal>,
+<literal moreinfo="none">a.b.c.domain.com</literal> - but NOT <literal moreinfo="none">somedomain.com</literal> - will be
+considered local.  Note that <literal moreinfo="none">domain.com</literal> is NOT included in this
+wildcard.  Both "<literal moreinfo="none">domain.com</literal>" and "<literal moreinfo="none">.domain.com</literal>"
+should be listed.</para>
+
+	    <para>
+Specific hosts can be excluded from the wildcard.  Example:</para>
+
+	    <informalexample>
+	      <programlisting format="linespecific">
+ !host.domain.com
+ .domain.com
+</programlisting>
+	    </informalexample>
+
+	    <para>
+<literal moreinfo="none">anything.domain.com</literal> is considered to be a local domain, except for
+<literal moreinfo="none">host.domain.com</literal>.  Note that "<literal moreinfo="none">!host.domain.com</literal>" must appear in
+<filename moreinfo="none">locals</filename> before the <literal moreinfo="none">.domain.com</literal> wildcard.</para>
+
+	    <para>
+The "<literal moreinfo="none">!hostname</literal>" syntax is also valid in the
+<filename moreinfo="none">esmtpacceptmailfor</filename> control file.</para>
+
+	    <para>
+If <filename moreinfo="none">locals</filename> does not exist, the
+<application moreinfo="none">Courier</application> mail server uses the contents of the
+<filename moreinfo="none">me</filename> control file (note that <filename moreinfo="none">me</filename> specifies only one
+domain, second and subsequent lines are ignored).  Also, see
+<filename moreinfo="none">hosteddomains</filename>.</para>
+
+	  </listitem></varlistentry>
+
+
+	<varlistentry>
+	  <term><filename moreinfo="none">localtimeout</filename></term>
+	  <listitem>
+
+	    <para>
+This file specifies the watchdog timer for local mail deliveries.
+If a local mail delivery attempt does not complete in the proscribed time
+interval, the delivering process ID is killed.
+The time interval in
+<filename moreinfo="none">localtimeout</filename>
+is specified in the same way as
+<filename moreinfo="none">queuetime</filename>
+(see <filename moreinfo="none">queuetime</filename> for more information).</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">logindomainlist</filename></term>
+	  <listitem>
+	    <para>
+If this file exists then the webmail login screen will have a drop-down list
+whose contents will be read from this file.  This file should contain a list
+of E-mail domains, one per line.  It should be created if the <application moreinfo="none">Courier</application> mail server's webmail
+server is used to provide mail access for more than one domain.  Instead of
+typing "<literal moreinfo="none">user@domain</literal>" to log in, it will only be necessary
+to enter "<literal moreinfo="none">user</literal>",
+and select the domain from the drop-down list. If this file does not exist it
+will be necessary to enter the full E-mail address into the webmail login
+screen.</para>
+
+	    <blockquote>
+	      <title>Enhanced login domain listing</title>
+
+	      <para>
+The enhanced <filename moreinfo="none">logindomainlist</filename> makes it possible to
+specify a separate list of domain for each virtual web site,
+and more control over the defaults.</para>
+
+<para>What if you don't want to display a drop down menu?
+Administrators can now
+specify records that generate a hidden field in
+<filename moreinfo="none">login.html</filename>, or
+an editable text field, allowing sqwebmail to show only one mail login domain
+to each user per access <acronym>URL</acronym> or <acronym>IP</acronym> address. This functionality can greatly
+reduce confusion for first time webmail users, and greatly speed the login
+process for frequent webmail users.</para>
+
+	      <para>
+Finally, the new <filename moreinfo="none">logindomainlist</filename> file offers a new tool to
+ease maintenance. Administrators can now use wildcards to "rewrite" the
+domain portion of the access <acronym>URL</acronym> to the mail domain equivalent. For example,
+the following record can rewrite the <acronym>URL</acronym> "<literal moreinfo="none">mail.*.com</literal>" to the
+mail domain "<literal moreinfo="none">*.com</literal>"</para>
+
+	      <para><literal moreinfo="none">*.com:mail.*.com:@</literal></para>
+
+	      <para>
+This powerful wildcard functionality can ease the login process for most
+of your server's mail domains with just one or two
+<filename moreinfo="none">logindomainlist</filename> records.</para>
+
+	      <variablelist>
+		<varlistentry>
+		  <term>File Format</term>
+		  <listitem>
+		    <para>
+Let's take a look at the NEW <filename moreinfo="none">logindomainlist</filename> file
+format:</para>
+
+		    <para>
+<literal moreinfo="none">firstfield:secondfield:thirdfield</literal></para>
+
+		    <para>
+Above, we can see that the new <filename moreinfo="none">logindomainlist</filename> records are
+made up of three fields delimited by colons. But what does each field
+do?</para>
+
+		    <para>
+<literal moreinfo="none">First Field</literal> - the first field contains the "mail domain" for
+which we would like the user to log in under. The mail domain is the part of
+an email address after the @ symbol. For example, in the email address
+"<literal moreinfo="none">user@domain.com</literal>", "<literal moreinfo="none">domain.com</literal>"
+is the mail domain.</para>
+
+		    <para>
+<literal moreinfo="none">Second Field</literal> - the second field contains the
+"access domain".
+The access domain contains an <acronym>URL</acronym> or <acronym>IP</acronym> address that is used to figure out
+which mail domain to use by default. For example, in the following
+<filename moreinfo="none">logindomainlist</filename> record:</para>
+
+		    <para>
+<literal moreinfo="none">domain1.com:domain2.com</literal></para>
+
+		    <para>
+"<literal moreinfo="none">domain2.com</literal>" is the "access domain" and
+"<literal moreinfo="none">domain1.com</literal>" is the "mail domain". If the user logs
+into the following <acronym>URL</acronym>:</para>
+
+		    <para>
+<literal moreinfo="none">http://domain2.com/cgi-bin/sqwebmail</literal></para>
+
+		    <para>
+His default "mail domain" will be "<literal moreinfo="none">domain1.com</literal>".</para>
+
+		    <para>
+<literal moreinfo="none">Third Field</literal> - the third field may contain a modifier. The
+modifier may be either a single character modifier, or a group identification
+string. The single character modifiers and the group modifier are described
+in detail below.</para>
+
+		    <para>
+Finally, the <filename moreinfo="none">logindomainlist</filename> file may also contain
+comments
+and empty lines. Empty lines can be used to group records visually, and
+comments can be used to explain why a certain record or group of records look
+the way they do.</para>
+
+		    <para>
+If the first character of a line is a '#', then the entire line is
+considered a comment and is ignored. If the first character of a line
+contains whitespace, the entire line is assumed to be an empty line and is
+ignored.</para>
+
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Modifiers</term>
+		  <listitem>
+		    <para>
+<literal moreinfo="none">@</literal> - the '@' modifier can be used to create a hidden field on
+the <filename moreinfo="none">login.html</filename> page which contains the default mail
+domain. In
+addition, this field will automatically display the default mail domain in
+plain text to the right of the userid text box.</para>
+
+		    <note>
+		      <para>
+The '@' modifier ALLOWS the use of wildcards to automate the
+relationship between "access domains" and "mail domains". See the heading
+"<emphasis>Wildcards</emphasis>" below for more
+information about wildcarding.</para>
+		    </note>
+
+		    <para>
+<literal moreinfo="none">-</literal> - the '-' modifier can be used to create an editable text
+field on the <filename moreinfo="none">login.html</filename> page which contains the
+default mail domain.</para>
+
+		    <note>
+		      <para>
+The '-' modifier ALLOWS the use of wildcards to automate the
+relationship between "access domains" and "mail domains". See the heading
+"<emphasis>Wildcards</emphasis>" below for more information about
+wildcarding.</para>
+		    </note>
+
+		    <para>
+<literal moreinfo="none">group string</literal> - If no modifier is specified in the third
+field, or if the third field modifier is a group identifier string, then a
+drop down menu will be displayed on the <filename moreinfo="none">login.html</filename> page.
+Records
+with the SAME group string will be displayed together in the drop down. For
+example, if your <filename moreinfo="none">logindomainlist</filename> file contains the following
+records:</para>
+
+		    <informalexample>
+		      <programlisting format="linespecific">
+     domain1.com:domain2.com:firstgroup
+     domain3.com:domain4.com:firstgroup
+     domain5.com:domain6.com:firstgroup
+     domain7.com:domain8.com:secondgroup
+     domain9.com:domain10.com:secondgroup</programlisting>
+		    </informalexample>
+
+		    <para>
+And the user logs into sqwebmail with the following <acronym>URL</acronym>:</para>
+
+		    <para>
+<literal moreinfo="none">http://domain4.com/cgi-bin/sqwebmail</literal></para>
+
+		    <para>
+He will see a drop down containing ONLY the following domains:</para>
+		    <informalexample>
+		      <programlisting format="linespecific">
+     domain1.com
+     domain3.com
+     domain5.com</programlisting>
+		    </informalexample>
+
+		    <para>
+"<literal moreinfo="none">domain3.com</literal>" will be automatically selected, or defaulted.
+Only the records in the <literal moreinfo="none">firstgroup</literal> will be visible to the
+user.
+This functionality is great for organizations with more than one mail
+domain.</para>
+
+		    <note>
+		      <para>
+The group string modifier does NOT allow the use of wildcards to
+automate the relationship between "access domains" and "mail domains". This
+is because drop down menus are fundamentally incompatible with
+wildcards.</para>
+		    </note>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Wildcards</term>
+		  <listitem>
+		    <para>
+If a record's modifier allows wildcarding (See
+"<emphasis>Modifiers</emphasis>" above
+for information about which modifiers allow wildcarding and which do not.)
+then the first and second fields of that record _MAY_ contain wildcards.
+Wildcards match against the HTTP_HOST CGI environment variable only. <acronym>IP</acronym>
+addresses can NOT be used if either the first or second fields contain the
+wildcard character. However, if neither the first nor second fields contain
+the wildcard character, then the second field can contain an <acronym>IP</acronym> address.</para>
+
+		    <para>
+In the <filename moreinfo="none">logindomainlist</filename> file, an asterisk (*) character in
+either the first and/or second field represents a wildcard. Any asterisk in
+the second field will be used to match an access domain. If an asterisk
+exists in the first field then any characters which the asterisk in the
+second field represents will replace the asterisk in the first field when
+sqwebmail determines the default mail domain. However, asterisks are not
+required in either the first or second fields. They are totally optional. For
+example, given the following <filename moreinfo="none">logindomainlist</filename>
+record:</para>
+
+		    <para>
+<literal moreinfo="none">*.com:mail.*.com:@</literal></para>
+
+		    <para>
+If the user logs into sqwebmail with the following <acronym>URL</acronym>:</para>
+
+		    <para>
+<literal moreinfo="none">http://mail.mydomain.com/cgi-bin/sqwebmail</literal></para>
+
+		    <para>
+The asterisk in the second field will represent the string
+"<literal moreinfo="none">mydomain</literal>". This string will then replace the asterisk
+in the first field to give the following default mail domain:
+<literal moreinfo="none">mydomain.com</literal></para>
+
+		    <para>
+Similarly, if the following record exists in the
+<filename moreinfo="none">logindomainlist</filename> file:</para>
+
+		    <para>
+<literal moreinfo="none">*:*:@</literal></para>
+
+		    <para>
+Then ANY <acronym>URL</acronym> the user uses to access sqwebmail will be automatically used
+for the default mail domain.</para>
+
+		    <para>
+But the first field doesn't _HAVE_ to contain an asterisk. The following
+will work just fine:</para>
+
+		    <para>
+<literal moreinfo="none">mydomain.com:mydomain.*:@</literal></para>
+
+		    <para>
+The above example will allow the user to access the
+"<literal moreinfo="none">mydomain.com</literal>" mail domain from any of the following <acronym>URL</acronym>s:
+"<literal moreinfo="none">mydomain.org</literal>", "<literal moreinfo="none">mydomain.net</literal>",
+"<literal moreinfo="none">mydomain.us</literal>", etc...</para>
+
+		    <para>
+And finally, the first field doesn't have to contain anything at all! If
+the first field is empty, that record will serve as an explicit no-default
+mail domain. No default mail domain will be specified if the second field
+matches the user's login <acronym>URL</acronym>. This is useful because the
+<filename moreinfo="none">logindomainlist</filename> is searched from the top down.
+Any wildcard
+records at the bottom of the list will be overridden by records closer to the
+top. An "explicit no-default" record can be used to specify certain domains
+as "system account" domains so that no default mail domain is specified.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist>
+	    </blockquote>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">maildirfilterconfig</filename></term>
+	  <listitem>
+	    <para>
+This file, if exists, sets the global defaults for mail filtering in the
+webmail server. Mail filtering in the webmail server is a subject worthy of
+special mention. A full description of how to install and configure
+webmail-based mail filtering is included in the installation notes for
+the <application moreinfo="none">Courier</application> mail server.  Refer to the installlation instructions for additional
+information.</para>
+
+	  </listitem></varlistentry>
+	<varlistentry>
+	  <term><filename moreinfo="none">maildirshared</filename></term>
+	  <listitem>
+
+	    <para>
+This file, if exists, specifies the location of shared maildirs for the
+webmail and IMAP server.  Normally, each mailbox must be separately
+configured to access every shared maildir, by the
+<ulink url="maildirmake.html"><citerefentry><refentrytitle>maildirmake</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+command. This file
+allows shared maildirs to be set globally for everyone. Everyone's webmail
+and IMAP server will pick up the shared maildirs specified in this file.  See
+<ulink url="maildirmake.html"><citerefentry><refentrytitle>maildirmake</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">maildrop</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line whose contents is a pathname to the
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+mail delivery agent. If the <application moreinfo="none">Courier</application> mail server knows
+that the delivery agent used to delivery mail locally is
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+then certain delivery optimizations
+are possible. This configuration file does NOT actually specify that
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+should be used as a local mail delivery
+agent, it only specifies where
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+is installed. The default local mail delivery instructions are specified in the
+<filename moreinfo="none">courierd</filename> configuration file. If the specified delivery
+instruction specify running an external program whose pathname matches the
+one specified by this configuration file, the <application moreinfo="none">Courier</application> mail server assumes that it's
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>,
+and will use maildrop-specific options to optimize mail delivery.</para>
+
+	    <para>
+This configuration file is initialized, by default, to point to the
+version of
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+that's integrated with the <application moreinfo="none">Courier</application> mail server. The integrated version of
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+is configured slightly differently than
+the standalone version of
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>.</para>
+
+	    <para>
+Although you can set the <filename moreinfo="none">maildrop</filename> configuration file to point
+to some other version of the <command moreinfo="none">maildrop</command> mail filter,
+you MUST set the
+<filename moreinfo="none">maildropfilter</filename> configuration file (see below), to point to the
+integrated version of <command moreinfo="none">maildrop</command>.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">maildropfilter</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line whose contents is a pathname to the
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+mail delivery filter. In addition to
+being a delivery agent, maildrop can also be used as a mail filtering engine.
+If this file exists, the <application moreinfo="none">Courier</application> mail server will be capable of invoking recipient-specified
+mail filters when a message is received. If the mail filtering rules reject
+the message, the <application moreinfo="none">Courier</application> mail server will not accept the message for delivery. This means
+that when receiving mail via ESMTP, the <application moreinfo="none">Courier</application> mail server will reject the ESMTP transaction
+without even accepting the message from the remote mail server.</para>
+
+	    <para>
+This file is not installed by default. To activate mail filtering for
+local recipients, simply copy the contents of the <filename moreinfo="none">maildrop</filename>
+configuration file to <filename moreinfo="none">maildropfilter</filename>.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">maildroprc</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains systemwide mail filtering instructions for
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+deliveries.  This configuration file is
+optional, and is used by
+<ulink url="maildrop.html"><citerefentry><refentrytitle>maildrop</refentrytitle><manvolnum>1</manvolnum></citerefentry></ulink>
+when it
+is invoked as a traditional post-delivery mail filter.  See
+<ulink url="maildropfilter.html"><citerefentry><refentrytitle>maildropfilter</refentrytitle><manvolnum>6</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">me</filename></term>
+	  <listitem>
+
+	    <para>
+This file contains one line whose contents is a valid machine name. When a
+single installation of the <application moreinfo="none">Courier</application> mail server is shared over a network, each machine that's
+running the <application moreinfo="none">Courier</application> mail server must have a unique <filename moreinfo="none">me</filename> file. If me is missing,
+The <application moreinfo="none">Courier</application> mail server uses the result of the <function moreinfo="none">gethostname</function>() system call.</para>
+
+	    <warning>
+	      <para>
+If you change the contents of this configuration file, it may be necessary
+to rerun the <command moreinfo="none">makealiases</command> command again,
+else your mail will
+promptly begin to bounce.  If you don't have this configuration file defined,
+and you change the system's network host name, you may also need to run
+<command moreinfo="none">makealiases</command>.</para>
+	    </warning>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">msgidhost</filename></term>
+	  <listitem>
+
+	    <para>
+If a message does not have a <literal moreinfo="none">Message-ID:</literal> header, the <application moreinfo="none">Courier</application> mail server may
+decide to create one. The host portion of the new header will be set to the
+contents of <filename moreinfo="none">msgidhost</filename>, which contains one line of text. If
+<filename moreinfo="none">msgidhost</filename> does not exist, <filename moreinfo="none">me</filename> will
+be used in its
+place. Changes to this file take effect immediately.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">nochangingfrom</filename></term>
+	  <listitem>
+
+	    <para>
+The <application moreinfo="none">Courier</application> mail server's webmail server lets the contents of the <literal moreinfo="none">From:</literal>
+header be set for mailed messages. If this configuration file exists, the
+ability to set the contents of the <literal moreinfo="none">From:</literal> header is disabled.</para>
+
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">queuelo</filename>,
+<filename moreinfo="none">queuehi</filename>,
+<filename moreinfo="none">queuefill</filename></term>
+	  <listitem>
+
+	    <para>
+These configuration settings tune the <application moreinfo="none">Courier</application> mail server's mail queue processing.
+The <application moreinfo="none">Courier</application> mail server does not load the entire mail queue metadata in memory.
+<filename moreinfo="none">queuelo</filename> contains a number that specifies the
+queue <quote>low watermark</quote> message count.
+<filename moreinfo="none">queuehi</filename> contains a number that specifies the
+queue <quote>high watermark</quote> message count.
+<filename moreinfo="none">queuefill</filename> specifies a time interval,
+<quote>queue refill</quote> in seconds.
+The number in <filename moreinfo="none">queuefill</filename> may optionally be followed
+by "m", indicating that the queue refill is specified in minutes.</para>
+
+	    <para>
+<filename moreinfo="none">queuehi</filename> specifies the maximum number of messages that
+are loaded into memory.
+The <application moreinfo="none">Courier</application> mail server reads the mail queue on disk until either it reads all of it, or
+it reads the number of messages specified by
+<filename moreinfo="none">queuehi</filename>.
+As messages are delivered they are removed from the memory and disk.
+Messages that are deferred for another delivery attempt are removed from
+memory, but kept on the disk.</para>
+
+	    <para>
+When the number of messages in memory falls below <filename moreinfo="none">queuelo</filename>,
+The <application moreinfo="none">Courier</application> mail server goes back to disk and attempts to fill the memory queue to the top,
+again.</para>
+
+	    <para>
+This is, basically, a capsule summary of the mail queue processing logic.
+Many small, low level details are omitted; this is just an executive overview.
+When new messages arrive during a large mail backlog, the new messages are
+also loaded into the memory queue, if there's room for them.
+Therefore, during a large mail backlog the <application moreinfo="none">Courier</application> mail server simultaneously tries to
+clear the existing backlog, and process any new mail at the same time.
+Up to the <application moreinfo="none">Courier</application> mail server 0.41, all of this generally translates to the <application moreinfo="none">Courier</application> mail server giving
+priority to newly arrived mail, and processing the backed up mail queue
+if spare resources are available.</para>
+
+	    <para>
+The <filename moreinfo="none">queuefill</filename> setting was added in the <application moreinfo="none">Courier</application> mail server 0.42, in
+an attempt to keep new mail from excessively delaying existing mail during
+a major queue backup.
+<filename moreinfo="none">queuefill</filename> specifies a time interval.
+When the <application moreinfo="none">Courier</application> mail server completely fills the memory queue it sets a timer.
+After the interval given by <filename moreinfo="none">queuefill</filename> The <application moreinfo="none">Courier</application> mail server will go
+back and re-fill the mail queue even if the number of messages did not fall
+below the low watermark.
+If the <application moreinfo="none">Courier</application> mail server finds older messages in the mail queue they will be pushed to the
+top of the scheduling queue, and given priority.</para>
+
+	    <para>
+Smaller <filename moreinfo="none">queuefill</filename> time intervals means more frequent
+trips to the disk, and more overhead.
+But, in exchange for that, during a mail backlog the <application moreinfo="none">Courier</application> mail server will spend more time
+handling a greater number of delayed messages.
+Larger <filename moreinfo="none">queuefill</filename> time intervals means less frequent
+trips to the disk, and less overhead, in exchange for less "fairness"
+during large mail backlogs.</para>
+
+	    <para>
+<filename moreinfo="none">queuefill</filename> defaults to five minutes, if not specified.
+Explicitly setting it to 0 seconds turns off the queue re-filling completely,
+essentially reverting to pre-0.42 behavior.
+The default <filename moreinfo="none">queuelo</filename> and
+<filename moreinfo="none">queuehi</filename> values are computed at run time.
+<filename moreinfo="none">queuelo</filename> defaults to the larger of 200, and the
+sum total of configured
+mail delivery slots, both local and remote.
+<filename moreinfo="none">queuehi</filename>, if not explicitly set, defaults to the smaller
+of twice the <filename moreinfo="none">queuelo</filename>, or <filename moreinfo="none">queuelo</filename>
+plus 1000.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">queuetime</filename></term>
+	  <listitem>
+
+	    <para>
+This file specifies how long the <application moreinfo="none">Courier</application> mail server normally tries to repeatedly deliver a
+message, before giving up and returning it as undeliverable.  Messages are
+immediately returned as undeliverable when a permanent failure is encountered
+(such as the recipient address not being valid).  Attempts to deliver the
+message when there's a temporary, transient, error (such as the network being
+down) will be repeatedly made for the duration of time specified by this
+configuration file. This file contains a number followed by the letter
+'<literal moreinfo="none">w</literal>'
+for weeks, or
+'<literal moreinfo="none">d</literal>'
+for days. It is also possible to use
+'<literal moreinfo="none">h</literal>'
+for hours,
+'<literal moreinfo="none">m</literal>'
+for
+minutes, or
+'<literal moreinfo="none">s</literal>'
+for seconds. Only integers are allowed, fractions are
+prohibited. However, you can use
+'<literal moreinfo="none">1w2d</literal>'
+to specify one week and two days. If
+<filename moreinfo="none">queuetime</filename> is missing, the <application moreinfo="none">Courier</application> mail server makes repeated delivery
+attempts
+for one week.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">retryalpha, retrybeta, retrygamma, retrydelta</filename></term>
+	  <listitem>
+
+	    <para>
+These control files specify the schedule with which the <application moreinfo="none">Courier</application> mail server tries to deliver
+each message that has a temporary, transient, delivery failure.
+<filename moreinfo="none">retryalpha</filename> and <filename moreinfo="none">retrygamma</filename> contain a time interval,
+specified in the same way as <filename moreinfo="none">queuetime</filename>. <filename moreinfo="none">retrybeta</filename>
+and <filename moreinfo="none">retrymaxdelta</filename> contain small integral numbers
+only.</para>
+
+	    <para>
+The <application moreinfo="none">Courier</application> mail server will first make <filename moreinfo="none">retrybeta</filename> delivery attempts, waiting
+for the time interval specified by <filename moreinfo="none">retryalpha</filename> between each
+attempt. Then, the <application moreinfo="none">Courier</application> mail server waits for the amount of time specified by
+<filename moreinfo="none">retrygamma</filename>, then the <application moreinfo="none">Courier</application> mail server will make another
+<filename moreinfo="none">retrybeta</filename> delivery attempts, <filename moreinfo="none">retryalpha</filename> amount of
+time apart. If still undeliverable, the <application moreinfo="none">Courier</application> mail server waits <filename moreinfo="none">retrygamma</filename>*2
+amount of time before another <filename moreinfo="none">retrybeta</filename> delivery attempts, with
+<filename moreinfo="none">retryalpha</filename> amount of time apart. The next delay will be
+<filename moreinfo="none">retrygamma</filename>*4 amount of time long, the next one
+<filename moreinfo="none">retrygamma</filename>*8, and so on.
+<filename moreinfo="none">retrymaxdelta</filename> sets the
+upper limit on the exponential backoff. Eventually the <application moreinfo="none">Courier</application> mail server will keep waiting
+<filename moreinfo="none">retrygamma</filename>*(2^<filename moreinfo="none">retrymaxdelta</filename>) amount of time before making
+<filename moreinfo="none">retrybeta</filename> delivery attempts <filename moreinfo="none">retryalpha</filename> amount of
+time apart, until the <filename moreinfo="none">queuetime</filename> interval expires.</para>
+
+	    <para>
+The default values are:</para>
+	    <variablelist>
+	      <varlistentry>
+		<term><filename moreinfo="none">retryalpha</filename></term>
+		<listitem>
+		  <para>
+Five minutes</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><filename moreinfo="none">retrybeta</filename></term>
+		<listitem>
+		  <para>
+Three times</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><filename moreinfo="none">retrygamma</filename></term>
+		<listitem>
+		  <para>
+Fifteen minutes</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><filename moreinfo="none">retrymaxdelta</filename></term>
+		<listitem>
+		  <para>
+Three</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+
+	    <para>
+This results in the <application moreinfo="none">Courier</application> mail server delivering each message according to the following
+schedule, in minutes: 5, 5, 5, 15, 5, 5, 30, 5, 5, 60, 5, 5, then repeating
+120, 5, 5, until the message expires.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">sizelimit</filename></term>
+	  <listitem>
+
+	    <para>
+Maximum size of the message, in bytes, that the <application moreinfo="none">Courier</application> mail server accepts for delivery.
+The <application moreinfo="none">Courier</application> mail server rejects larger messages. If <filename moreinfo="none">sizelimit</filename> is set to zero,
+The <application moreinfo="none">Courier</application> mail server accepts as large message as available disk space permits. If the
+environment variable <envar>SIZELIMIT</envar> is set at the time a new message
+is received, it takes precedence and the <application moreinfo="none">Courier</application> mail server uses the contents of the
+environment variable instead. Changes to this file take effect immediately.
+The <envar>SIZELIMIT</envar> environment variable is for use by individual mail
+submission agents.  For example, it can be set by the <filename moreinfo="none">smtpaccess</filename>
+configuration file (see
+<ulink url="makesmtpaccess.html"><citerefentry><refentrytitle>makesmtpaccess</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information) for mail from certain <acronym>IP</acronym> addresses.</para>
+
+	    <para>
+If <filename moreinfo="none">sizelimit</filename> does not exist, and <envar>SIZELIMIT</envar> is
+not set, the maximum message size defaults to 10485760 bytes.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">submitdelay</filename></term>
+	  <listitem>
+
+	    <para>
+<filename moreinfo="none">submitdelay</filename> specifies the delay before the first delivery
+attempt for a message that has been entered into the mail queue. Normally,
+the first delivery attempt is made as soon as possible. This setting delays
+the initial delivery attempt. It is normally used when you have a mail filter
+installed that detects duplicate messages arriving in a short period of time.
+If the mail filter detects this situation it can use the
+<ulink url="cancelmsg.html"><citerefentry>
+		  <refentrytitle>cancelmsg</refentrytitle>
+		  <manvolnum>1</manvolnum>
+		</citerefentry>
+</ulink>
+command to reject duplicate messages in the queue
+(and return them back to the envelope sender).</para>
+
+	    <para>
+<filename moreinfo="none">submitdelay</filename> specifies a time interval in the same format as
+<filename moreinfo="none">queuetime</filename>.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">usexsender</filename></term>
+	  <listitem>
+
+	    <para>
+If this configuration file exists, the <application moreinfo="none">Courier</application> mail server's webmail server will set the
+<literal moreinfo="none">X-Sender: header</literal> on all outgoing messages. This is a good idea
+if the webmail server allows the user to set the contents of the
+<literal moreinfo="none">From:</literal> header. Note that the <application moreinfo="none">Courier</application> mail server records the system userid of the
+sender in all locally-sent messages (which includes messages mailed by the
+webmail server), which is sufficient in most cases. In cases where you have
+many virtual accounts that share the same system userid, this configuration
+file provides a way to positively identify the sender of the outgoing
+message.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">uucpme</filename></term>
+	  <listitem>
+
+	    <para>
+<filename moreinfo="none">uucpme</filename> sets the UUCP nodename of the <application moreinfo="none">Courier</application> mail server mail relay.  See
+<ulink url="courieruucp.html"><citerefentry><refentrytitle>courieruucp</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">uucpneighbors</filename></term>
+	  <listitem>
+	    <para>
+<filename moreinfo="none">uucpneighbors</filename> is used by the <command moreinfo="none">courieruucp</command> module to
+specify the <application moreinfo="none">Courier</application> mail server's configuration for relaying mail via UUCP.  See
+<ulink url="courieruucp.html"><citerefentry><refentrytitle>courieruucp</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>
+for more information.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">uucprewriteheaders</filename></term>
+	  <listitem>
+
+	    <para>
+If this file exists, headers of messages sent to/from UUCP addresses will be
+rewritten.  Normally, only the message envelope sender and recipients are
+rewritten, the existence of this file causes the headers to be rewritten as
+well.</para>
+	  </listitem></varlistentry>
+
+	<varlistentry>
+	  <term><filename moreinfo="none">warntime</filename></term>
+	  <listitem>
+
+	    <para>
+<filename moreinfo="none">warntime</filename> specifies an amount of time in the same format as
+<filename moreinfo="none">queuetime</filename>. If a message still has not been delivered after this
+period of time, the <application moreinfo="none">Courier</application> mail server sends a warning message (a "delayed" Delivery Status
+Notification) to the sender. If <filename moreinfo="none">warntime</filename> is missing, the <application moreinfo="none">Courier</application> mail server
+sets <filename moreinfo="none">warntime</filename> to four hours.</para>
+
+	    <note>
+	      <para>
+The time interval specified by <filename moreinfo="none">warntime</filename> is only
+approximate. The <application moreinfo="none">Courier</application> mail server sends a delayed Delivery Status Notification at the
+conclusion of the first attempted delivery after <filename moreinfo="none">warntime</filename> has
+elapsed.</para>
+	    </note>
+
+	  </listitem></varlistentry>
+
+      </variablelist>
+    </refsect2>
+
+    <refsect2>
+      <title>Webmail template files</title>
+
+      <para>
+HTML output from the webmail server is generated from the template files in
+<filename moreinfo="none">@datadir@/sqwebmail/html/en-us</filename>.
+It is possible to translate the webmail interface into another language
+simply by creating another subdirectory underneath
+<filename moreinfo="none">@datadir@/sqwebmail/html</filename>, then meticulously translating
+each <filename moreinfo="none">.html</filename> file.
+Each template file contains well-formed HTML, with dynamic content marked off
+by tags.
+Note that the large comment blocks in each HTML file need to be translated
+too, since they are inserted as dynamic content, elsewhere.</para>
+
+      <para>
+The directory <filename moreinfo="none">@datadir@/sqwebmail/html/en-us</filename> also
+contains several configuration files, in addition to the HTML template files.
+Doing so allows this configuration information to be defined for each
+available language.</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term>CHARSET</term>
+	  <listitem>
+	    <para>
+This file consists of a single line of text, which
+names the character set used by the HTML
+template files.
+It is possible to specify multiple character set, by separating them with
+commas, provided that HTML templates use only the common portions of all
+listed character set.</para>
+
+	    <para>
+The default English HTML templates use strictly the <quote>us-ascii</quote>
+subset, and the <filename moreinfo="none">CHARSET</filename> contains
+<literal moreinfo="none">utf-8,iso-8859-1</literal>.
+When multiple character sets are listed, the first character set that's
+supported by the browser is picked, so with UTF-8 capable browsers the default
+webmail interface will use <literal moreinfo="none">UTF-8</literal>, falling back to
+<literal moreinfo="none">ISO-8859-1</literal> for browsers that do not support
+<literal moreinfo="none">UTF-8</literal>.</para>
+	  </listitem>
+
+	</varlistentry>
+
+	<varlistentry>
+	  <term>footer</term>
+	  <listitem>
+	    <para>
+The contents of this file, if it exists, are appended to all messages sent
+by the webmail server.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>ISPELLDICT</term>
+	  <listitem>
+	    <para>
+This file consists of a single line of text, which
+contains the name of the dictionary used for spell-checking.
+It is passed as an argument to <command moreinfo="none">ispell</command>, or
+<command moreinfo="none">aspell</command>.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>LANGUAGE</term>
+	  <listitem>
+	    <para>
+This file consists of a single line of text, which
+should always be the same as the name of its directory
+(<literal moreinfo="none">en-us</literal>).</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>LANGUAGE_PREF</term>
+	  <listitem>
+	    <para>
+This file is not needed at runtime, its contents are used during
+installation.
+See <filename moreinfo="none">webmail/html/README_LANG</filename> in the source
+distribution for more information.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>LOCALE</term>
+	  <listitem>
+	    <para>
+The corresponding C locale for these templates.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>TIMEZONELIST</term>
+	  <listitem>
+	    <para>
+This file lists the available timezones on the login screen.
+See the comments in this file for more information.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </refsect2>
+
+    <refsect2 id="SPF">
+      <title>Sender Policy Framework Keywords</title>
+
+      <para>
+	The <application moreinfo="none">Courier</application> mail server can perform <quote>Sender Policy Framework</quote> checks on up to
+	three addresses for each message.
+	This is controlled by setting the following variables:
+	<envar>BOFHSPFHELO</envar>,
+	<envar>BOFHSPFMAILFROM</envar>, and
+	<envar>BOFHSPFFROM</envar>.
+	Each variable is set to a comma-separated list of the following keywords:
+	<quote>off</quote> - SPF verification disabled (default);
+	<quote>none</quote>,
+	<quote>neutral</quote>,
+	<quote>pass</quote>,
+	<quote>fail</quote>,
+	<quote>softfail</quote>,
+	<quote>error</quote>,
+	<quote>unknown</quote> - these keywords correspond to the possible results
+	of an SPF check, the message is accepted for the listed SPF results only,
+	any other SPF result is rejected;
+	<quote>all</quote> - shorthand for all possible SPF results, use
+	<quote>all</quote> to run SPF in informational mode only, recording the
+	SPF status in the <literal moreinfo="none">Received-SPF:</literal> header.</para>
+
+      <para>
+	A rejected SPF result gets kicked back with a permanent error indication
+	if the SPF result is listed in <envar>BOFHSPFHARDERROR</envar>, and
+	a temporary error indication otherwise.</para>
+
+      <para>
+	When enabling SPF checking, the keyword list should always include
+	<quote>pass</quote> (it makes no sense to do otherwise) and
+	<quote>none</quote>.
+	The keyword list should also include <quote>softfail</quote>,
+	<quote>neutral</quote>, and <quote>unknown</quote>.
+	See the SPF draft for a description of these status results.
+	At some distant future, the keyword list will only include
+	<quote>pass</quote>, rejecting all senders without a stated policy.
+	This might be desirable at some point in the future, but not right now.</para>
+
+      <para>
+	The <envar>BOFHSPFFROM</envar> list may also include an additional keyword,
+	<quote>mailfromok</quote>.
+	<envar>BOFHSPFMAILFROM</envar> and
+	<envar>BOFHSPFFROM</envar> are trade-offs.
+	Using <envar>BOFHSPFMAILFROM</envar> is faster, and it does not require
+	the entire message to be received, before running the SPF check.
+	<envar>BOFHSPFFROM</envar> checking can only occur after the entire message
+	is received, but it's more reliable.
+	If <quote>mailfromok</quote> is listed, the <literal moreinfo="none">From:</literal> is not
+	checked if the <literal moreinfo="none">MAIL FROM</literal> command was checked
+	with the <quote>pass</quote> result.</para>
+
+      <para>
+	In other words:
+	the <literal moreinfo="none">From:</literal> header is checked if
+	<literal moreinfo="none">MAIL FROM</literal> was empty, or did not pass the SPF checks.
+	If <literal moreinfo="none">MAIL FROM</literal> passed the SPF check the <application moreinfo="none">Courier</application> mail server won't bother
+	looking at the <literal moreinfo="none">From:</literal> header.</para>
+
+      <note>
+	<para>
+	  A conservative policy should not reject failed SPF checks from the
+	  <literal moreinfo="none">From:</literal>header,
+	  because it can be counterproductive in some situations.
+	  This is because when a sender from a domain with a published SPF policy
+	  sends a message to a mailing list, the message goes through the
+	  mailing list processor's <acronym>IP</acronym> address, and it will fail the SPF check unless
+	  the domain SPF explicitly authorizes the mailing list processor's <acronym>IP</acronym>
+	  address.</para>
+
+	<para>
+	  This is very unlikely.
+	  The end result is that domains with a published SPF record get punished,
+	  and domains without an SPF record
+	  get off scott free.
+	  Mailing lists should be encouraged to publish their own SPF records for
+	  mailing list traffic; then the <quote>mailfromok</quote> keyword can validate
+	  the mailing list's return address, and forego checking of
+	  the <quote>From:</quote> header from the mailing list, while still checking
+	  the <quote>From:</quote> header from everyone else.</para>
+
+	<para>
+	  Another alternative is to use
+	  <envar>opt BOFHSPFFROM=all</envar> for advisory purposes only.
+	  Post-delivery mail filters can key off the <quote>Received-SPF</quote>
+	  header.</para>
+      </note>
+
+      <note>
+	<para>
+	  The <application moreinfo="none">Courier</application> mail server can add up to three <quote>Received-SPF</quote> headers of its own,
+	  one for each SPF check.
+	  The <application moreinfo="none">Courier</application> mail server renames any existing <quote>Received-SPF</quote> header as
+	  <quote>Old-Received-SPF</quote>.
+	  All <quote>Received-SPF</quote> headers delivered to a local mailbox will
+	  always come from the <application moreinfo="none">Courier</application> mail server.</para>
+      </note>
+    </refsect2>
+
+  </refsect1>
+
+  <refsect1>
+    <title>BUGS</title>
+
+    <para>
+Flushing a single message will not work if the message queue is backed up.
+When that happens, your only available option is to flush the entire
+queue.</para>
+
+    <para>
+<command moreinfo="none">courier start</command> fails if the <application moreinfo="none">Courier</application> mail server has detected a fatal
+operational error. In this situation the top-level
+<command moreinfo="none">courierd</command> daemon sleeps for
+a minute, before automatically restarting. During this sleep interval courier
+stop does not work.</para>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+
+    <para>
+<ulink url="cancelmsg.html">
+<citerefentry>
+	  <refentrytitle>cancelmsg</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="maildirmake.html">
+<citerefentry>
+	  <refentrytitle>maildirmake</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="maildrop.html">
+<citerefentry>
+	  <refentrytitle>maildrop</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="preline.html">
+<citerefentry>
+	  <refentrytitle>preline</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="sendmail.html">
+<citerefentry>
+	  <refentrytitle>sendmail</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="testmxlookup.html">
+<citerefentry>
+	  <refentrytitle>testmxlookup</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="dot-courier.html">
+<citerefentry>
+	  <refentrytitle>dot-courier</refentrytitle>
+	  <manvolnum>5</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="authlib.html">
+<citerefentry>
+	  <refentrytitle>authlib</refentrytitle>
+	  <manvolnum>7</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierfax.html">
+<citerefentry>
+	  <refentrytitle>courierfax</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierfilter.html">
+<citerefentry>
+	  <refentrytitle>courierfilter</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierfilter.html">
+<citerefentry>
+	  <refentrytitle>filterctl</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierldapaliasd.html">
+<citerefentry>
+	  <refentrytitle>courierldapaliasd</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierpop3d.html">
+<citerefentry>
+	  <refentrytitle>courierpop3d</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courierpop3d.html">
+<citerefentry>
+	  <refentrytitle>courierpop3d</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="couriertcpd.html">
+<citerefentry>
+	  <refentrytitle>couriertcpd</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="courieruucp.html">
+<citerefentry>
+	  <refentrytitle>courieruucp</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="esmtpd.html">
+<citerefentry>
+	  <refentrytitle>esmtpd</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="imapd.html">
+<citerefentry>
+	  <refentrytitle>imapd</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="localmailfilter.html">
+<citerefentry>
+	  <refentrytitle>localmailfilter</refentrytitle>
+	  <manvolnum>7</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="mailq.html">
+<citerefentry>
+	  <refentrytitle>mailq</refentrytitle>
+	  <manvolnum>1</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makeacceptmailfor.html">
+<citerefentry>
+	  <refentrytitle>makeacceptmailfor</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makealiases.html">
+<citerefentry>
+	  <refentrytitle>makealiases</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makehosteddomains.html">
+<citerefentry>
+	  <refentrytitle>makehosteddomains</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makepercentrelay.html">
+<citerefentry>
+	  <refentrytitle>makepercentrelay</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makesmtpaccess.html">
+<citerefentry>
+	  <refentrytitle>makesmtpaccess</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makeuserdb.html">
+<citerefentry>
+	  <refentrytitle>makeuserdb</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="makeuserdb.html">
+<citerefentry>
+	  <refentrytitle>pw2userdb</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="mkesmtpdcert.html">
+<citerefentry>
+	  <refentrytitle>mkesmtpdcert</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="mkimapdcert.html">
+<citerefentry>
+	  <refentrytitle>mkimapdcert</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="pop3d.html">
+<citerefentry>
+	  <refentrytitle>pop3d</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="submit.html">
+<citerefentry>
+	  <refentrytitle>submit</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>,
+<ulink url="userdb.html">
+<citerefentry>
+	  <refentrytitle>userdb</refentrytitle>
+	  <manvolnum>8</manvolnum>
+	</citerefentry>
+</ulink>.</para>
+  </refsect1>
+
+</refentry>

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8" />
+  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+  <meta name="author" content="Sam Varshavchik"/>
+
+  <title>The Courier mail server - CVS</title>
+  <link rel="icon" href="icon.gif" type="image/gif" />
+</head>
+
+<body>
+  <!-- Copyright 2000-2009 Double Precision, Inc.  See COPYING for -->
+  <!-- distribution information. -->
+
+  <h1>CVS</h1>
+
+  <p>The following applies for the entire the <i>Courier</i> mail server
+  source code distribution, and sub-modules (the <i>Courier</i> IMAP
+  server, sqwebmail, maildrop).</p>
+
+  <p>In order to build from the CVS repository, you must the
+  following additional software installed:</p>
+
+  <ol>
+    <li><a target="_blank" href=
+    "http://www.gnu.org/software/autoconf/autoconf.html"><code>autoconf</code></a>.</li>
+
+    <li><a target="_blank" href=
+    "http://www.gnu.org/software/automake/automake.html"><code>automake</code></a>.</li>
+
+    <li><a target="_blank" href=
+    "http://www.gnu.org/software/libtool/libtool.html"><code>libtool</code></a></li>
+
+    <li><a target="_blank" href=
+    "http://www.gnu.org/software/gettext/gettext.html"><code>gettext</code></a></li>
+
+    <li><a target="_blank" href=
+    "http://www.gnu.org/software/make/make.html"><code>gmake</code></a>,
+    of course.</li>
+
+    <li><a target="_top" href=
+    "http://www.courier-mta.org/sysconftool/">sysconftool</a> -
+    this is an extra autoconf macro used by the <i>Courier</i> mail
+    server's <code>configure.in</code></li>
+
+    <li>The following tools that convert Docbook XML to HTML and
+    man page documentation: various Docbook DTDS, the
+    "docbook-utils" tools, the "sgml-common/xml-common" package,
+    which are conveniently aggregated in Red Hat's <a target=
+    "_blank" href=
+    "ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES">
+    docbook-tools</a> directory; <a target="_blank" href=
+    "http://docbook.sourceforge.net/projects/xsl/">Docbook XSL
+    stylesheets</a>; <a target="_blank" href=
+    "http://www.w3.org/TR/xhtml1/">XHTML 1.0 XSL stylesheets</a>;
+    <a target="_blank" href=
+    "http://www.w3.org/TR/1999/REC-html401-19991224/">HTML 4.01
+    stylesheets</a>; the <a target="_blank" href=
+    "http://xmlsoft.org/XSLT/">Gnome XSLT library</a>, and the
+    current version of the <a target="_blank" href=
+    "http://tidy.sourceforge.net/">tidy</a> tool. NOTE: Most
+    systems already include packages for all of these tools. It's
+    rather unfeasible to try to assemble this entire toolkit
+    yourself, find these packages and install them.</li>
+  </ol>
+
+  <p>These additional dependencies are only required if building
+  from CVS, and not the packaged tarballs.</p>
+
+  <p>The source code can be checked out with the following
+  commands:</p>
+  <pre>
+    CVSROOT=:pserver:anonymous@courier.cvs.sourceforge.net:/cvsroot/courier
+    export CVSROOT
+    cvs login
+</pre>
+
+  <p>Press ENTER when asked for a password (blank password).</p>
+
+  <blockquote>
+    <p><code>cvs -z3
+    checkout&nbsp;-r&nbsp;courier-latest&nbsp;courier</code> - get
+    the entire the <i>Courier</i> mail server mail server source code,
+    or:</p>
+
+    <p>
+    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;courier-imap-latest&nbsp;courier-imap</code>
+    - get just the standalone IMAP server source code, or:</p>
+
+    <p>
+    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;sqwebmail-latest&nbsp;sqwebmail</code>
+    - get just the standalone webmail server source code, or:</p>
+
+    <p>
+    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;maildrop-latest&nbsp;maildrop</code>
+    - get just the standalone version of the <i>Courier</i> mail server's
+    mail filter's source code.</p>
+
+    <p>
+    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;courier-authlib-latest&nbsp;courier-authlib</code>
+    - get the the <i>Courier</i> mail server authentication library
+    module.</p>
+  </blockquote>
+
+  <p>NOTE: Automatically-generated <code>configure</code> and
+  <code>Makefile</code>, <code>libtool</code>, and
+  <code>sysconftool</code> scripts are NOT stored in the
+  repository, and you must build them yourself. Fortunately, it's
+  very easy to do this. Simply run the following command after
+  checking out any one of these modules:</p>
+  <pre>
+    sh autobloat
+</pre>
+
+  <p>The <code>autobloat</code> script automatically runs
+  <code>automake</code>, <code>autoconf</code>,
+  <code>libtool</code>, <code>sysconftool</code>, from the current
+  directory.</p>
+
+  <p>NOTE: The "courier" module is the entire mail server. The
+  other modules extract selected portions, with a different
+  top-level makefile that builds a standalone package. You only
+  need to obtain the <code>courier</code> module, to get the source
+  code for the <i>Courier</i> mail server. See <a href=
+  "intro.html">Introduction</a> for more information.</p>
+
+  <p>NOTE: the <code>HEAD</code>s of each module contain the latest
+  development versions, which may not be very stable. Use the tags
+  specified above to obtain the latest "semi" stable release.
+  Usually the "latest" tags will match the source code in the most
+  recent tarball, but they may include some additional patches for
+  the next release.</p>
+</body>
+</html>
