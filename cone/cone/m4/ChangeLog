@@ -1,3 +1,8 @@
+2011-04-03  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* fcntl-o.m4: New file, from gettext-0.18.1.
+	* threadlib.m4: New file, from gettext-0.18.1.
+
 2010-11-13  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* gettext.m4: Upgrade to gettext-0.18.1.

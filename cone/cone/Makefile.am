@@ -269,7 +269,7 @@ uninstall-local:
 	rm -f $(DESTDIR)$(pkgdatadir)/http.handler
 	rm -f $(DESTDIR)$(pkgdatadir)/https.handler
 
-EXTRA_DIST = config.rpath  testsuite1 testsuite1.out pwtest.txt colors.txt mkcolors.pl \
+EXTRA_DIST = ../config.rpath  config.rpath  testsuite1 testsuite1.out pwtest.txt colors.txt mkcolors.pl \
 	fixonlinehelp.pl mkhtmlmsg.pl postproc.xsl $(SPELLSRC) \
 	m4/ChangeLog $(srcdir)/m4/*.m4
 
