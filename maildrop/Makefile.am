@@ -269,8 +269,10 @@ distrelease:
 dollar=$$
 id=$(dollar)Id
 
+WWW=$$HOME/www/www.courier-mta.org
+
 htmldoc: $(DELIVERQUOTAHTMLSOURCE) $(htmldataclean) maildrop/maildroptips.html
-	for f in $^; do xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/maildrop.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >html/`basename $$f`; done
+	for f in $^; do xsltproc --nonet $(WWW)/xsl/maildrop.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >$(WWW)/maildrop/`basename $$f`; done
 	cp manpage.css html
 
 rpm: rpm-build
