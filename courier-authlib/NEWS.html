@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8" />
+
+  <title>NEWS</title>
+  <meta name="generator" content="Bluefish 1.0.7"/>
+</head>
+
+<body>
+  <h1>Courier Authentication Library</h1>
+
+  <p>The Courier Authentication Library is a required component
+  that must be set up before installing other Courier packages: the
+  Courier Mail Server or its components (Courier-IMAP, SqWebMail,
+  or maildrop).</p>
+
+  <p>The authentication library used to be included as a part of
+  these packages, it is now a standalone library.</p>
+
+  <p>Upgrading from older versions of Courier packages that used to
+  include this authentication library internally should be as
+  simple as:</p>
+  <pre>
+./configure
+make
+make install
+make install-migrate
+make install-configure
+</pre>
+
+  <h2>Requirements</h2>
+
+  <p>The Courier authentication library should not have any more
+  requirements than the older Courier packages it used to be a part
+  of. There may be an exception on some less-common platforms. They
+  may require some additional stuff to be loaded before
+  courier-authlib can be installed. This is because courier-authlib
+  now uses <code>libtool</code>, which is a new requirement.
+  Courier-authlib now uses shared libraries in the place of
+  separate authdaemond binaries in the previous versions. Some
+  less-common platforms may require additional software to be
+  installed because of that, see INSTALL for more information.</p>
+
+  <h2>The pluses</h2>
+
+  <p>This new, self-sustaining Courier authentication library
+  offers the following benefits:</p>
+
+  <ul>
+    <li>Upgrading from Courier-IMAP or SqWebMail to the full
+    Courier package does not require authentication
+    re-configuration.</li>
+
+    <li>Consolidated documentation. Instructions for setting up
+    MySQL, PostgreSQL, and the rest, are currently duplicated
+    twice, making it a maintenance pain. Now, the documentation
+    will be in one place, and can be easily improved, and
+    overhauled. There will be an initial hump to ride over, to
+    reconcile the minor differences in the authentication
+    documentation in Courier, Courier-IMAP, and SqWebMail. Going
+    forward, though, everything will be in one place.</li>
+
+    <li>The authentication API appears to be fairly stable and
+    robust. It will not be necessary to update the courier-authlib
+    package with every upgrade. Updates to courier-authlib are
+    expected to be very infrequent.</li>
+
+    <li>There is a small minority of established systems that use
+    the standalone SqWebMail and Courier-IMAP packages. The
+    consolidated courier-authlib library will, as a bonus, provide
+    an official way to use only one set of config files, in this
+    configuration.</li>
+  </ul>
+
+  <h2>The minuses</h2>
+
+  <p>I can only see one possible drawback. Only the daemonized
+  configuration will now be possible. This new version of the
+  Courier authentication library is, for all intents and purposes,
+  the daemonized configuration of the previous authentication
+  library. The non-daemonized version of the authentication library
+  is no longer implemented. That code has been removed for the
+  simple reason that it can no longer be implemented, as a
+  standalone library. It's been clearly shown that the daemonized
+  configuration is the more flexible configuration, and is the only
+  way to go. The daemonized configuration was the default
+  configuration for several years.</p>
+
+  <p>I can only see the following minuses from losing the
+  non-daemonized configuration. I believe the minuses are greatly
+  outranked by the pluses.</p>
+
+  <ul>
+    <li>There are some third party configuration libraries that
+    only work in a non-daemonized configuration. I'm aware of one
+    such library, vmailmgr. Unless it's been updated to work in
+    daemonized mode, it will no longer work.</li>
+
+    <li>There are also some other third-party hacks that also only
+    work in a non-daemonized configuration. There's at least one
+    relay-after-imap or relay-after-pop hack for qmail, that only
+    works in a daemonized configuration. I believe that
+    relay-after-X hacks have been obsolete for several years now.
+    Every mail client worth mentioning these days implemented
+    authenticated SMTP, and the relay-after-X hacks need to
+    go.</li>
+  </ul>
+
+  <p>Currently, there are also some borderline configurations
+  possible in a non-daemonized configuration, such as using
+  different authentication modules completely for imap and pop3, or
+  different authentication modules for non-encrypted and encrypted
+  connections. This will no longer be possible, but I doubt that
+  there's any valid reason to use such an unusual setup.</p>
+
+  <h2>Testing</h2>
+
+  <p>The '<code>make install-migrate</code>' command tries to
+  import the authentication configuration from any existing
+  installed Courier package. The configuration files for
+  courier-authlib will end up in
+  <code>/usr/local/lib/courier-authlib/etc/authlib</code>. The
+  existing Courier packages don't really know how to use
+  courier-authlib just yet. This will be the next step.</p>
+
+  <p>However, after installing courier-authlib you should be able
+  to do some rudimentary testing by running '<code>authdaemond
+  start</code>' (where authdaemond is what's in the
+  <code>/usr/local/lib/courier-authlib/sbin</code> directory). The
+  following commands should now work (make sure the
+  <code>authdaemond</code> and <code>authtest</code> programs are
+  the ones from <code>/usr/local/lib/courier-authlib/sbin</code>
+  directory, and not any existing Courier directory):</p>
+  <pre>
+authtest userid
+authtest userid password
+authtest userid password newpassword
+authenumerate
+</pre>
+
+  <p>The first command displays the account's home directory,
+  userid, groupid, and other related data. The second command
+  verifies whether the password is valid, or not. The third command
+  changes the password on the account (be careful with that).</p>
+
+  <p>The goal is that everything should work automatically. In some
+  cases, it might be necessary to modify the new authdaemonrc
+  configuration file (unlike all othe configuration files, the
+  <code>install-migrate</code> script won't copy the existing
+  <code>authdaemonrc</code>, a new one will be installed). Manually
+  edit it, and remove all authentication modules that are not
+  needed, leaving only the actual ones that are used.</p>
+
+  <h2>Debugging</h2>
+
+  <p>To generate additional debugging messages, edit the
+  authdaemond startup script (installed in /usr/local/bin by
+  default), and add the following to the script:</p>
+  <pre>
+DEBUG_LOGIN=2
+export DEBUG_LOGIN
+</pre>
+
+  <p>Debugging messages from the authentication daemon processes
+  will be sent to the syslog facility, and recorded in whatever log
+  file syslog is configured to use (usually
+  <code>/var/log/messages</code> or
+  <code>/var/log/maillog</code>).</p>
+</body>
+</html>
