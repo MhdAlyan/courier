@@ -1,0 +1,53 @@
+#
+# Copyright 2004 Double Precision, Inc.  See COPYING for
+# distribution information.
+
+%define is_not_mandrake %(test ! -e /etc/mandrake-release && echo 1 || echo 0)
+
+%if %is_not_mandrake
+%define courier_release %(release="`rpm -q --queryformat='.%{VERSION}' redhat-release 2>/dev/null`" ; if test $? != 0 ; then release="`rpm -q --queryformat='.%{VERSION}' fedora-release 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; fi ; echo "$release")
+%else
+%define courier_release mdk
+%endif
+
+Summary: Courier log analyzer
+Name: courier-analog
+Version: @VERSION@
+Release: 1
+License: GPL
+Group: Applications/System
+URL: http://www.courier-mta.org
+Source0: %{name}-%{version}.tar.bz2
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildPreReq: perl
+BuildArch: noarch
+
+%description
+The courier-analog script generates log summaries for the Courier mail server.
+
+%prep
+%setup -q
+%configure
+
+%build
+%{__make}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%{_bindir}/*
+%{_mandir}/*/*
+
+%doc AUTHORS ChangeLog NEWS README COPYING courier-analog.html manpage.css
+
+%changelog
+* Sun Sep  5 2004 Mr. Sam <sam@email-scan.com> - analog-1
+- Initial build.
+
