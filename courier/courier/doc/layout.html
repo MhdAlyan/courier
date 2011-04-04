@@ -14,7 +14,7 @@
 
 <body>
   <h2>Directory Layout</h2>In the following documentation, the
-  variable ${COURIER_HOME}is set to <i>Courier</i>'s installation
+  variable ${COURIER_HOME}is set to <em>Courier</em>'s installation
   directory, and ${ARCH} is set to the target platform type, such
   as "i586-linux-gnu":
 
@@ -42,8 +42,8 @@
   the same filesystem.</p>
 
   <h3>Ownership and permissions.</h3>This documentation assumes
-  that <i>Courier</i> is installed as user 'mail', group 'mail'. Unless
-  otherwise specified below, everything is owned by <i>Courier</i>'s
+  that <em>Courier</em> is installed as user 'mail', group 'mail'. Unless
+  otherwise specified below, everything is owned by <em>Courier</em>'s
   user/group. Global read/execute permissions on everything. Write
   permissions to user and group.
 
@@ -73,7 +73,7 @@
     finish, then restart itself. This action is necessary after
     making certain configuration changes.</p>
   </blockquote><code>courierd</code> - the main scheduling daemon.
-  The heart of <i>Courier</i> is just a raw scheduler that figures out
+  The heart of <em>Courier</em> is just a raw scheduler that figures out
   when to attempt to deliver messages that are in the queue. There
   will actually be two <code>courierd</code> processes running, at
   the same time. <code>courierd</code> is started and stopped by
@@ -87,7 +87,7 @@
   refers to an external module that delivers messages. The term
   'transport module', or a plain 'module' refers to both an input
   module and an output module for the same platform, which usually
-  come together. For example, <i>Courier</i> typically receives and sends
+  come together. For example, <em>Courier</em> typically receives and sends
   mail via ESMTP, however, it is possible to adjust the default
   configuration so that ESMTP is only used to receive mail. For
   sending, mail gets delivered using some other protocol.
@@ -95,7 +95,7 @@
   <p>Output module are started by <code>courierd</code>, and
   communicate with <code>courierd</code> via pipes. Output module
   are notified which messages must be delivered, and to which
-  addresses. <i>Courier</i> may send multiple messages to the same output
+  addresses. <em>Courier</em> may send multiple messages to the same output
   module, without waiting for an acknowledgement that an attempted
   delivery for previous messages has been made.</p>
 
@@ -108,14 +108,14 @@
   to the canonical format.</p>
 
   <p>The canonical format is the format for E-mail addresses that
-  is used by <i>Courier</i>'s system. Therefore, messages that are
+  is used by <em>Courier</em>'s system. Therefore, messages that are
   delivered to local mailboxes do not undergo header or address
   rewriting.</p>
 
-  <p>Messages are submitted to the <i>Courier</i> server by running the
+  <p>Messages are submitted to the <em>Courier</em> server by running the
   ${COURIER_HOME}/bin/submit, which takes care of rewriting
   addresses from the transport format to canonical format. When an
-  output module receives a message to deliver from <i>Courier</i>'s queue,
+  output module receives a message to deliver from <em>Courier</em>'s queue,
   the E-mail addresses in the message will be in the canonical
   format, and the output module is responsible for rewriting
   addresses in the headers into the transport-specific format. The
@@ -128,19 +128,19 @@
   Also, the library provides a function that examines a canonical
   E-mail address and indicates if the address can be delivered to
   by the output module. When attempting to deliver a message,
-  <i>Courier</i> calls each transport module's delivery function, until it
+  <em>Courier</em> calls each transport module's delivery function, until it
   finds one that accepts this E-mail address for delivery. Then,
-  <i>Courier</i> notifies the output module to deliver the message to this
+  <em>Courier</em> notifies the output module to deliver the message to this
   address.
 
   <p>On platforms that support dynamically-opened shared libraries,
-  <i>Courier</i> can be compiled to use shared libraries. This allows
+  <em>Courier</em> can be compiled to use shared libraries. This allows
   rewriting functions to be modified, and have the changes take
-  effect without fully shutting down <i>Courier</i>. Otherwise, they can
+  effect without fully shutting down <em>Courier</em>. Otherwise, they can
   be compiled as regular, statically linked libraries.</p>
 
   <h3>The <code>submit</code> program</h3><code>submit</code> is
-  used to submit a message into <i>Courier</i>'s scheduling queue.
+  used to submit a message into <em>Courier</em>'s scheduling queue.
   <code>submit</code> is not invoked directly. <code>submit</code>
   does not have any global read or execute permissions, only user
   and group permissions, therefore it must be invoked by a process
@@ -197,7 +197,7 @@
 
   <p>That's it. Other program modules come as a part of plug-in
   transport module. For example, the SMTP transport doesn't have to
-  be installed, resulting in <i>Courier</i> being used to just deliver
+  be installed, resulting in <em>Courier</em> being used to just deliver
   mail on a single system. Or, only the SMTP output module can be
   installed, so that the machine will be able to send mail via
   SMTP, but not receive it. Or, only the SMTP input module can be
@@ -230,8 +230,8 @@
 
   <p><code>SIZELIMIT</code> - maximum size of a message in bytes.
   Larger messages are rejected. If this environment variable is not
-  set, <i>Courier</i> will read the <code>control/sizelimit</code> file.
-  If <code>control/sizelimit</code> does not exist, <i>Courier</i> will
+  set, <em>Courier</em> will read the <code>control/sizelimit</code> file.
+  If <code>control/sizelimit</code> does not exist, <em>Courier</em> will
   use "0". "0" is used to specify that there is no maximum message
   size limit.</p>
 

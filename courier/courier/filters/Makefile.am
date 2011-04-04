@@ -7,9 +7,6 @@ SUBDIRS=libfilter perlfilter
 CLEANFILES=$(htmldoc_DATA) $(man_MANS) filtersocketdir.h filteractivedir.h \
 	pidfile.h permissions.dat
 
-clean-local:
-	rm -rf testsuite.msg*
-
 piddir=@piddir@
 
 htmldocdir=@datadir@/htmldoc

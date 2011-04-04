@@ -18,7 +18,7 @@
   <h2>Transport Modules</h2>The directory
   <code>${COURIER_HOME}/lib/modules</code> contains shared
   libraries and programs which provide input and output modules to
-  <i>Courier</i>. The actual module itself can actually be installed and
+  <em>Courier</em>. The actual module itself can actually be installed and
   invoked anywhere else, the SMTP module, in fact, is installed in
   bin. The shared library in lib, however, may include functions
   which rewrite addresses for messages submitted from the input
@@ -27,17 +27,17 @@
 
   <h3>The <code>modules.ctl</code> file</h3>The file
   <code>${COURIER_HOME}/lib/modules/modules.ctl</code> contains a
-  list of all the modules that <i>Courier</i> loads.
-  <code>modules.ctl</code> is only used if <i>Courier</i> is compiled with
-  shared library support. If <i>Courier</i> is compiled with static
+  list of all the modules that <em>Courier</em> loads.
+  <code>modules.ctl</code> is only used if <em>Courier</em> is compiled with
+  shared library support. If <em>Courier</em> is compiled with static
   linkage only (by choice, or by necessity), all the module
-  libraries are statically linked into <i>Courier</i>, and
+  libraries are statically linked into <em>Courier</em>, and
   <code>modules.ctl</code> is not used. Each line in modules.ctl is
   in the following form:
-  <i>priority</i>&lt;SP&gt;<i>name</i>&lt;SP&gt;<i>filename</i>,
+  <em>priority</em>&lt;SP&gt;<i>name</i>&lt;SP&gt;<i>filename</i>,
   where <code>&lt;SP&gt;</code> designates the space character. The
   lines are sorted in increasing priority order! "priority" is
-  taken from the module's config file, and <i>filename</i> is the
+  taken from the module's config file, and <em>filename</em> is the
   filename of the shared library.
 
   <h3>Contents of <code>${COURIER_HOME}/lib/modules/name</code>
@@ -55,7 +55,7 @@
   <h4>librewrite</h4>This is the shared library that's loaded by
   <code>submit</code> and <code>courierd</code>. The shared library
   provides code to rewrite addresses to and from the canonical
-  format for messages to or from this module. If <i>Courier</i> is
+  format for messages to or from this module. If <em>Courier</em> is
   compiled with static linkage, this file does not exist - the
   library is statically linked.
 
@@ -77,16 +77,16 @@
   name.
 
   <p><code>LIBRARY=filename</code> - specifies the name of the
-  shared library to load. Not used if <i>Courier</i> was compiled with
+  shared library to load. Not used if <em>Courier</em> was compiled with
   static libraries.</p>
 
   <p><code>VERSION=version</code> - version of the module
   interface. Not the actual version of the module, but version of
-  the interface between the module, and <i>Courier</i>. The current
+  the interface between the module, and <em>Courier</em>. The current
   version is version 0.</p>
 
   <p><code>PRIORITY=n</code> - priority of the output module.
-  <i>Courier</i> calls all the modules' <code>rewritedel</code> functions
+  <em>Courier</em> calls all the modules' <code>rewritedel</code> functions
   in the increasing priority order until it finds one which accepts
   messages addressed to the recipient's address.</p>
 
@@ -94,7 +94,7 @@
   program. Must be a full path, unless the module itself is in the
   <code>lib/MODULE</code> directory.&nbsp; If the <code>PROG</code>
   parameter is missing, this module is an input only module. If the
-  attempt to execute <code>PROG</code> fails, <i>Courier</i> will attempt
+  attempt to execute <code>PROG</code> fails, <em>Courier</em> will attempt
   to execute <code>PROG-old</code>, which allows an updated output
   module to be inserted into a live system by renaming the current
   one <code>PROG-old</code>, then renaming the new output module as
@@ -137,11 +137,11 @@ struct rw_install_info {
         } ;
 </pre><code>rw_verlo/rw_verhi</code> - reserved for future
 expansion. Currently set to 0. <code>rw_install</code> function of
-modules compatible with this <i>Courier</i> interface must check that
+modules compatible with this <em>Courier</em> interface must check that
 <code>rw_verlo</code> is set to 0, and ignore
 <code>rw_verhi</code>.
 
-  <p><code>courier_home</code> - <i>Courier</i>'s home directory, the
+  <p><code>courier_home</code> - <em>Courier</em>'s home directory, the
   shared library can use this to find its files.</p>
 
   <h3>The <code>rw_search</code> function</h3>
@@ -161,12 +161,12 @@ library containing this function may not've been installed yet.
   <code>rw_init()</code> function is called, which can complete any
   additional setup. <code>rw_init</code> should return a null
   pointer. Otherwise, <code>rw_init</code> should return the error
-  message text. <i>Courier</i> will refuse to start if
+  message text. <em>Courier</em> will refuse to start if
   <code>rw_init</code> does not return a null pointer.</p>
 
   <p>The library's <code>rw_install</code> function must return a
   pointer to the following structure. If <code>rw_install</code>
-  returns a NULL pointer, <i>Courier</i> will refuse to start.</p>
+  returns a NULL pointer, <em>Courier</em> will refuse to start.</p>
   <pre>
 struct rw_list {
         int rw_version;
@@ -343,7 +343,7 @@ submitted for delivery (as opposed to address verification for
   messages to individual recipients once the contents of the
   message are received. If a message is addressed to multiple
   recipients, and at at least one recipient's filter rejects the
-  message, <i>Courier</i> replies with a rejection code, and the sending
+  message, <em>Courier</em> replies with a rejection code, and the sending
   mail server will assume that the message to all recipients has
   failed.
 
@@ -354,16 +354,16 @@ submitted for delivery (as opposed to address verification for
   &nbsp;</p>
 
   <h4>Running <code>PROG</code></h4><code>PROG</code> is the output
-  module that will be started by <i>Courier</i> when it comes up. PROG can
+  module that will be started by <em>Courier</em> when it comes up. PROG can
   be a shell command, it is executed via "<code>$SHELL -c</code>".
   It will be started under userid mail, group mail, in
-  <code>${COURIER_HOME}/lib/modules/NAME</code>. <i>Courier</i> will
+  <code>${COURIER_HOME}/lib/modules/NAME</code>. <em>Courier</em> will
   communicate with <code>PROG</code> on standard input and output.
 
   <p>If <code>PROG</code> succesfully initializes, it should fork,
-  and the parent should exit with status of 0. <i>Courier</i> waits until
+  and the parent should exit with status of 0. <em>Courier</em> waits until
   <code>PROG</code> exits. If it exits with a non-0 exit code,
-  <i>Courier</i> will fail starting up. The child process will then
+  <em>Courier</em> will fail starting up. The child process will then
   continue to read and write from standard output.</p>
 
   <p><code>COURIER_HOME</code>, <code>MAXDELS</code>,
@@ -374,11 +374,11 @@ submitted for delivery (as opposed to address verification for
   <code>PROG</code> can presume that it's being run in test mode,
   from the command line, and forego the fork.</p>
 
-  <p>If <code>PROG</code> terminates, <i>Courier</i> will consider it a
-  fatal error (<i>Courier</i> detects the input channel being closed).</p>
+  <p>If <code>PROG</code> terminates, <em>Courier</em> will consider it a
+  fatal error (<em>Courier</em> detects the input channel being closed).</p>
 
   <p>If <code>PROG</code> gets an end-of-file indication, it can
-  assume that <i>Courier</i> is being shut down, so it should promptly
+  assume that <em>Courier</em> is being shut down, so it should promptly
   cease all activities, without waiting for pending messages to be
   delivered.</p>
 

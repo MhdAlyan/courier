@@ -84,11 +84,10 @@ dist-hook:
 release: dist
 
 distrelease:
+	svn update
+	svn commit
 	umask 022; $(MAKE) distcheck
 	$(MAKE) rpm
-	socksify cvs commit
-	socksify cvs tag -d courier-latest
-	socksify cvs tag courier-latest
 	$(MAKE)
 	$(MAKE)
 	rm -f INSTALL courier.spec courier.lpspec
@@ -177,14 +176,13 @@ install-webadmin-password:
 upload-beta:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify ssh grace.speakeasy.net echo @PACKAGE@-@VERSION@.tar.bz2 `ls -l @PACKAGE@-@VERSION@.tar.bz2 | awk ' { print $$5 } '` \>courier-mta.org/@PACKAGE@.beta
 	../sftools/release.pl mrsam $(SFPASSWD) courier courier-devel `echo @VERSION@|sed 's/.*\(........\)/\1/'` @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
 
 
 upload-dist:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify cvs tag -F -r courier-latest \
-               `echo courier-@VERSION@ | tr '.' '-'`
+	r="`svn info . | sed -n '/Repository Root:/p' | cut -d: -f2-`"; \
+	  svn rm -m 'Remove previous tag' $$r/tags/@PACKAGE@/@VERSION@ 2>/dev/null; \
+	  svn cp -m 'Tag @PACKAGE@' $$r/trunk $$r/tags/@PACKAGE@/@VERSION@
 	socksify ../sftools/release.pl mrsam $(SFPASSWD) courier courier @VERSION@ @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
-	socksify ssh grace.speakeasy.net rm -f courier-mta.org/courier.beta

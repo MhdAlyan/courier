@@ -16,7 +16,7 @@
 <body>
   <h1>Alias support</h1>
 
-  <p>The <i>Courier</i> mail server's support for the address alias file
+  <p>The <em>Courier</em> mail server's support for the address alias file
   is similar to sendmail's, but with some notable
   differences.&nbsp; Aliasing addresses to programs is not allowed,
   the alias list is strictly a list of E-mail addresses. Mail
@@ -31,49 +31,49 @@
   forwarded to the alias members instead.</p>
 
   <p>The alias file is called <code>aliases.dat</code>. The
-  <i>Courier</i> mail server looks for <code>aliases.dat</code> first in
+  <em>Courier</em> mail server looks for <code>aliases.dat</code> first in
   the <code>${COURIER_HOME}/$ARCH/lib/modules/MODULE</code>
-  directory. If not found, the <i>Courier</i> mail server looks for
+  directory. If not found, the <em>Courier</em> mail server looks for
   <code>aliases.dat</code> in <code>${COURIER_HOME}/lib</code>.
   This lets you define aliases that can be mailed to only locally,
   or define system wide aliases.</p>
 
   <p>Please note that if
   <code>lib/modules/MODULE/aliases.dat</code> exists, and the
-  E-mail address is not found there, the <i>Courier</i> mail server wll
+  E-mail address is not found there, the <em>Courier</em> mail server wll
   try again using <code>lib/aliases.dat</code>.</p>
 
   <h2><code>makealiases</code></h2>The <code>aliases.dat</code>
   file is created using the <code>makealiases</code> program. The
   syntax <code>makealiases</code> is as follows:
   <pre>
-   makealiases -src=<i>srcfile</i> -tmp=<i>tmpfile</i> -auxtmp=<i>auxtmpfile</i> \
-      [ -alias=<i>aliasfile</i> ] [-dump] [<i>module</i>]
+   makealiases -src=<em>srcfile</em> -tmp=<i>tmpfile</i> -auxtmp=<i>auxtmpfile</i> \
+      [ -alias=<em>aliasfile</em> ] [-dump] [<i>module</i>]
 </pre>The <code>src</code>, <code>tmp</code>, and
 <code>auxtmp</code> parameters must be specified. Either the <code>
   alias</code> parameter or the <code>dump</code> flag must be
   specified.
 
-  <p><i>srcfile</i> is a text file with alias definitions.
+  <p><em>srcfile</em> is a text file with alias definitions.
   <code>makealiases</code> uses two temporary files to create the
   <code>aliases.dat</code> file. You must specify the names of
   those files using the <code>tmp</code> and <code>auxtmp</code>
   parameters. aliasfile is the complete pathname to the final
   <code>aliases.dat</code> file, which should be either in the
   <code>lib</code> directory, or in the <code>MODULE</code>
-  directory. <i>tmpfile</i> and <i>auxtmpfile</i> must be on the
-  same filesystem as <i>aliasfile</i>.</p>
+  directory. <em>tmpfile</em> and <i>auxtmpfile</i> must be on the
+  same filesystem as <em>aliasfile</em>.</p>
 
   <p>You may not have more than one instance of
   <code>makealiases</code> running at the same time, using the same
   temporary files. <code>makealiases</code> automatically removes
   the temporary files when done.</p>
 
-  <p>It is safe to run <code>makealiases</code> while the <i>Courier</i>
+  <p>It is safe to run <code>makealiases</code> while the <em>Courier</em>
   mail server is running. The new <code>aliases.dat</code> file
   takes effect immediately.</p>
 
-  <p>All E-mail addresses in <i>srcfile</i> are rewritten to the
+  <p>All E-mail addresses in <em>srcfile</em> are rewritten to the
   canonical format. The optional <code>module</code> parameter
   specifies the module whose rewriting functions are used. If not
   specified, it defaults to <code>local</code>, so that you can
@@ -84,7 +84,7 @@
   addresses, removes the duplicates, and displays the final alias
   list on standard output.</p>
 
-  <p><i>srcfile</i> can be set to "-". <code>makealiases</code>
+  <p><em>srcfile</em> can be set to "-". <code>makealiases</code>
   will read alias specifications from standard input.</p>
 
   <h2>The alias specifications file.</h2>Blank lines in the file
@@ -219,7 +219,7 @@ as a local account. Typically, you should define aliases for <code>
   <h2>Differences from sendmail's <code>/etc/aliases</code>
   file</h2>
 
-  <p>Although the <i>Courier</i> mail server's implementation of
+  <p>Although the <em>Courier</em> mail server's implementation of
   <code>aliases.dat</code> may seem very similar to sendmail's
   <code>/etc/aliases</code> file, there are some important
   differences:</p>

@@ -17,7 +17,7 @@
 <body>
   <h1>Mail Queue</h1>
 
-  <p><i>Courier</i>'s mail queue is a combination of certain filesystem
+  <p><em>Courier</em>'s mail queue is a combination of certain filesystem
   directory structures and an set of several code modules. Each
   code module performs a specific, narrowly-defined, task. Code
   modules use FIFOs and pipes to communicate with each other.</p>
@@ -112,8 +112,8 @@
   <p><code>submit</code> may create multiple control and data files
   if the message has a very large list of recipients, but usually
   there's just one. The control and data files are created in the
-  directory <code>$localstatedir/tmp/<i>iiiii</i></code>.
-  "$localstatedir" is a variable that is set by <i>Courier</i>'s
+  directory <code>$localstatedir/tmp/<em>iiiii</em></code>.
+  "$localstatedir" is a variable that is set by <em>Courier</em>'s
   configuration script, it defaults to
   <code>/usr/lib/courier/var</code>. "iiiii" represents the current
   system time, represented as seconds since the epoch, divided by
@@ -125,7 +125,7 @@
   After <code>submit</code> creates the control and the data file,
   it sends a signal through a FIFO to the courierd process. If
   courierd process is not running, <code>submit</code> ignores the
-  error. If <i>Courier</i>'s main server processes are not running,
+  error. If <em>Courier</em>'s main server processes are not running,
   incoming mail can continue to pile up in
   <code>$localstatedir/tmp</code>, and it will be processed when
   the server is started. There is a specific convention used for
@@ -167,13 +167,13 @@
   <code>$localstatedir/msgq</code> is renamed.</p>
 
   <p>This scheme comes into play when there is a large amount of
-  mail backed up. When reading the mail queue, <i>Courier</i> doesn't need
+  mail backed up. When reading the mail queue, <em>Courier</em> doesn't need
   to read the contents of any directory that represents a time
-  interval in the future. Also, <i>Courier</i> does not have to read the
+  interval in the future. Also, <em>Courier</em> does not have to read the
   contents of all subdirectories that represent the current and
   previous time intervals, when it's falling behind and can't keep
-  up with incoming mail. <i>Courier</i> does not cache the entire mail
-  queue in memory. <i>Courier</i> needs to only cache the contents of the
+  up with incoming mail. <em>Courier</em> does not cache the entire mail
+  queue in memory. <em>Courier</em> needs to only cache the contents of the
   oldest one or two subdirectories, in order to begin working on
   the oldest messages in the mail queue.</p>
 
@@ -188,10 +188,10 @@
   <code>courieresmtp</code> delivers mail to remote mail relays,
   via ESMTP. courieruucp forwards message to a UUCP gateway.
   <code>courierdsn</code> is a hack that generates delivery status
-  notifications (bounces). After a message is delivered, <i>Courier</i>
+  notifications (bounces). After a message is delivered, <em>Courier</em>
   checks if the message requested any delivery notifications
   (bounces or return receipts). If a delivery status notification
-  is necessary, <i>Courier</i> dispatches the message to the
+  is necessary, <em>Courier</em> dispatches the message to the
   <code>courierdsn</code> output module. <code>courierdsn</code>
   reads the control and the data file, and formats the delivery
   status notification message. The DSN is then injected into the
@@ -212,18 +212,18 @@
   <h3>The message queue cache</h3>
 
   <p>"The message queue" refers to the portion of the mail queue
-  that is cached in memory. <i>Courier</i> reads the mail queue, in
+  that is cached in memory. <em>Courier</em> reads the mail queue, in
   chunks, into memory, then works with the message queue cache to
   schedule messages for delivery attempts, without going back to
-  disk. The size of the message queue is computed when <i>Courier</i>
+  disk. The size of the message queue is computed when <em>Courier</em>
   initially starts. There is a separate "high watermark" and "low
   watermark" message queue size. The high watermark value is the
-  fixed maximum size of the message queue. <i>Courier</i> reads the mail
+  fixed maximum size of the message queue. <em>Courier</em> reads the mail
   queue until it's read all of it, or until the message queue
   reached its high watermark size. As message delivery attempts
   conclude, the corresponding entries in the message queue are
   deleted. When the size of the message queue falls below the low
-  watermark value, <i>Courier</i> goes back to the disks, and fills the
+  watermark value, <em>Courier</em> goes back to the disks, and fills the
   mail queue up to the high watermark again.</p>
 
   <p>Each output module has a corresponding configuration file:
@@ -231,7 +231,7 @@
   <code>$sysconfdir/module.uucp</code>,
   <code>$sysconfdir/module.local</code>, and
   <code>$sysconfdir/module.dsn</code>. <code>$sysconfdir</code> is
-  set by <i>Courier</i>'s configuration script, its default value is
+  set by <em>Courier</em>'s configuration script, its default value is
   <code>/usr/lib/courier/etc</code>. Each module configuration file
   contains several settings. The <code>MAXDELS</code> value sets
   the maximum number of simultaneous delivery attempts that this
@@ -250,18 +250,18 @@
   overrides the computed low watermark value. The configuration
   file <code>$sysconfdir/queuehi</code> overrides the computer high
   watermark value. These configuration files can be used to
-  manually tune <i>Courier</i>'s performance.</p>
+  manually tune <em>Courier</em>'s performance.</p>
 
-  <p><i>Courier</i> reads the mail queue when it starts, and whenever the
-  message queue falls below the low watermark value. <i>Courier</i> begins
+  <p><em>Courier</em> reads the mail queue when it starts, and whenever the
+  message queue falls below the low watermark value. <em>Courier</em> begins
   with the mail queue subdirectory for the oldest time interval.
-  <i>Courier</i> doesn't stop reading the subdirectory when the message
+  <em>Courier</em> doesn't stop reading the subdirectory when the message
   queue goes over the high watermark. That's because files can be
-  listed in a directory in any arbitrary order, therefore <i>Courier</i>
+  listed in a directory in any arbitrary order, therefore <em>Courier</em>
   continues to read the rest of the mail queue subdirectory, to
   pick up messages that have an earlier scheduled delivery time
   than (some of) the messages in the message queue. Each time
-  <i>Courier</i> finds a message with an earlier delivery time than the
+  <em>Courier</em> finds a message with an earlier delivery time than the
   message with the message queue with the most latest delivery
   time, the message with the most latest delivery time is evicted
   from the message queue, to make room for the new message. Note
@@ -325,7 +325,7 @@
   <p>The <code>PRIORITY</code> setting in a module's configuration
   file determines the order in which the rewrite functions are
   called. The actual <code>PRIORITY</code> value is set by
-  <i>Courier</i>'s configuration script, and appears in the module
+  <em>Courier</em>'s configuration script, and appears in the module
   configuration file for informative purposes only.</p>
 
   <p>courierd does not place any literal interpretation on the host
@@ -352,7 +352,7 @@
   the same driver and host. Some modules (such as
   <code>courieresmtpd</code>), allow <code>MAXRCPT</code> to be
   adjusted. Some modules do not. The <code>courierlocal</code> must
-  have <code>MAXRCPT</code> set to 1. <i>Courier</i> will fail to start if
+  have <code>MAXRCPT</code> set to 1. <em>Courier</em> will fail to start if
   <code>courierlocal</code>'s <code>MAXRCPT</code> is anything
   else.</p>
 
@@ -374,7 +374,7 @@
   limits of the operating system. After adjusting
   <code>MAXDELS</code>, <code>MAXHOST</code> (and
   <code>MAXRCPT</code>, if you know what you're doing), the command
-  <code>courier restart</code> must be executed for <i>Courier</i> to
+  <code>courier restart</code> must be executed for <em>Courier</em> to
   restart and reconfigure itself, appropriately.</p>
 
   <p>A delivery attempt is immediately sent to the output module
@@ -476,24 +476,24 @@
   the envelope recipients, which recipients have not been delivered
   to yet, and other information listed below.
 
-  <p><i>Courier</i> is transport neutral. All that the main scheduling and
+  <p><em>Courier</em> is transport neutral. All that the main scheduling and
   processing engine knows is that messages originate from one of
   several defined 'transports', such as SMTP, UUCP, or the local
   Unix shell command line, and that messages eventually should end
   up being delivered to another transport. Each defined transport
   mechanism has an 'input' module, which submits messages to
-  <i>Courier</i>, and an 'output' module, which delivers messages from
-  <i>Courier</i> (see the first half of this document for details).
-  <i>Courier</i> doesn't care much about the input module, all that the
-  input module needs to do is to run <i>Courier</i>'s submit program to
-  put a message into <i>Courier</i>'s scheduling queue. However, <i>Courier</i>
-  does care about the output module, which is started by <i>Courier</i>,
-  and communicates with <i>Courier</i> via pipes in a specific protocol.
-  <i>Courier</i> tells the output module which message to send, and to
+  <em>Courier</em>, and an 'output' module, which delivers messages from
+  <em>Courier</em> (see the first half of this document for details).
+  <em>Courier</em> doesn't care much about the input module, all that the
+  input module needs to do is to run <em>Courier</em>'s submit program to
+  put a message into <em>Courier</em>'s scheduling queue. However, <i>Courier</i>
+  does care about the output module, which is started by <em>Courier</em>,
+  and communicates with <em>Courier</em> via pipes in a specific protocol.
+  <em>Courier</em> tells the output module which message to send, and to
   which addresses. The output module is responsible for fetching
   the message from the message queue, and attempting to deliver it.
   When done, the output module is responsible for updating the
-  control file in the message queue, and informing <i>Courier</i> that the
+  control file in the message queue, and informing <em>Courier</em> that the
   delivery attempt has been complete.</p>
 
   <p>In the message file, all headers appear in the 'canonical'
@@ -503,7 +503,7 @@
   dispatched to a transport provider are rewritten according to the
   transport module's conventions. The 'canonical' format is the one
   that is used by E-mail messages that are to be delivered to local
-  mailboxes, so that when <i>Courier</i> delivers a local message, certain
+  mailboxes, so that when <em>Courier</em> delivers a local message, certain
   optimizations may be possible. The headers are rewritten from the
   'canonical' format when the message is sent to a non-canonical
   address.� This is the responsibility of the output module.</p>
@@ -643,21 +643,21 @@
 
   <p>All delivery attempts for this message have been completed at
   the indicated time. Counting the number of C records tells you
-  how many times <i>Courier</i> tried to deliver the message, and is used
+  how many times <em>Courier</em> tried to deliver the message, and is used
   to calculate the exponential retry backoff interval.</p>
 
   <p>V</p>
 
   <p>Presence of this record indicates that the envelope sender
-  address should be VERPed. <i>Courier</i> will always send a single copy
+  address should be VERPed. <em>Courier</em> will always send a single copy
   of the message to each recipient, even if all the recipients go
   to the same module and host. For each recipient, a different
   sender will be used. If the message envelope sender is user@host,
   then if the recipient's address is foo@bar, the envelope sender
   will be set to user-foo=bar@host, on the message to the user.
   Please note that the VERP feature must be implemented by each
-  individual output module. When one <i>Courier</i> server sends mail via
-  ESMTP to another <i>Courier</i> server, only one copy of VERPed messages
+  individual output module. When one <em>Courier</em> server sends mail via
+  ESMTP to another <em>Courier</em> server, only one copy of VERPed messages
   are sent.</p>
 
   <h3>Queue directories</h3><code>$localstatedir/msgs</code>
@@ -682,7 +682,7 @@
   is tttttt without the last FOUR digits. What this does is put the
   control files to all messages scheduled to be delivered in the
   same 10000 second interval (slightly less than three hours), into
-  the same directory. So when <i>Courier</i> needs to figure out which
+  the same directory. So when <em>Courier</em> needs to figure out which
   messages should be delivered next, it will not have to scan the
   entire message queue, just this directory. This should result in
   much better performance on very busy mailing list servers.</p>

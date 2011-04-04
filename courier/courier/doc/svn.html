@@ -4,26 +4,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content=
-  "text/html; charset=utf-8" />
+  "text/html; charset=us-ascii" />
   <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-  <meta name="author" content="Sam Varshavchik"/>
+  <meta name="author" content="Sam Varshavchik" />
 
-  <title>The Courier mail server - CVS</title>
+  <title>The Courier mail server - Subversion repository</title>
   <link rel="icon" href="icon.gif" type="image/gif" />
 </head>
 
 <body>
-  <!-- Copyright 2000-2009 Double Precision, Inc.  See COPYING for -->
+  <!-- Copyright 2000-2011 Double Precision, Inc.  See COPYING for -->
   <!-- distribution information. -->
 
-  <h1>CVS</h1>
+  <h1>Subversion repository</h1>
 
-  <p>The following applies for the entire the <i>Courier</i> mail server
-  source code distribution, and sub-modules (the <i>Courier</i> IMAP
-  server, sqwebmail, maildrop).</p>
+  <p>The following applies for the entire the <em>Courier</em> mail
+  server source code distribution, and sub-modules (the
+  <em>Courier</em> IMAP server, sqwebmail, maildrop).</p>
 
-  <p>In order to build from the CVS repository, you must the
-  following additional software installed:</p>
+  <p>In order to build from the Subversion repository, you must
+  have the following additional software installed:</p>
 
   <ol>
     <li><a target="_blank" href=
@@ -44,8 +44,9 @@
 
     <li><a target="_top" href=
     "http://www.courier-mta.org/sysconftool/">sysconftool</a> -
-    this is an extra autoconf macro used by the <i>Courier</i> mail
-    server's <code>configure.in</code></li>
+    this is an extra autoconf macro used by the <em>Courier</em>
+    mail server's <code>configure.in</code> script (not needed, of
+    course, to build <code>sysconftool</code> itself).</li>
 
     <li>The following tools that convert Docbook XML to HTML and
     man page documentation: various Docbook DTDS, the
@@ -69,42 +70,65 @@
   </ol>
 
   <p>These additional dependencies are only required if building
-  from CVS, and not the packaged tarballs.</p>
+  from Subversion, and not the packaged tarballs.</p>
 
-  <p>The source code can be checked out with the following
-  commands:</p>
-  <pre>
-    CVSROOT=:pserver:anonymous@courier.cvs.sourceforge.net:/cvsroot/courier
-    export CVSROOT
-    cvs login
-</pre>
+  <p>Subversion trunks:</p>
 
-  <p>Press ENTER when asked for a password (blank password).</p>
+  <ul>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/courier/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/courier/</code></a>
+      - Entire Courier server</p>
+    </li>
 
-  <blockquote>
-    <p><code>cvs -z3
-    checkout&nbsp;-r&nbsp;courier-latest&nbsp;courier</code> - get
-    the entire the <i>Courier</i> mail server mail server source code,
-    or:</p>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/courier-imap/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/imap/</code></a>
+      - The Courier-IMAP server</p>
+    </li>
 
-    <p>
-    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;courier-imap-latest&nbsp;courier-imap</code>
-    - get just the standalone IMAP server source code, or:</p>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/sqwebmail/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/sqwebmail/</code></a>
+      - The SqWebMail mail server</p>
+    </li>
 
-    <p>
-    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;sqwebmail-latest&nbsp;sqwebmail</code>
-    - get just the standalone webmail server source code, or:</p>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/maildrop/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/maildrop/</code></a>
+      - maildrop</p>
+    </li>
 
-    <p>
-    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;maildrop-latest&nbsp;maildrop</code>
-    - get just the standalone version of the <i>Courier</i> mail server's
-    mail filter's source code.</p>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/sox/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/sox/</code></a>
+      - The Socks 5 proxy server</p>
+    </li>
 
-    <p>
-    <code>cvs&nbsp;-z3&nbsp;checkout&nbsp;-r&nbsp;courier-authlib-latest&nbsp;courier-authlib</code>
-    - get the the <i>Courier</i> mail server authentication library
-    module.</p>
-  </blockquote>
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/sysconftool/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/sysconftool/</code></a>
+      - Sysconftool</p>
+    </li>
+
+    <li>
+      <p><a href=
+      "https://courier.svn.sourceforge.net/svnroot/courier/trunk/cone/">
+      <code>https://courier.svn.sourceforge.net/svnroot/courier/trunk/cone/</code></a>
+      - Cone mail client</p>
+    </li>
+  </ul>
+
+  <p>Run "<code>svn co</code> <em>URL</em>" to check out each
+  package. Subversion 1.6 is required, the repository uses relative
+  externals link in order to load modules that are shared between
+  the different packages.</p>
 
   <p>NOTE: Automatically-generated <code>configure</code> and
   <code>Makefile</code>, <code>libtool</code>, and
@@ -125,14 +149,7 @@
   other modules extract selected portions, with a different
   top-level makefile that builds a standalone package. You only
   need to obtain the <code>courier</code> module, to get the source
-  code for the <i>Courier</i> mail server. See <a href=
+  code for the <em>Courier</em> mail server. See <a href=
   "intro.html">Introduction</a> for more information.</p>
-
-  <p>NOTE: the <code>HEAD</code>s of each module contain the latest
-  development versions, which may not be very stable. Use the tags
-  specified above to obtain the latest "semi" stable release.
-  Usually the "latest" tags will match the source code in the most
-  recent tarball, but they may include some additional patches for
-  the next release.</p>
 </body>
 </html>

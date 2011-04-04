@@ -27,10 +27,10 @@
     <p><b>NOTE:</b></p>
 
     <p>This documentation describes manual installation of the
-    <i>Courier</i> mail server. This is a somewhat involved process
-    that may overwhelm people that do not have prior experience
-    with installing large software packages. Many Linux-based
-    distributions and BSD-family systems have
+    <em>Courier</em> mail server. This is a somewhat involved
+    process that may overwhelm people that do not have prior
+    experience with installing large software packages. Many
+    Linux-based distributions and BSD-family systems have
     separately-maintained, preconfigured, ready-to-install packages
     that can be loaded with much less investment of time.
     Installing a pre-built package would probably be the best
@@ -51,19 +51,20 @@
   </blockquote>
 
   <p>Read this document in its entirety before entering a single
-  command. Installing the <i>Courier</i> mail server for the first
-  time will take a while. If possible, consider looking around for
-  anyone who has already packaged the <i>Courier</i> mail server
-  for your operating system, and save yourself the hassle.</p>
+  command. Installing the <em>Courier</em> mail server for the
+  first time will take a while. If possible, consider looking
+  around for anyone who has already packaged the <em>Courier</em>
+  mail server for your operating system, and save yourself the
+  hassle.</p>
 
   <p>Fortunately, it gets easier with each subsequent installation.
-  The <i>Courier</i> mail server is a complicated piece of
+  The <em>Courier</em> mail server is a complicated piece of
   software. Most problems people will have are likely to be with
   the configuring and installing it correctly. Designing complex
   software that compiles and installs on a wide variety of POSIX
   systems is not a trivial task.</p>
 
-  <p>The <i>Courier</i> mail server's configuration and
+  <p>The <em>Courier</em> mail server's configuration and
   installation scripts are very flexible in setting up installation
   directories for each logical set of files - configuration files,
   binaries, scripts, the mail queue, and more. If you begin by
@@ -82,7 +83,7 @@
   <p>This cannot be emphasized enough: the configuration defaults
   are very generic; the goal is to have the default configuration
   settings work for almost everyone. In every case using at least a
-  couple of non-default parameters will make the <i>Courier</i>
+  couple of non-default parameters will make the <em>Courier</em>
   mail server work better on your system. You should anticipate
   going through several trial-and-error installs, tweaking the
   options to see what works better for you. Even my own
@@ -153,10 +154,10 @@
     <li><a href="#accept">Create a list of domains to accept mail
     for</a></li>
 
-    <li><a href="#start">Starting and stopping the <i>Courier</i>
+    <li><a href="#start">Starting and stopping the <em>Courier</em>
     mail server</a></li>
 
-    <li><a href="#parallel">Run the <i>Courier</i> mail server in
+    <li><a href="#parallel">Run the <em>Courier</em> mail server in
     parallel to your mail server</a></li>
 
     <li><a href="#esmtpauth">OPTIONAL: Configure ESMTP
@@ -228,8 +229,8 @@
     <li><a href="#recvfax">OPTIONAL: Configure inbound
     faxing</a></li>
 
-    <li><a href="#analog">OPTIONAL: Install the <i>Courier</i> mail
-    server log analyzer</a></li>
+    <li><a href="#analog">OPTIONAL: Install the <em>Courier</em>
+    mail server log analyzer</a></li>
 
     <li><a href="#decommission">Decommission your existing mail
     server</a></li>
@@ -240,11 +241,11 @@
   <h2><a name="upgrade" id="upgrade">Upgrading an existing
   installation</a></h2>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.63.0, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.63.0, or
   earlier</h3>
 
-  <p>There's a new setting, <tt>SYSLOCALE</tt>, in the
-  <tt>courierd</tt> configuration file, which initializes the
+  <p>There's a new setting, <code>SYSLOCALE</code>, in the
+  <code>courierd</code> configuration file, which initializes the
   environment from the default system locale. The configuration
   script heuristically searches for a list of known locale
   initialization scripts on various platforms, if found.</p>
@@ -253,77 +254,77 @@
   known to the configuration script, manually specify your default
   system locale in this configuration setting.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.55.1, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.55.1, or
   earlier</h3>
 
-  <p>The <tt>webmlmd</tt> tool has been significantly enhanced,
+  <p>The <code>webmlmd</code> tool has been significantly enhanced,
   with a new administration screen that consists of three new
-  template files: <tt>style.css.tmpl</tt>,
-  <tt>webmlmlistadmin.tmpl.html</tt>, and
-  <tt>webmlmlistadminpw.html.html</tt>. These three template files
-  must be installed in each mailing list directory. You may copy
-  them manually, or use the <tt>couriermlm update</tt> command.
-  <tt>couriermlm update</tt> overwrites all your list-specific
-  customizations, so make backups first!</p>
+  template files: <code>style.css.tmpl</code>,
+  <code>webmlmlistadmin.tmpl.html</code>, and
+  <code>webmlmlistadminpw.html.html</code>. These three template
+  files must be installed in each mailing list directory. You may
+  copy them manually, or use the <code>couriermlm update</code>
+  command. <code>couriermlm update</code> overwrites all your
+  list-specific customizations, so make backups first!</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.54.2, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.54.2, or
   earlier</h3>
 
   <p>The logic for outbound authenticated SMTP has changed. This is
-  when the <i>Courier</i> mail server sends outbound mail through a
-  smarthost that requires authentication.</p>
+  when the <em>Courier</em> mail server sends outbound mail through
+  a smarthost that requires authentication.</p>
 
   <p>The specified smarthost's name is still looked up in DNS, as
   before. When smtp.example.com is specified as the smarthost's
-  name, The <i>Courier</i> mail server looks up any MX or A records
-  for smtp.example.com. A connection gets established to a server
-  whose name may be different than the original DNS hostname, if it
-  gets redirected via an <tt>MX</tt> or a <tt>CNAME</tt>
-  record.</p>
+  name, The <em>Courier</em> mail server looks up any MX or A
+  records for smtp.example.com. A connection gets established to a
+  server whose name may be different than the original DNS
+  hostname, if it gets redirected via an <code>MX</code> or a
+  <code>CNAME</code> record.</p>
 
-  <p>In earlier versions of the <i>Courier</i> mail server, the
+  <p>In earlier versions of the <em>Courier</em> mail server, the
   smarthost's userid and password must be listed using the
   resulting server's physical, resolved name. Starting with version
   0.55, the smarthost's original DNS name must be listed instead.
   In all cases now, the name of the server listed in
-  <tt>esmtpauthclient</tt> will now match the name specified in
-  <tt>esmtproutes</tt>.</p>
+  <code>esmtpauthclient</code> will now match the name specified in
+  <code>esmtproutes</code>.</p>
 
   <p>After updating to 0.55, the contents of the
-  <tt>esmtpauthclient</tt> configuration file may need
+  <code>esmtpauthclient</code> configuration file may need
   updating.</p>
 
   <p><em>IMPORTANT:</em> After updating to 0.55, all existing
-  <tt>couriermlm</tt> mailing list directories must be updated with
-  new configuration files. See the "update" command in the "MANUAL
-  COMMANDS" section of the <a href=
-  "couriermlm.html"><tt>couriermlm</tt>(1)</a> manual page. If you
-  run many mailing lists, you are <em>strongly</em> advised to
-  install the new version of the <i>Courier</i> mail server on
+  <code>couriermlm</code> mailing list directories must be updated
+  with new configuration files. See the "update" command in the
+  "MANUAL COMMANDS" section of the <a href=
+  "couriermlm.html"><code>couriermlm</code>(1)</a> manual page. If
+  you run many mailing lists, you are <em>strongly</em> advised to
+  install the new version of the <em>Courier</em> mail server on
   another machine and become re-acquainted with
-  <tt>couriermlm</tt>'s configuration. In an emergency, make a
-  backup copy of the <tt>couriermlm</tt> command from your existing
-  version of the <i>Courier</i> mail server, before installing this
-  update.</p>
+  <code>couriermlm</code>'s configuration. In an emergency, make a
+  backup copy of the <code>couriermlm</code> command from your
+  existing version of the <em>Courier</em> mail server, before
+  installing this update.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.51, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.51, or
   earlier</h3>
 
-  <p>Version 2.0 of maildrop, in the <i>Courier</i> mail server
+  <p>Version 2.0 of maildrop, in the <em>Courier</em> mail server
   0.52, introduces a new pattern matching engine that uses the
-  <tt>PCRE</tt> library, that uses a completely different syntax.
-  However, very few changes should be required to upgrade existing
-  maildrop recipes to the new syntax.</p>
+  <code>PCRE</code> library, that uses a completely different
+  syntax. However, very few changes should be required to upgrade
+  existing maildrop recipes to the new syntax.</p>
 
-  <p>After upgrading from the <i>Courier</i> mail server 0.51, or
-  earlier, review the <tt>maildropfilter</tt> manual page which has
-  been revised to document the new pattern matching syntax. The
+  <p>After upgrading from the <em>Courier</em> mail server 0.51, or
+  earlier, review the <code>maildropfilter</code> manual page which
+  has been revised to document the new pattern matching syntax. The
   legacy pattern matching engine is still available by setting
-  <tt>MAILDROP_OLD_REGEXP</tt> to <tt>1</tt>. See also the
+  <code>MAILDROP_OLD_REGEXP</code> to <code>1</code>. See also the
   "Conversion of maildrop 1.x pattern to 2.0" section in the manual
   page, for more information.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.49.0, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.49.0, or
   earlier</h3>
 
   <p><code>couriermlm</code>'s default configuration now treats
@@ -336,62 +337,62 @@
   <code>couriermlm</code> command, otherwise those subscribers will
   have problems unsubscribing or posting messages to the list.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.48.2, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.48.2, or
   earlier</h3>
 
-  <p>The <i>Courier</i> mail server's default configuration now
+  <p>The <em>Courier</em> mail server's default configuration now
   includes backscatter suppression. Review <a href=
   "#backscatter">Backscatter suppression</a>, below, for any needed
   configuration changes.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.47, or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.47, or
   earlier</h3>
 
   <p>Beginning with 0.48, the authentication library that used to
-  be a part of the <i>Courier</i> mail server's source has been
+  be a part of the <em>Courier</em> mail server's source has been
   spun off into a standalone authentication library.</p>
 
-  <p>You must download and install the <i>Courier</i> mail server
+  <p>You must download and install the <em>Courier</em> mail server
   authentication library from <a href=
   "http://www.courier-mta.org/authlib/">http://www.courier-mta.org/authlib/</a>
   before upgrading. Review the documentation in the
   <code>courier-authlib</code> package for more information.</p>
 
   <p>As part of installing <code>courier-authlib</code>, the
-  configuration files in the <i>Courier</i> mail server's
+  configuration files in the <em>Courier</em> mail server's
   configuration directory that relate to authentication will be
   copied to <code>courier-authlib</code>'s configuration directory.
   The files are: <code>authdaemonrc</code>,
   <code>authmysqlrc</code>, <code>authpgsqlrc</code>,
   <code>authldaprc</code>, and <code>userdb</code> (together with
   the <code>.dist</code> versions). This works only as long as the
-  <i>Courier</i> mail server was installed in one of the known
+  <em>Courier</em> mail server was installed in one of the known
   default installation directories. The documentation in
   <code>courier-authlib</code> explains what to do if the existing
-  version of the <i>Courier</i> mail server is installed in a
+  version of the <em>Courier</em> mail server is installed in a
   non-default location.</p>
 
   <p>In any case, after upgrading to 0.48 these configuration files
-  in the <i>Courier</i> mail server's configuration directory will
-  no longer be used. To avoid future confusion the old copies of
-  these configuration files (including the <code>.dist</code>
-  files), should be removed from the <i>Courier</i> mail server's
-  configuration directory. They now live in the <i>Courier</i> mail
-  server-authlib's configuration directory
+  in the <em>Courier</em> mail server's configuration directory
+  will no longer be used. To avoid future confusion the old copies
+  of these configuration files (including the <code>.dist</code>
+  files), should be removed from the <em>Courier</em> mail server's
+  configuration directory. They now live in the <em>Courier</em>
+  mail server-authlib's configuration directory
   (<code>/usr/local/etc/authlib</code>, or whatever was specified
-  to the <i>Courier</i> mail server-authlib's
+  to the <em>Courier</em> mail server-authlib's
   <code>configure</code> script).</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.45.4 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.45.4 or
   earlier</h3>
 
   <p>The command to start the webmail server daemon has changed.
   The system startup script must be modified to run the new
-  command: "<tt>/usr/lib/courier/sbin/webmaild start</tt>".
+  command: "<code>/usr/lib/courier/sbin/webmaild start</code>".
   Additionally, this scripts also starts pcpd, if required. It is
   no longer necessary to start pcpd by hand.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.44.0 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.44.0 or
   earlier</h3>
 
   <p>Version 0.44.1 introduced an updated webmail implementation.
@@ -401,14 +402,14 @@
   <code>/usr/lib/courier/libexec/courier/sqwebmaild start</code>.
   See below for more information.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.42.2 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.42.2 or
   earlier</h3>
 
-  <p>After upgrading from the <i>Courier</i> mail server 0.42.2, or
-  earlier, any existing mail in POP3 mailboxes may show up as new
-  mail, by some mail clients. This is a one-time event.</p>
+  <p>After upgrading from the <em>Courier</em> mail server 0.42.2,
+  or earlier, any existing mail in POP3 mailboxes may show up as
+  new mail, by some mail clients. This is a one-time event.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.42.0 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.42.0 or
   earlier</h3>
 
   <p>Version 0.43 introduced some functional changes to the LDAP,
@@ -428,7 +429,7 @@
   instructions. Sites that previously used MAILDIR may now need to
   copy its setting to DEFAULTDELIVERY.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.34.1 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.34.1 or
   earlier</h3>
 
   <p>Version 0.35 introduced the ability to update system passwords
@@ -457,7 +458,7 @@
   Previously, <code>authdaemond</code> was built by default only if
   LDAP or MySQL support was necessary.</p>
 
-  <h3>Upgrading from the <i>Courier</i> mail server 0.29.1 or
+  <h3>Upgrading from the <em>Courier</em> mail server 0.29.1 or
   earlier</h3>
 
   <p>Version 0.30 changed the format of most configuration files.
@@ -469,25 +470,25 @@
   existing configuration files.</p>
 
   <p>All configuration files are installed in the same directory,
-  "<i>sysconfdir</i>". <i>sysconfdir</i> is a configurable
+  "<em>sysconfdir</em>". <em>sysconfdir</em> is a configurable
   parameter, it's usually <code>/usr/lib/courier/etc</code>.
-  <i>sysconfdir</i> is <code>/etc/courier</code> in the RPM version
-  of the <i>Courier</i> mail server.</p>
+  <em>sysconfdir</em> is <code>/etc/courier</code> in the RPM
+  version of the <em>Courier</em> mail server.</p>
 
-  <h4>Back up your existing <i>sysconfdir</i></h4>
+  <h4>Back up your existing <em>sysconfdir</em></h4>
 
-  <p>Make a backup copy of your current <i>sysconfdir</i>, then
-  delete the old version of the <i>Courier</i> mail server.
+  <p>Make a backup copy of your current <em>sysconfdir</em>, then
+  delete the old version of the <em>Courier</em> mail server.
   "<code>rm -rf /usr/lib/courier</code>" will do nicely. All the
-  possible configurable settings are in <i>sysconfdir</i>,
+  possible configurable settings are in <em>sysconfdir</em>,
   everything else can simply go.</p>
 
-  <h4>Back up your existing <i>sysconfdir</i></h4>
+  <h4>Back up your existing <em>sysconfdir</em></h4>
 
-  <p>Make a backup copy of your current <i>sysconfdir</i>. The
+  <p>Make a backup copy of your current <em>sysconfdir</em>. The
   upgrade process reinstalls several default configuration files;
-  specifically <i>sysconfdir</i>/aliases/system and
-  <i>sysconfdir</i>/smtpaccess/default. Any additions to these
+  specifically <em>sysconfdir</em>/aliases/system and
+  <em>sysconfdir</em>/smtpaccess/default. Any additions to these
   files will normally be lost in the upgrade, and can be restored
   from the backup afterwards. Don't forget to rerun
   <code>makealiases</code> and <code>makesmtpaccess</code>.</p>
@@ -516,7 +517,7 @@
 
   <p>NOTE: depending upon your configuration, you may not actually
   have every one of these files installed, so just disregard the
-  ones that are not present. Manually edit <i>filename</i>, and
+  ones that are not present. Manually edit <em>filename</em>, and
   retype any custom modifications from the backup copy of the
   configuration file. This is a hassle, but it only needs to be
   done once. Future upgrades will be 99% automatic.</p>
@@ -533,15 +534,15 @@
   <h2><a name="overview" id="overview">Overview</a></h2>
 
   <p>You will need the following software in order to compile and
-  install the <i>Courier</i> mail server:</p>
+  install the <em>Courier</em> mail server:</p>
 
   <ol>
     <li>
-      <strong>The <i>Courier</i> mail server Authentication
+      <strong>The <em>Courier</em> mail server Authentication
       Library</strong>
 
       <p>The <code>courier-authlib</code> package must be installed
-      and configured prior to installing the <i>Courier</i> mail
+      and configured prior to installing the <em>Courier</em> mail
       server. Download the <code>courier-authlib</code> package
       from <a target="_blank" href=
       "http://www.courier-mta.org/authlib/"><code>http://www.courier-mta.org/authlib/</code></a>.</p>
@@ -550,14 +551,14 @@
     <li>
       <strong>A C++ compiler</strong>
 
-      <p>The <i>Courier</i> mail server is primarily developed and
-      built with gcc. Other C++ compiler may or may not work.
+      <p>The <em>Courier</em> mail server is primarily developed
+      and built with gcc. Other C++ compiler may or may not work.
       Solaris's C++ compiler is reported to work without any
       problems. There are some issues with AIX's xlC compiler,
       which mostly has to do with the C++ libraries and header
       files. IBM has released a GNU/Linux development toolkit for
-      AIX, which may help in getting the <i>Courier</i> mail server
-      to compile.</p>
+      AIX, which may help in getting the <em>Courier</em> mail
+      server to compile.</p>
     </li>
 
     <li>
@@ -604,7 +605,7 @@
       <strong><a href="http://www.gnome.org/~veillard/gamin/"
       target="_blank">Gamin</a></strong></strong>
 
-      <p>FAM (<tt>http://oss.sgi.com/projects/fam/</tt>) or
+      <p>FAM (<code>http://oss.sgi.com/projects/fam/</code>) or
       <a href="http://www.gnome.org/~veillard/gamin/" target=
       "_blank">Gamin</a> is optional. If FAM or Gamin is installed,
       it is used for an enhanced IMAP <code>IDLE</code>
@@ -630,7 +631,7 @@
       which come with their own development toolkits, which use a
       different API than OpenLDAP. Even if a commercial LDAP server
       is used to provide LDAP services, OpenLDAP is still required
-      to enable LDAP services in the <i>Courier</i> mail server.
+      to enable LDAP services in the <em>Courier</em> mail server.
       Also, note that you need OpenLDAP <em>development</em>
       libraries and files. On most systems, the development files
       are packaged separately, in addition to the runtime OpenLDAP
@@ -639,11 +640,11 @@
       as well.</p>
 
       <p>Most of the LDAP support code is already provided by the
-      <i>Courier</i> mail server authentication library. Some LDAP
-      features, such as LDAP-based mail aliases, are implemented in
-      the <i>Courier</i> mail server directly. OpenLDAP client
-      libraries must be installed. If OpenLDAP is not installed,
-      LDAP directory features are disabled.</p>
+      <em>Courier</em> mail server authentication library. Some
+      LDAP features, such as LDAP-based mail aliases, are
+      implemented in the <em>Courier</em> mail server directly.
+      OpenLDAP client libraries must be installed. If OpenLDAP is
+      not installed, LDAP directory features are disabled.</p>
     </li>
 
     <li>
@@ -651,13 +652,13 @@
       ghostscript, and NetPBM</strong>
 
       <p>This optional software is required to send E-mail messages
-      via fax. The <i>Courier</i> mail server will compile and
+      via fax. The <em>Courier</em> mail server will compile and
       install without this software, but you will not be able to
       send faxes. All packages must be installed prior to
-      installing the <i>Courier</i> mail server, and binaries from
-      all packages must be installed in the default <tt>PATH</tt>
-      before running the <i>Courier</i> mail server's
-      <tt>configure</tt> script.</p>
+      installing the <em>Courier</em> mail server, and binaries
+      from all packages must be installed in the default
+      <code>PATH</code> before running the <em>Courier</em> mail
+      server's <code>configure</code> script.</p>
 
       <p><a target="_blank" href=
       "http://alpha.greenie.net/mgetty/">mgetty+sendfax</a>,
@@ -674,9 +675,9 @@
     </li>
   </ol>
 
-  <p>The typical sequence of commands to install the <i>Courier</i>
-  mail server is as follows. Read the following section before
-  running these commands:</p>
+  <p>The typical sequence of commands to install the
+  <em>Courier</em> mail server is as follows. Read the following
+  section before running these commands:</p>
   <pre>
    ./configure [options]
    make
@@ -692,8 +693,8 @@
   <blockquote>
     <p>If you're using <code>gmake</code> (the <code>make</code> on
     GNU/Linux, and <code>gmake</code> everywhere else), and you are
-    compiling the <i>Courier</i> mail server on a workstation with
-    multiple CPUs and plenty of memory, set the following
+    compiling the <em>Courier</em> mail server on a workstation
+    with multiple CPUs and plenty of memory, set the following
     environment variable:</p>
     <pre>
    MAKEFLAGS="-j 4"; export MAKEFLAGS         # Bourne or Korn shell
@@ -708,15 +709,15 @@
   <hr />
 
   <blockquote>
-    <p>The <i>Courier</i> mail server will not work on a Linux
+    <p>The <em>Courier</em> mail server will not work on a Linux
     kernel that's been patched with the Openwall security patch in
     its default configuration. The current version of the Openwall
     patch has a non-default option that turns off the portion of
-    the Openwall patch which prevents the <i>Courier</i> mail
+    the Openwall patch which prevents the <em>Courier</em> mail
     server from running.</p>
 
     <p>NOTE: Linux-Mandrake includes the Openwall patch in the
-    alternative "secure" kernel package. The <i>Courier</i> mail
+    alternative "secure" kernel package. The <em>Courier</em> mail
     server will not run on Linux-Mandrake under the alternative
     "secure" kernel. This package must be removed and the standard
     kernel package must be installed.</p>
@@ -734,14 +735,14 @@
     <li>Maildirs or mailbox files</li>
   </ul>
 
-  <p>The <i>Courier</i> mail server can be used as a simple mail
+  <p>The <em>Courier</em> mail server can be used as a simple mail
   relay -- which does not store any mail locally but is merely a
   gateway between internal and external mail systems. The
-  <i>Courier</i> mail server can also be used as a traditional mail
-  server, accepting and storing messages in individual mailboxes
-  that are accessible via POP3, IMAP, or webmail.</p>
+  <em>Courier</em> mail server can also be used as a traditional
+  mail server, accepting and storing messages in individual
+  mailboxes that are accessible via POP3, IMAP, or webmail.</p>
 
-  <p>The <i>Courier</i> mail server defaults to storing mail in
+  <p>The <em>Courier</em> mail server defaults to storing mail in
   maildirs, not traditional flat file mailbox files. Maildirs
   require less I/O and CPU resources; they do not use locking; and
   multiple clients can read and write from maildirs simultaneously.
@@ -750,7 +751,7 @@
   "_blank" href=
   "http://www.courier-mta.org/mbox-vs-maildir/">http://www.courier-mta.org/mbox-vs-maildir/</a>.</p>
 
-  <p>Additionally, The <i>Courier</i> mail server's integrated
+  <p>Additionally, The <em>Courier</em> mail server's integrated
   POP3, IMAP, and HTTP/webmail servers support maildir mailboxes
   only. They do not support mailbox files.</p>
 
@@ -759,11 +760,11 @@
   should consider migrating and converting to maildirs, but this
   will require that you also upgrade your POP3 server, your IMAP
   server, and all your other mail clients to software that supports
-  maildirs. Fortunately, The <i>Courier</i> mail server already
+  maildirs. Fortunately, The <em>Courier</em> mail server already
   includes a fully integrated POP3 and IMAP server.</p>
 
   <p>Still, if circumstances absolutely require for you to stick
-  with mailbox files, The <i>Courier</i> mail server has limited
+  with mailbox files, The <em>Courier</em> mail server has limited
   compatibility support for delivering mail to mailbox files, but
   you have more homework to do:</p>
 
@@ -790,15 +791,15 @@
   $HOME/Mailbox, or $HOME/INBOX. Again, you will have to figure
   this out by yourself.</p>
 
-  <p>The <i>Courier</i> mail server can deliver mail to mailbox
+  <p>The <em>Courier</em> mail server can deliver mail to mailbox
   files only if the default mailbox file is in the home directory
   of each individual account, and if you use file locking. The
-  <i>Courier</i> mail server does not support dot-locks, and the
-  <i>Courier</i> mail server does not support a separate mail
+  <em>Courier</em> mail server does not support dot-locks, and the
+  <em>Courier</em> mail server does not support a separate mail
   directory for mailbox files. Mailbox files must be located in the
   home directory of each individual account.</p>
 
-  <p>The <i>Courier</i> mail server can use a recipient database
+  <p>The <em>Courier</em> mail server can use a recipient database
   (userdb) that can specify a non-default location for a
   recipient's mailbox. In theory, it is possible to point each
   account to its individual mailbox in
@@ -812,16 +813,16 @@
   delivery agent such as <code>procmail</code>, you probably
   already have it set to use the correct locking mechanism for
   mailbox files, and it already knows where the mailbox files are.
-  The <i>Courier</i> mail server will be happy to hand off all
+  The <em>Courier</em> mail server will be happy to hand off all
   local mail to <code>procmail</code>, or anything else for the
   actual delivery.</p>
 
-  <p>The <i>Courier</i> mail server source distribution includes
+  <p>The <em>Courier</em> mail server source distribution includes
   the <code>maildrop</code> mail delivery agent which has some
   additional file locking options, however you'll have less
   problems if you stick with procmail in the beginning, and switch
   to <code>maildrop</code> after you've gained some experience
-  configuring and installing the <i>Courier</i> mail server.</p>
+  configuring and installing the <em>Courier</em> mail server.</p>
 
   <ul>
     <li>Create the <code>courier</code> user and group IDs</li>
@@ -829,24 +830,24 @@
 
   <p>You should create a new userid and groupid named
   "<code>courier</code>". That's optional, but highly recommended.
-  If this is not done, The <i>Courier</i> mail server will install
-  as user/group <code>daemon</code> (or some other suitable
-  user/group id). Only two of the <i>Courier</i> mail server's
+  If this is not done, The <em>Courier</em> mail server will
+  install as user/group <code>daemon</code> (or some other suitable
+  user/group id). Only two of the <em>Courier</em> mail server's
   daemon processes run as a superuser (and one of them is
   perpetually waiting for a non-superuser daemon process to
   terminate, in order to restart it). Everything else runs as a
   non-superuser process. Ideally, you should reserve a separate
-  user and group ID for the <i>Courier</i> mail server's use only,
-  so a compromised mail system cannot be used to compromise the
-  rest of the system. If push comes to shove, you can set up the
-  <i>Courier</i> mail server to use a well-defined existing user
-  and group ID, such as <code>daemon</code>.</p>
+  user and group ID for the <em>Courier</em> mail server's use
+  only, so a compromised mail system cannot be used to compromise
+  the rest of the system. If push comes to shove, you can set up
+  the <em>Courier</em> mail server to use a well-defined existing
+  user and group ID, such as <code>daemon</code>.</p>
 
   <ul>
     <li>Define the installation directory</li>
   </ul>
 
-  <p>The <i>Courier</i> mail server, by default, installs in
+  <p>The <em>Courier</em> mail server, by default, installs in
   <code>/usr/lib/courier</code>. Everything goes in there:
   binaries, scripts, configuration files, and manual pages. You
   will have to configure your <code>man</code> command to look for
@@ -854,7 +855,7 @@
   directory to the MANPATH environment variable. You will also need
   to add <code>/usr/lib/courier/bin</code> and
   <code>/usr/lib/courier/sbin</code> (for the root user only) to
-  the default PATH. The <i>Courier</i> mail server RPM package
+  the default PATH. The <em>Courier</em> mail server RPM package
   installs a script that automatically implements that.</p>
 
   <p>Note that this installation layout is nothing more than a
@@ -862,14 +863,14 @@
   everyone. The installation layout can be easily changed. For
   example, binaries can go to <code>/usr/local/bin</code>, and
   configuration files to <code>/usr/local/etc</code>. But keep in
-  mind that the <i>Courier</i> mail server consists of several
+  mind that the <em>Courier</em> mail server consists of several
   hundred individual files (at the last count), so if you install
-  the <i>Courier</i> mail server somewhere else it might be very
+  the <em>Courier</em> mail server somewhere else it might be very
   cumbersome to keep track of where everything went, and it will
   lead to almost guaranteed problems later, when you upgrade.</p>
 
   <p>You should try to use some kind of a packaging system in order
-  to keep track of your the <i>Courier</i> mail server
+  to keep track of your the <em>Courier</em> mail server
   installation. Once you choose a packaging system, you should
   stick to it. If you switch to a different packaging system you
   should take extreme care to remove your previous package, and
@@ -877,7 +878,7 @@
   that different packages will install in different places, and
   even have different file ownerships!</p>
 
-  <p>For example, The <i>Courier</i> mail server's source code
+  <p>For example, The <em>Courier</em> mail server's source code
   tarball can be built by RPM version 3.0.3 or higher, into a
   binary RPM package. The binary RPM package installs configuration
   files in <code>/etc/courier</code>, the mail queue in
@@ -888,40 +889,40 @@
   remove my package completely, before installing your new package.
   I mean it when I say "remove my package completely". That
   includes the mail queue containing any unsent messages. The
-  <i>Courier</i> mail server will not function if you reinstall it
-  using a different user/group ID, or if you use a different value
-  for any other option.</p>
+  <em>Courier</em> mail server will not function if you reinstall
+  it using a different user/group ID, or if you use a different
+  value for any other option.</p>
 
   <ul>
     <li>Conclusion</li>
   </ul>
 
   <p>Once these issues are squared away, you are ready to configure
-  and install the <i>Courier</i> mail server.</p>
+  and install the <em>Courier</em> mail server.</p>
 
   <h2><a name="socks" id="socks">OPTIONAL: Install the Socks 5
   client toolkit</a></h2>
 
-  <p>The <i>Courier</i> mail server has the ability to send
+  <p>The <em>Courier</em> mail server has the ability to send
   outgoing SMTP mail through a Socks 5 proxy. The Socks 5 proxy
   option requires a separate module to be installed before
-  installing the <i>Courier</i> mail server. Download the Socks 5
+  installing the <em>Courier</em> mail server. Download the Socks 5
   proxy client library from <a target="_blank" href=
   "http://www.courier-mta.org/download.php#sox">http://www.courier-mta.org/download.php#sox</a>
   and follow its installation instructions. Binary RPMs can be
   built from the source code tarball by following the procedure
   outlined in <a target="_blank" href=
   "http://www.courier-mta.org/FAQ.html#rpm">http://www.courier-mta.org/FAQ.html#rpm</a>
-  using the "courier-sox-<i>version</i>" tarball, and installing
+  using the "courier-sox-<em>version</em>" tarball, and installing
   the "courier-sox" and "courier-sox-devel" binary RPMs
   afterwards.</p>
 
   <blockquote>
-    <p><b>NOTE:</b> Be sure to read the <tt>README</tt>,
-    <tt>NEWS</tt>, and <tt>INSTALL</tt> files in the <i>Courier</i>
-    mail server Socks 5 library toolkit, before attempting to
-    install it for the first time (unless using the RPM build
-    method).</p>
+    <p><b>NOTE:</b> Be sure to read the <code>README</code>,
+    <code>NEWS</code>, and <code>INSTALL</code> files in the
+    <em>Courier</em> mail server Socks 5 library toolkit, before
+    attempting to install it for the first time (unless using the
+    RPM build method).</p>
   </blockquote>
 
   <p>Socks proxying must be implemented in relatively low-level
@@ -929,12 +930,12 @@
   is packaged separately, in case that it doesn't work. The
   <code>configure</code> script, described in the following
   section, enables Socks 5 support automatically if the
-  <i>Courier</i> mail server Socks 5 proxy client library is
+  <em>Courier</em> mail server Socks 5 proxy client library is
   already installed. To make sure that the library is installed
   correctly, specify the "<code>--with-socks</code>" option to the
   following <code>configure</code> script. This option aborts the
   <code>configure</code> script if it does not detect the
-  <i>Courier</i> mail server Socks 5 proxy client library.</p>
+  <em>Courier</em> mail server Socks 5 proxy client library.</p>
 
   <h2><a name="configure" id="configure">Run configure</a></h2>
 
@@ -967,13 +968,13 @@
   more.</p>
 
   <p>You must have the <code>uux</code> command in your default
-  search path if you intend to use the <i>Courier</i> mail server
+  search path if you intend to use the <em>Courier</em> mail server
   to relay mail via UUCP. You may need to modify your
   <code>PATH</code> environment variable to include the directory
   containing <code>uux</code>.</p>
 
   <p><code>gcc/egcs</code> is officially blessed for building the
-  <i>Courier</i> mail server. In most cases there's no need to
+  <em>Courier</em> mail server. In most cases there's no need to
   tweak any compiler-specific settings. Note that there currently
   may be some unresolved issues with gcc 2.96. gcc 2.91 has been
   tested and known to work. Occasionally some of your system
@@ -1006,7 +1007,7 @@
       <code>LDADD</code>
 
       <p>Additional libraries to link with. NOTE -
-      <i>everything</i> will be linked with these libraries.</p>
+      <em>everything</em> will be linked with these libraries.</p>
     </li>
   </ul>
 
@@ -1017,26 +1018,27 @@
     <li>
       <code>--prefix=pathname</code>
 
-      <p>Install the <i>Courier</i> mail server in <i>pathname</i>,
-      instead of the default location of
+      <p>Install the <em>Courier</em> mail server in
+      <em>pathname</em>, instead of the default location of
       <code>/usr/lib/courier</code>. Note - the examples in the
       rest of this text assumes this is where you will install the
-      <i>Courier</i> mail server. Do not attempt to install the
-      <i>Courier</i> mail server in a directory whose name contains
-      spaces or punctuation marks. Periods or dashes are fine, but
-      refrain the temptation to use other, exotic, punctuation.</p>
+      <em>Courier</em> mail server. Do not attempt to install the
+      <em>Courier</em> mail server in a directory whose name
+      contains spaces or punctuation marks. Periods or dashes are
+      fine, but refrain the temptation to use other, exotic,
+      punctuation.</p>
     </li>
 
     <li>
       <code>--with-db=db</code> or <code>--with-db=gdbm</code>
 
-      <p>The <i>Courier</i> mail server requires either the GDBM or
-      the DB database library. GDBM is used if both are present.
+      <p>The <em>Courier</em> mail server requires either the GDBM
+      or the DB database library. GDBM is used if both are present.
       This option forces the selection of the database library.</p>
     </li>
 
     <li>
-      <code>--with-locking-method=<i>function</i></code>
+      <code>--with-locking-method=<em>function</em></code>
 
       <p>Select a file locking function. Available functions are:
       <code>fcntl</code>, <code>lockf</code>, and
@@ -1046,16 +1048,16 @@
       one that works. You can select a specific locking function by
       using this option. This affects both the locking used for
       delivering mail to mailbox files, and for other kinds of
-      locking that the <i>Courier</i> mail server uses
+      locking that the <em>Courier</em> mail server uses
       internally.</p>
     </li>
 
     <li>
       <code>--enable-mimecharset=charset</code>
 
-      <p>Specify the default character set the <i>Courier</i> mail
-      server uses when adding MIME headers to a message. If not
-      specified, <code>us-ascii</code> is used.</p>
+      <p>Specify the default character set the <em>Courier</em>
+      mail server uses when adding MIME headers to a message. If
+      not specified, <code>us-ascii</code> is used.</p>
     </li>
 
     <li>
@@ -1064,7 +1066,7 @@
       <p>Use this option if you are running a small network without
       access to a DNS server. This option will cause
       <code>couriertcpd</code> to use the system resolver's
-      <i>gethostby</i> functions instead of issuing DNS queries.
+      <em>gethostby</em> functions instead of issuing DNS queries.
       Also: you must initialize the <code>esmtproutes</code>
       control file with the IP addresses of all your servers.</p>
     </li>
@@ -1086,19 +1088,19 @@
 
   <ul>
     <li>
-      <code>--prefix=<i>pathname</i></code>
+      <code>--prefix=<em>pathname</em></code>
 
-      <p>Install the <i>Courier</i> mail server in <i>pathname</i>,
-      instead of the default location of
+      <p>Install the <em>Courier</em> mail server in
+      <em>pathname</em>, instead of the default location of
       <code>/usr/lib/courier</code>. Note - the examples in the
       rest of this text assumes this is where you will install the
-      <i>Courier</i> mail server.</p>
+      <em>Courier</em> mail server.</p>
     </li>
 
     <li>
-      <code>--exec-prefix=<i>pathname</i></code>
+      <code>--exec-prefix=<em>pathname</em></code>
 
-      <p>Specify where the <i>Courier</i> mail server's
+      <p>Specify where the <em>Courier</em> mail server's
       machine-executable binaries should be installed. This
       defaults to the same directory as given by the
       <code>--prefix</code> option. There will be three
@@ -1107,7 +1109,7 @@
       <code>sbin</code> - superuser-only binaries;
       <code>libexec</code> - other binaries that are not directly
       invoked from the command line, but are started by other
-      <i>Courier</i> mail server commands.</p>
+      <em>Courier</em> mail server commands.</p>
     </li>
 
     <li>
@@ -1141,7 +1143,7 @@
     <li>
       <code>--sysconfdir=pathname</code>
 
-      <p>Specifies the directory where the <i>Courier</i> mail
+      <p>Specifies the directory where the <em>Courier</em> mail
       server's configuration files are installed. This option
       defaults to the subdirectory "<code>etc</code>" in the
       directory specified by the <code>--prefix</code> option.</p>
@@ -1173,13 +1175,13 @@
     <li>
       <code>--with-db=db</code> or <code>--with-db=gdbm</code>
 
-      <p>The <i>Courier</i> mail server requires either the GDBM or
-      the DB database library. GDBM is used if both are present.
+      <p>The <em>Courier</em> mail server requires either the GDBM
+      or the DB database library. GDBM is used if both are present.
       This option forces the selection of the database library.</p>
     </li>
 
     <li>
-      <code>--with-locking-method=</code><i><code>function</code></i>
+      <code>--with-locking-method=</code><em><code>function</code></em>
 
       <p>Select a file locking function. Available functions are:
       <code>fcntl</code>, <code>lockf</code>, and
@@ -1188,16 +1190,16 @@
       choose the first locking function that's available. You can
       select a specific locking function by using this option. This
       affects both the locking used for delivering mail to mailbox
-      files, and for other kinds of locking that the <i>Courier</i>
-      mail server uses internally.</p>
+      files, and for other kinds of locking that the
+      <em>Courier</em> mail server uses internally.</p>
     </li>
 
     <li>
-      <code>--enable-mimecharset=<i>charset</i></code>
+      <code>--enable-mimecharset=<em>charset</em></code>
 
-      <p>Specify the default character set the <i>Courier</i> mail
-      server uses when adding MIME headers to a message. If not
-      specified, <code>us-ascii</code> will be used.</p>
+      <p>Specify the default character set the <em>Courier</em>
+      mail server uses when adding MIME headers to a message. If
+      not specified, <code>us-ascii</code> will be used.</p>
     </li>
 
     <li>
@@ -1206,7 +1208,7 @@
       <p>\Use this option if you are running a small network
       without access to a DNS server. This option will cause
       <code>couriertcpd</code> to use the system resolver's
-      <i>gethostby</i> functions instead of issuing DNS queries.
+      <em>gethostby</em> functions instead of issuing DNS queries.
       Also: you will have to initialize the smtproutes control file
       with the IP addresses of all your servers.</p>
     </li>
@@ -1214,13 +1216,14 @@
     <li>
       <code>--without-explicitsync</code>
 
-      <p>Normally the <i>Courier</i> mail server will automatically
-      sync, or flush out all file buffers to disk, at certain key
-      points in order to try to minimize the extent the mail queue
-      can get corrupted if the system crashes. If the mail queue is
-      installed on a reliable disk array or a network file server,
-      this may not be necessary, and will only serve to slow down
-      the mail delivery. Use this option to turn off syncing.</p>
+      <p>Normally the <em>Courier</em> mail server will
+      automatically sync, or flush out all file buffers to disk, at
+      certain key points in order to try to minimize the extent the
+      mail queue can get corrupted if the system crashes. If the
+      mail queue is installed on a reliable disk array or a network
+      file server, this may not be necessary, and will only serve
+      to slow down the mail delivery. Use this option to turn off
+      syncing.</p>
     </li>
 
     <li>
@@ -1238,11 +1241,11 @@
     </li>
 
     <li>
-      <code>--with-shellpath=<i>path</i></code>
+      <code>--with-shellpath=<em>path</em></code>
 
       <p>Specify the contents of the <code>PATH</code> environment
       variable that is inherited by custom programs started by the
-      <i>Courier</i> mail server to deliver messages. If not
+      <em>Courier</em> mail server to deliver messages. If not
       specified, <code>PATH</code> will be set to
       <code>/bin:/usr/bin:/usr/local/bin</code>.</p>
     </li>
@@ -1251,10 +1254,10 @@
       <code>--disable-local-extensions</code>
 
       <p>Normally, in addition to accepting mail that's addressed
-      to <code>&lt;user@domain.com&gt;</code>, The <i>Courier</i>
+      to <code>&lt;user@domain.com&gt;</code>, The <em>Courier</em>
       mail server can accept mail that's addressed to
       <code>&lt;user-xxx@domain.com&gt;</code>, for arbitrary
-      values of <i>xxx</i>. In order for that to happen the
+      values of <em>xxx</em>. In order for that to happen the
       <code>user</code> has to create a special file with delivery
       instructions. See the <a href=
       "dot-courier.html"><code>dot-courier(5)</code></a> manual
@@ -1265,18 +1268,18 @@
     <li>
       <code>--with-paranoid-smtpext</code>
 
-      <p>Be paranoid when negotiating the <i>Courier</i> mail
+      <p>Be paranoid when negotiating the <em>Courier</em> mail
       server-specific ESMTP extensions with remote servers. The
-      <i>Courier</i> mail server defines and implements certain
+      <em>Courier</em> mail server defines and implements certain
       experimental ESMTP extensions: <code>XVERP</code> and
       <code>XEXDATA</code>. Problems may result in the event that
       someone else uses the same name to implement some other
-      extension. If this option is specified, The <i>Courier</i>
+      extension. If this option is specified, The <em>Courier</em>
       mail server's <code>ESMTP</code> server will also advertise a
       dummy ESMTP capability called
       <code>XCOURIEREXTENSIONS</code>, and will not recognize any
-      the <i>Courier</i> mail server-specific extensions unless the
-      remote mail server also advertises this dummy ESMTP
+      the <em>Courier</em> mail server-specific extensions unless
+      the remote mail server also advertises this dummy ESMTP
       capability.</p>
     </li>
 
@@ -1293,16 +1296,16 @@
     </li>
 
     <li>
-      <code>--with-qdircount=<i>n</i></code>
+      <code>--with-qdircount=<em>n</em></code>
 
-      <p>Set <i>n</i> to be the number of mail queue
+      <p>Set <em>n</em> to be the number of mail queue
       subdirectories. In order to improve the speed of access to
       the mail queue, messages are stored in subdirectories, hashed
-      by the message queue number. <i>n</i> specifies how many
+      by the message queue number. <em>n</em> specifies how many
       subdirectories will be created. If this option is not
       specified, 100 subdirectories will be used. <b>WARNING:</b>
-      once you've installed the <i>Courier</i> mail server once, if
-      you decide to reconfigure and reinstall, you MUST use the
+      once you've installed the <em>Courier</em> mail server once,
+      if you decide to reconfigure and reinstall, you MUST use the
       same subdirectory count (by default, or explicitly),
       otherwise you'll end up with a big mess on your hands if you
       have ANY messages in the mail queue. If you need to change
@@ -1311,23 +1314,24 @@
     </li>
 
     <li>
-      <code>--with-random=<i>/dev/path</i>, --without-random</code>
+      <code>--with-random=<em>/dev/path</em>,
+      --without-random</code>
 
-      <p>Sometimes the <i>Courier</i> mail server sometimes needs a
-      good source of random noise. If <code>configure</code> finds
-      <code>/dev/urandom</code>, it will use that. If your random
-      device is named otherwise, specify it using this option. If
-      you don't want to use a random device, specify
-      <code><i>--without-random</i></code>, and the <i>Courier</i>
-      mail server will generate some noise on its own. The
-      <i>Courier</i> mail server will generate noise based on the
-      output of a random ps command, and several other, hopefully
-      unpredictable, sources.</p>
+      <p>Sometimes the <em>Courier</em> mail server sometimes needs
+      a good source of random noise. If <code>configure</code>
+      finds <code>/dev/urandom</code>, it will use that. If your
+      random device is named otherwise, specify it using this
+      option. If you don't want to use a random device, specify
+      <code><em>--without-random</em></code>, and the
+      <em>Courier</em> mail server will generate some noise on its
+      own. The <em>Courier</em> mail server will generate noise
+      based on the output of a random ps command, and several
+      other, hopefully unpredictable, sources.</p>
     </li>
 
     <li><code>--with-gnutls</code> - Use the GnuTLS library even if
-    the OpenSSL library is also installed. The <i>Courier</i> mail
-    server automatically uses whichever one is available. The
+    the OpenSSL library is also installed. The <em>Courier</em>
+    mail server automatically uses whichever one is available. The
     OpenSSL library is selected if both are present. Use this
     option to override and select GnuTLS instead.</li>
 
@@ -1341,12 +1345,12 @@
     </li>
 
     <li>
-      <code>--with-certdb=<i>pathname</i></code>
+      <code>--with-certdb=<em>pathname</em></code>
 
-      <p>Do not install the default set, but put <i>pathname</i> as
-      the default location of the root CA database, into the
+      <p>Do not install the default set, but put <em>pathname</em>
+      as the default location of the root CA database, into the
       configuration file. This is a convenient option to have the
-      <i>Courier</i> mail server use an external, previously
+      <em>Courier</em> mail server use an external, previously
       installed, root CA database.</p>
     </li>
 
@@ -1369,32 +1373,33 @@
     </li>
 
     <li>
-      <code>--without-ispell, --with-ispell=<i>program</i></code>
+      <code>--without-ispell, --with-ispell=<em>program</em></code>
 
-      <p>The <i>Courier</i> mail server's webmail server can use
+      <p>The <em>Courier</em> mail server's webmail server can use
       spell checking, if the ispell program is available (aspell
       can be used too). If configure finds ispell, spell checking
       is enabled. Use <code>--without-ispell</code> to forcefully
       disable spell checking. If ispell is not in the current
-      search path, use <code>--with-ispell=<i>program</i></code> to
-      explicitly set the location of ispell. See "<a href=
+      search path, use <code>--with-ispell=<em>program</em></code>
+      to explicitly set the location of ispell. See "<a href=
       "#webmail">Configure the webmail server</a>" for more
       information on ispell or aspell.</p>
     </li>
 
     <li>
-      <code>--enable-imageurl=<i>/url</i></code>
+      <code>--enable-imageurl=<em>/url</em></code>
 
-      <p>Use <i>/url/</i> as the URL to the static images displayed
-      by the webmail server. HTML pages are dynamically generated
-      by the webmail server CGI, but they also include some static
-      icons. The webmail CGI will use <i>/url</i> as the URL to the
-      directory containing the static images. The default URL is
-      "/webmail", which means that the static images must be
-      installed in the <code>&lt;DocumentRoot&gt;/webmail</code>
-      directory. This is a manual process that is described in more
-      detail in the "<a href="#webmail">Configure the webmail
-      server</a>" section, below.</p>
+      <p>Use <em>/url/</em> as the URL to the static images
+      displayed by the webmail server. HTML pages are dynamically
+      generated by the webmail server CGI, but they also include
+      some static icons. The webmail CGI will use <em>/url</em> as
+      the URL to the directory containing the static images. The
+      default URL is "/webmail", which means that the static images
+      must be installed in the
+      <code>&lt;DocumentRoot&gt;/webmail</code> directory. This is
+      a manual process that is described in more detail in the
+      "<a href="#webmail">Configure the webmail server</a>"
+      section, below.</p>
     </li>
 
     <li>
@@ -1437,7 +1442,7 @@
     </li>
 
     <li>
-      <code>--with-defaultlang=<i>lang</i></code>
+      <code>--with-defaultlang=<em>lang</em></code>
 
       <p>reserved for future use.</p>
     </li>
@@ -1457,7 +1462,7 @@
     </li>
 
     <li>
-      <code>--enable-bannerprog=<i>pathname</i></code>
+      <code>--enable-bannerprog=<em>pathname</em></code>
 
       <p>advanced option that sets a banner program that the
       webmail server will execute. This program should print HTML,
@@ -1465,7 +1470,7 @@
     </li>
 
     <li>
-      <code>--with-maxargsize=<i>bytes,</i>--with-maxformargsize=<i>bytes</i></code>
+      <code>--with-maxargsize=<em>bytes,</em>--with-maxformargsize=<em>bytes</em></code>
 
       <p>Sets an upper limit on the size of CGI arguments for the
       webmail server. Normally there's no reason to modify the
@@ -1477,7 +1482,7 @@
     </li>
 
     <li>
-      <code>--with-maxmsgsize=<i>bytes</i></code>
+      <code>--with-maxmsgsize=<em>bytes</em></code>
 
       <p>Sets the upper limit of messages composed in the webmail
       server, the main text and all the attachments. This setting
@@ -1486,8 +1491,8 @@
     </li>
 
     <li>
-      <code>--with-cachedir=<i>dir</i>,
-      --with-cacheowner=<i>userid</i></code>
+      <code>--with-cachedir=<em>dir</em>,
+      --with-cacheowner=<em>userid</em></code>
 
       <p>The webmail server uses a cache of currently active
       logins. The webmail server binary, is executed for each and
@@ -1498,9 +1503,9 @@
       information in order to avoid having your authentication
       server brought down to its knees. By default, the directory
       <code>/usr/lib/courier/var/webmail-logincache</code> will be
-      used, owned by the <i>bin</i> user. These options can be used
-      to specify a different location for the webmail login cache
-      directory.</p>
+      used, owned by the <em>bin</em> user. These options can be
+      used to specify a different location for the webmail login
+      cache directory.</p>
 
       <p>If you'll be using the webmail server, you MUST add an
       hourly cron job to run the
@@ -1558,16 +1563,16 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
       contents of the Trash folder (which are automatically purged
       by the server) against the quota usage. NOTE - if this option
       is used, <code>make check</code> WILL FAIL. You should first
-      configure the <i>Courier</i> mail server without this option,
-      run <code>make check</code>, then reconfigure the
-      <i>Courier</i> mail server with this option.</p>
+      configure the <em>Courier</em> mail server without this
+      option, run <code>make check</code>, then reconfigure the
+      <em>Courier</em> mail server with this option.</p>
     </li>
   </ul>
 
   <h2><a name="ipv6" id="ipv6">IPv6</a></h2>
 
-  <p>IPv6 support in the <i>Courier</i> mail server means basically
-  the following:</p>
+  <p>IPv6 support in the <em>Courier</em> mail server means
+  basically the following:</p>
 
   <ul>
     <li>ESMTP, IMAP, and POP3 servers will create an IPv6 socket
@@ -1585,7 +1590,8 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
   on IPv6 sockets, so IPv6 sockets should be able to receive both
   IPv4 and IPv6 connections. In the event that your IPv6
   implementation is not stable, or is partially incomplete, IPv6
-  support in the <i>Courier</i> mail server should be disabled.</p>
+  support in the <em>Courier</em> mail server should be
+  disabled.</p>
 
   <p>The configuration script will attempt to detect whether IPv6
   structures and functions are available, and automatically enable
@@ -1600,11 +1606,11 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
     <li>The IPv6 implementation on your platform is actually not
     available, despite the presence of IPv6 structures and
     functions. Most GNU/Linux distributions ship without IPv6
-    support enabled in the default kernel build. The <i>Courier</i>
-    mail server automatically falls back to creating an IPv4
-    socket, if it can't create an IPv6 socket, so things should
-    continue to work in that case. However, each such attempt is
-    likely to result in an error message logged to
+    support enabled in the default kernel build. The
+    <em>Courier</em> mail server automatically falls back to
+    creating an IPv4 socket, if it can't create an IPv6 socket, so
+    things should continue to work in that case. However, each such
+    attempt is likely to result in an error message logged to
     <code>/var/log/messages</code> -- modprobe is whining that it
     can't find an IPv6 module to load. On systems that handle a
     large amount of traffic the log files can fill up rather
@@ -1612,13 +1618,13 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
 
     <li>Implementing IPv6 can increase the amount of DNS traffic,
     even if there is no IPv6 support in the kernel. Even if the
-    <i>Courier</i> mail server falls back to IPv4 sockets, it will
-    continue to resolve IPv6 addresses, resulting in some extra DNS
-    queries. There won't be a lot of extra DNS queries, but there
-    will be some. Also, there are still some DNS servers that
-    cannot correctly handle IPv6 queries, and attempts to deliver
-    mail to these domains will fail despite the presence of valid
-    IPv4 records.</li>
+    <em>Courier</em> mail server falls back to IPv4 sockets, it
+    will continue to resolve IPv6 addresses, resulting in some
+    extra DNS queries. There won't be a lot of extra DNS queries,
+    but there will be some. Also, there are still some DNS servers
+    that cannot correctly handle IPv6 queries, and attempts to
+    deliver mail to these domains will fail despite the presence of
+    valid IPv4 records.</li>
   </ul>
 
   <p>IPv6 support is still a bit spotty in some places. If the
@@ -1635,11 +1641,11 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
 </pre>
 
   <p>If the <code>configure</code> script ran without errors, run
-  <code>make</code> to build the <i>Courier</i> mail server. If
+  <code>make</code> to build the <em>Courier</em> mail server. If
   <code>make</code> completes succesfully, run <code>make
   check</code>. <code>make check</code> runs some simple internal
   tests. It is not feasible to run a complete check of the
-  <i>Courier</i> mail server's behavior, but <code>make
+  <em>Courier</em> mail server's behavior, but <code>make
   check</code> does automatically run some tests on several
   modules.</p>
 
@@ -1654,9 +1660,9 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
 
   <p><code>su</code> yourself to root, if you want to do a live
   install, then run <code>make install</code> or <code>make
-  install-strip</code> to install the <i>Courier</i> mail server.
+  install-strip</code> to install the <em>Courier</em> mail server.
   If you use the GNU version of <code>make</code>, and you would
-  like to see which files the <i>Courier</i> mail server installs
+  like to see which files the <em>Courier</em> mail server installs
   and where, don't <code>su</code> yourself to root, but set the
   <code>make</code> variable named <code>DESTDIR</code>. For
   example:</p>
@@ -1676,7 +1682,7 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
   sets the correct ownership on the installed files. Non-root
   <code>make installs</code> do not set the ownership, but still
   set correct permissions. This feature is mainly for use by people
-  who are rolling the <i>Courier</i> mail server into a prebuilt
+  who are rolling the <em>Courier</em> mail server into a prebuilt
   package, since this allows them to build the package as a normal
   user, not root. In this situation the command <code>make
   install-perms</code> will be very useful. This command creates a
@@ -1684,9 +1690,9 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
   complete listing of everything that will be installed, and what
   the correct permissions are on every file.</p>
 
-  <p><code>make install</code> installs the <i>Courier</i> mail
+  <p><code>make install</code> installs the <em>Courier</em> mail
   server binaries with debugging data, which is probably a good
-  idea to do while the <i>Courier</i> mail server is in
+  idea to do while the <em>Courier</em> mail server is in
   development. Use <code>make</code><code>install-strip</code> to
   install binaries without debugging data. Some systems have a
   broken <code>install</code> utility, so make install-strip may
@@ -1701,24 +1707,24 @@ su -c "/usr/lib/courier/share/sqwebmail/cleancache.pl" bin
   <p><code>make install-configure</code></p>
 
   <p>This command copies each configuration file
-  "<i>filename.dist</i>" to "<i>filename</i>". The existing
-  <i>filename</i> is backed up as <i>filename.bak</i>. If upgrading
-  from the <i>Courier</i> mail server 0.30 or later, the previous
-  configuration settings in <i>filename.bak</i> will be
-  automatically copied to <i>filename</i>, provided that they are
-  still valid. If a configuration setting may no longer be valid,
-  it will be reset to its default value. The output of <code>make
-  install-configure</code> will indicate the status of each
-  configuration setting, therefore it is advistable to save the
-  output to a file, and examine it:</p>
+  "<em>filename.dist</em>" to "<em>filename</em>". The existing
+  <em>filename</em> is backed up as <em>filename.bak</em>. If
+  upgrading from the <em>Courier</em> mail server 0.30 or later,
+  the previous configuration settings in <em>filename.bak</em> will
+  be automatically copied to <em>filename</em>, provided that they
+  are still valid. If a configuration setting may no longer be
+  valid, it will be reset to its default value. The output of
+  <code>make install-configure</code> will indicate the status of
+  each configuration setting, therefore it is advistable to save
+  the output to a file, and examine it:</p>
 
   <p><code>make install-configure &gt;upgrade.log</code></p>
 
   <p>Versions prior to 0.30 cannot have their configuration
   settings automatically preserved, and must be restored manually
-  from <i>filename.bak</i>. Do not simply copy <i>filename.bak</i>
-  to <i>filename</i>, this will lose all the formatting codes that
-  allow automatic upgrades.</p>
+  from <em>filename.bak</em>. Do not simply copy
+  <em>filename.bak</em> to <em>filename</em>, this will lose all
+  the formatting codes that allow automatic upgrades.</p>
 
   <h3>PAM configuration</h3>
 
@@ -1763,24 +1769,24 @@ esmtp session required        pam_permit.so
   will conflict with any PAM configuration files installed by
   another IMAP or POP3 server. If you manually installed an IMAP or
   a POP3 server without packaging them up into an RPM, the
-  <i>Courier</i> mail server RPM package will install and the old
+  <em>Courier</em> mail server RPM package will install and the old
   configuration files will be silently removed, since they were not
   installed using RPM.</p>
 
-  <p>The <i>Courier</i> mail server includes integrated POP3, IMAP,
-  and webmail servers, however they only work with maildirs. Decide
-  if you want to keep using your current server, or switch to the
-  <i>Courier</i> mail server's IMAP/POP3/webmail servers. If you
-  want to keep your existing servers, back up the contents of your
-  <code>/etc/pam.d</code> directory before installing the RPM,
-  install it, then restore the overwritten files. If you want to
-  switch to the <i>Courier</i> mail server, blow away your current
-  server before running <code>make install</code>.</p>
+  <p>The <em>Courier</em> mail server includes integrated POP3,
+  IMAP, and webmail servers, however they only work with maildirs.
+  Decide if you want to keep using your current server, or switch
+  to the <em>Courier</em> mail server's IMAP/POP3/webmail servers.
+  If you want to keep your existing servers, back up the contents
+  of your <code>/etc/pam.d</code> directory before installing the
+  RPM, install it, then restore the overwritten files. If you want
+  to switch to the <em>Courier</em> mail server, blow away your
+  current server before running <code>make install</code>.</p>
 
   <h2><a name="suid" id="suid">Adjust system paranoia
   level</a></h2>
 
-  <p>There are four setuid binaries in the <i>Courier</i> mail
+  <p>There are four setuid binaries in the <em>Courier</em> mail
   server that are owned by root: <code>sendmail</code>,
   <code>maildrop</code>, <code>webmail</code> and
   <code>webadmin</code>. There's also one setgid binary,
@@ -1812,7 +1818,7 @@ esmtp session required        pam_permit.so
 
   <p><code>/usr/lib/courier/bin/sendmail</code> is the command line
   mail sender. Its first order of business is to set its group id
-  to the <i>Courier</i> mail server's group id, and restore the
+  to the <em>Courier</em> mail server's group id, and restore the
   original userid, dropping root. The reason that it needs root
   setuid is to set its real group id, because setting the setgid
   bit on the executable is not enough. The setgid bit sets only the
@@ -1829,13 +1835,14 @@ esmtp session required        pam_permit.so
   <h2><a name="postinst" id="postinst">Post-installation
   setup</a></h2>
 
-  <p>A first-time the <i>Courier</i> mail server installation may
+  <p>A first-time the <em>Courier</em> mail server installation may
   not require the system startup scripts to be modified to start
-  the <i>Courier</i> mail server at system boot. Until the system's
-  functionality is verified, the system will probably continue to
-  use the existing mail server. Still, most the <i>Courier</i> mail
-  server configurations will require two things to be started
-  before any part of the system is put to use:</p>
+  the <em>Courier</em> mail server at system boot. Until the
+  system's functionality is verified, the system will probably
+  continue to use the existing mail server. Still, most the
+  <em>Courier</em> mail server configurations will require two
+  things to be started before any part of the system is put to
+  use:</p>
 
   <ul>
     <li>An hourly <code>cron</code> job needs to be created to run
@@ -1864,7 +1871,7 @@ esmtp session required        pam_permit.so
   installation works properly. These tests are not really
   comprehensive tests, they only make sure that the basic
   functionality is there, and they definitely must be done the
-  first time you install a version of the <i>Courier</i> mail
+  first time you install a version of the <em>Courier</em> mail
   server on your system. If you later reinstall the same version on
   the same platform, using the same configuration, you don't need
   to run these installation checks (but you better be sure that the
@@ -1872,18 +1879,18 @@ esmtp session required        pam_permit.so
   You might also wish to rerun these installation checks after
   upgrading your base operating system.</p>
 
-  <p>The following documentation assumes that the <i>Courier</i>
+  <p>The following documentation assumes that the <em>Courier</em>
   mail server is installed in <code>/usr/lib/courier</code>.</p>
 
   <h3>Verify module installation</h3>
 
   <p>Run the <code>showmodules</code> utility after all files have
   been installed, but before you attempt to start the
-  <i>Courier</i> mail server. The <code>showmodules</code> utility
-  attempts to load and initialize transport modules that have been
-  configured, without actually starting up the <i>Courier</i> mail
-  server. Running <code>showmodules</code> should result in
-  something that looks like this:</p>
+  <em>Courier</em> mail server. The <code>showmodules</code>
+  utility attempts to load and initialize transport modules that
+  have been configured, without actually starting up the
+  <em>Courier</em> mail server. Running <code>showmodules</code>
+  should result in something that looks like this:</p>
   <pre>
 <code>   showmodules[5060]: Loading STATIC transport module libraries.
    showmodules[5060]: Installing i586-gnu-linux [0/0]
@@ -1900,7 +1907,7 @@ esmtp session required        pam_permit.so
 
   <h3>Test child process termination</h3>
 
-  <p>In this test, you will start the <i>Courier</i> mail server,
+  <p>In this test, you will start the <em>Courier</em> mail server,
   then attempt to rapidly pump through as many messages as fast as
   possible, to verify that asynchronous child process termination
   handling works. For this test (and the following tests) you need
@@ -1919,7 +1926,7 @@ esmtp session required        pam_permit.so
   course. Keep that in mind as you work through the remaining
   tests.</p>
 
-  <p>Start the <i>Courier</i> mail server as root:</p>
+  <p>Start the <em>Courier</em> mail server as root:</p>
 
   <p><code>/usr/lib/courier/sbin/courier start</code></p>
 
@@ -1936,8 +1943,8 @@ esmtp session required        pam_permit.so
   <code>uucp</code>.</p>
 
   <p>Run the <code>perftest1</code> script, which can be found in
-  the directory containing the <i>Courier</i> mail server's source
-  code:</p>
+  the directory containing the <em>Courier</em> mail server's
+  source code:</p>
   <pre>
 <code>sh perftest1 1000 "user-test-1 user-test-2 user-test-3 user-test-4 user-test-5"</code>
 </pre>
@@ -1950,9 +1957,9 @@ esmtp session required        pam_permit.so
 
   <p>Monitor the system logs. There will be a lot of activity. On
   my test system, the system logger usually backs up. The
-  <i>Courier</i> mail server generates log messages faster than the
-  logger can record them. When all the activity stops, count how
-  many files you have in <code>$HOME/test/new</code>. For extra
+  <em>Courier</em> mail server generates log messages faster than
+  the logger can record them. When all the activity stops, count
+  how many files you have in <code>$HOME/test/new</code>. For extra
   credit, total up the <code>Delivered-To:</code> headers in all
   the messages, there should be 1000 headers for each one of the
   five addresses.</p>
@@ -1988,7 +1995,7 @@ esmtp session required        pam_permit.so
   <h3>User/group ID check</h3>
 
   <p>For this test you will need to use or create a regular user
-  test account, which will be referred to as <i>user</i>. You can
+  test account, which will be referred to as <em>user</em>. You can
   use the same test account you used in the last test, but erase
   all <code>.courier</code> (or <code>.qmail</code>) files.</p>
 
@@ -2003,19 +2010,19 @@ esmtp session required        pam_permit.so
   commands are in <code>/usr/bin</code>. If not, use the correct
   path.</p>
 
-  <p>Send a single message to <i>user</i>:</p>
+  <p>Send a single message to <em>user</em>:</p>
 
-  <p><code>echo "To: <i>user</i>" |
+  <p><code>echo "To: <em>user</em>" |
   /usr/lib/courier/bin/sendmail</code></p>
 
   <p>Thie message will disappear into the never-never land, so
   don't waste time looking for it. Just examine, very closely, the
   contents of the <code>ID</code> and the <code>ENV</code> files in
-  <i>user</i>'s home directory. Double check what user and the
-  group ids recorded in <code>ID</code> match <i>user</i>'s. Pay
+  <em>user</em>'s home directory. Double check what user and the
+  group ids recorded in <code>ID</code> match <em>user</em>'s. Pay
   close attention to any auxiliary group IDs, make sure that they
   haven't "leaked" from the root user who started the
-  <i>Courier</i> mail server.</p>
+  <em>Courier</em> mail server.</p>
 
   <p>Also, examine the environment, in <code>ENV</code>. Check the
   manual page for <code>dot-courier</code>, <code>ENV</code> should
@@ -2073,8 +2080,8 @@ esmtp session required        pam_permit.so
   from the main menu. To cancel all changes made, select "Cancel
   new configuration". Selecting "Install new configuration" will
   apply all the changes to the configuration files, and restart any
-  the <i>Courier</i> mail server modules that must be restarted in
-  order for the changes to take effect.</p>
+  the <em>Courier</em> mail server modules that must be restarted
+  in order for the changes to take effect.</p>
 
   <p>If you decide to use <code>webadmin</code>, most of the
   remaining steps in this INSTALL document can be done using
@@ -2083,7 +2090,7 @@ esmtp session required        pam_permit.so
   <h2><a name="aliases" id="aliases">Create system aliases</a></h2>
 
   <p>You must now specify which account gets postmaster mail.
-  <b>The <i>Courier</i> mail server does NOT deliver any mail to
+  <b>The <em>Courier</em> mail server does NOT deliver any mail to
   root.</b> You must use a non-privileged for postmaster mail. You
   will also need to specify where your postmaster account is. In
   the following example the same account is used for both, but you
@@ -2110,10 +2117,10 @@ esmtp session required        pam_permit.so
 
   <p><code>postmaster: admin</code></p>
 
-  <p>These aliases cause all mail addressed to <i>root</i>,
-  <i>postmaster</i>, or <i>mailer-daemon</i>, to be delivered to
-  admin's account. If you want root's mail delivered somewhere
-  else, you can replace "<i>root: postmaster</i>", with something
+  <p>These aliases cause all mail addressed to <em>root</em>,
+  <em>postmaster</em>, or <em>mailer-daemon</em>, to be delivered
+  to admin's account. If you want root's mail delivered somewhere
+  else, you can replace "<em>root: postmaster</em>", with something
   else.</p>
 
   <p>Run the following command as root:</p>
@@ -2165,7 +2172,7 @@ esmtp session required        pam_permit.so
   rebuild <code>smtpaccess.dat</code> after any changes in the
   <code>smtpaccess</code> subdirectory.</p>
 
-  <p>The default the <i>Courier</i> mail server configuration
+  <p>The default the <em>Courier</em> mail server configuration
   applies <code>smtpaccess.dat</code> to both the regular ESMTP
   server (port 25), and the message submission server (port 587).
   It is possible to set up different access files for both ports.
@@ -2199,26 +2206,26 @@ esmtp session required        pam_permit.so
 
   <blockquote>
     <p><strong>NOTE:</strong> It is important to know that the
-    <i>Courier</i> mail server's default backscatter configuration
-    means that if the <i>Courier</i> mail server receives a message
-    for delivery to a local mailbox, and encounters an error during
-    the delivery, the sender may not receive a delivery failure
-    notification. The most common reason is an error in a custom
-    mail filtering script. The next most common reason is a
-    configuration error (the <i>Courier</i> mail server
-    authentication library gives the account's home directory,
-    optional non-default mailbox location, the account's system
-    userid and groupid; but they differ from the actual files and
-    directories (the home directory or the account's mailbox does
-    not exist, exists somewhere else, or they're owned by a
-    different userid or groupid).</p>
+    <em>Courier</em> mail server's default backscatter
+    configuration means that if the <em>Courier</em> mail server
+    receives a message for delivery to a local mailbox, and
+    encounters an error during the delivery, the sender may not
+    receive a delivery failure notification. The most common reason
+    is an error in a custom mail filtering script. The next most
+    common reason is a configuration error (the <em>Courier</em>
+    mail server authentication library gives the account's home
+    directory, optional non-default mailbox location, the account's
+    system userid and groupid; but they differ from the actual
+    files and directories (the home directory or the account's
+    mailbox does not exist, exists somewhere else, or they're owned
+    by a different userid or groupid).</p>
 
-    <p>When installing the <i>Courier</i> mail server for the first
-    time, it is usually helpful to termporary turn off the default
-    backscatter filters, by setting BOFHSUPPRESSBACKSCATTER to
-    "none", as described below. Remove this setting after the
-    <i>Courier</i> mail server is installed and its basic functions
-    appear to be working.</p>
+    <p>When installing the <em>Courier</em> mail server for the
+    first time, it is usually helpful to termporary turn off the
+    default backscatter filters, by setting BOFHSUPPRESSBACKSCATTER
+    to "none", as described below. Remove this setting after the
+    <em>Courier</em> mail server is installed and its basic
+    functions appear to be working.</p>
   </blockquote>
 
   <p>The term "backscatter" refers to non-delivery reports sent to
@@ -2241,28 +2248,29 @@ esmtp session required        pam_permit.so
   for sending the virus or the junk mail to them.</p>
 
   <p>There's now a growing consensus that backscatter bounces
-  should be considered E-mail abuse. The <i>Courier</i> mail server
-  is already very good at minimizing the amount of backscatter, by
-  the virtue of refusing to receive any mail to a nonexistent local
-  mailbox. However it's still possible for the <i>Courier</i> mail
-  server to bounce a received message. Several settings control how
-  the <i>Courier</i> mail server filters out its own backscatter,
-  and avoids becoming a nuisance to others.</p>
+  should be considered E-mail abuse. The <em>Courier</em> mail
+  server is already very good at minimizing the amount of
+  backscatter, by the virtue of refusing to receive any mail to a
+  nonexistent local mailbox. However it's still possible for the
+  <em>Courier</em> mail server to bounce a received message.
+  Several settings control how the <em>Courier</em> mail server
+  filters out its own backscatter, and avoids becoming a nuisance
+  to others.</p>
 
   <p>Two settings are available. The first setting instructs the
-  <i>Courier</i> mail server to simply discard backscatter bounces.
-  This is the <code>ESMTP_BLOCKBACKSCATTER</code> setting in the
-  <em>courierd</em> configuration file. This setting lists the
-  so-called "message sources" which are dropped by the SMTP client.
-  All messages from any matching source are quietly discarded. The
-  default setting lists one message source: a code that means "a
-  delivery status notification for a message received via SMTP from
-  a non-authenticated source". "Non-authenticated" means a message
-  received from an IP address that does not have relaying
-  privileges, and did not authenticate. It's also possible to
-  include authenticated SMTP sources; or it's possible to disable
-  this setting altogether, instructing the <i>Courier</i> mail
-  server to deliver all bounces via SMTP, even if they may
+  <em>Courier</em> mail server to simply discard backscatter
+  bounces. This is the <code>ESMTP_BLOCKBACKSCATTER</code> setting
+  in the <em>courierd</em> configuration file. This setting lists
+  the so-called "message sources" which are dropped by the SMTP
+  client. All messages from any matching source are quietly
+  discarded. The default setting lists one message source: a code
+  that means "a delivery status notification for a message received
+  via SMTP from a non-authenticated source". "Non-authenticated"
+  means a message received from an IP address that does not have
+  relaying privileges, and did not authenticate. It's also possible
+  to include authenticated SMTP sources; or it's possible to
+  disable this setting altogether, instructing the <em>Courier</em>
+  mail server to deliver all bounces via SMTP, even if they may
   potentially be backscatter.</p>
 
   <p>Note that messages received in other ways (such as messages
@@ -2272,12 +2280,12 @@ esmtp session required        pam_permit.so
   are always delivered to local mailboxes, this setting is ignored
   for local mail deliveries.</p>
 
-  <p>The default setting means that if the <i>Courier</i> mail
+  <p>The default setting means that if the <em>Courier</em> mail
   server receives a message via SMTP for delivery to a local
   mailbox, and it bounces for some reason, the bounce will be
   discarded.</p>
 
-  <p>The <i>Courier</i> mail server is also often used as a
+  <p>The <em>Courier</em> mail server is also often used as a
   smarthost for SMTP clients. These SMTP clients either connect
   from trusted IP addresses (IP addresses that belong to the
   organization that runs the mail server), or that succesfully
@@ -2288,7 +2296,7 @@ esmtp session required        pam_permit.so
   the sender succesfully authenticated).</p>
 
   <blockquote>
-    <p><strong>NOTE:</strong> Sometimes the <i>Courier</i> mail
+    <p><strong>NOTE:</strong> Sometimes the <em>Courier</em> mail
     server serves as a backup MX for another organization. If mail
     cannot be delivered to the primary MX (it rejects the message,
     or the message times out), the bounce will be discarded,
@@ -2301,33 +2309,33 @@ esmtp session required        pam_permit.so
   controls the backscatter suppression list, which is a list of
   blacklisted E-mail addresses.</p>
 
-  <p>When the <i>Courier</i> mail server fails to deliver a message
-  to an address, this address goes on the suppression list, and the
-  <i>Courier</i> mail server will refuse to accept any more
-  messages to the same address. If the delivery failure was a
+  <p>When the <em>Courier</em> mail server fails to deliver a
+  message to an address, this address goes on the suppression list,
+  and the <em>Courier</em> mail server will refuse to accept any
+  more messages to the same address. If the delivery failure was a
   temporary failure, any future messages will also be turned away
   with a temporary error. A permanent delivery failure results in
   future messages rejected with a permanent error.</p>
 
   <p>Note that the suppression list does not apply to messages
-  already accepted by the <i>Courier</i> mail server, and which are
-  in its mail queue. The suppression list is checked when the
-  <i>Courier</i> mail server is receiving a new message. The
-  <i>Courier</i> mail server automatically clears an address from
+  already accepted by the <em>Courier</em> mail server, and which
+  are in its mail queue. The suppression list is checked when the
+  <em>Courier</em> mail server is receiving a new message. The
+  <em>Courier</em> mail server automatically clears an address from
   the suppression list after two hours. If the original message
-  encountered a temporary delivery failure, The <i>Courier</i> mail
-  server periodically tries again to re-deliver the message. If the
-  message continues to encounter a temporary delivery failure, the
-  clock starts running again, from the beginning, If a re-delivery
-  attempts succeeds, the address is cleared from the suppression
-  list, and the <i>Courier</i> mail server will now accept more
-  messages to the same address, immediately.</p>
+  encountered a temporary delivery failure, The <em>Courier</em>
+  mail server periodically tries again to re-deliver the message.
+  If the message continues to encounter a temporary delivery
+  failure, the clock starts running again, from the beginning, If a
+  re-delivery attempts succeeds, the address is cleared from the
+  suppression list, and the <em>Courier</em> mail server will now
+  accept more messages to the same address, immediately.</p>
 
   <p>If a message keeps encountering temporary delivery failures,
   the time before re-delivery attempts gets longer. It's possible
   that it could take more than two hours for another delivery
   attempt, on a busy mail server. The address then falls off the
-  list, and the <i>Courier</i> mail server will accept another
+  list, and the <em>Courier</em> mail server will accept another
   message to the undeliverable address. This situation is
   unavoidable, but is not considered to be a major issue.</p>
 
@@ -2341,7 +2349,7 @@ esmtp session required        pam_permit.so
   <p>The suppression list is not updated when problematic messages
   are manually removed from the mail queue (using the
   "<code>courier cancel</code>" command). Even though the stuck
-  messages are deleted, The <i>Courier</i> mail server will
+  messages are deleted, The <em>Courier</em> mail server will
   continue to refuse messages to suppressed addresses, until they
   time out. Use the "<code>courier clear</code>" command to
   manually clear addresses from the suppression list, if so
@@ -2350,13 +2358,13 @@ esmtp session required        pam_permit.so
   <blockquote>
     <p><strong>NOTE:</strong> A mailbox that exceeded its storage
     quota results in temporary delivery failures. Therefore, when a
-    mailbox fills up, The <i>Courier</i> mail server stops
+    mailbox fills up, The <em>Courier</em> mail server stops
     accepting any more messages to this mailbox (there might be one
     or two messages already in the mail queue, but that shouldn't
     be a major issue). Mail deliveries will resume when the mailbox
     goes below the quota (although this may take an hour, or two,
     as explained previously). It's possible that an existing
-    version of the <i>Courier</i> mail server was originally
+    version of the <em>Courier</em> mail server was originally
     modified to generate a permanent delivery failure for a quota
     exceeded condition. This change should now be undone, in order
     for backscatter suppression to work properly.</p>
@@ -2373,19 +2381,20 @@ esmtp session required        pam_permit.so
   instead of the message's return address.</p>
 
   <blockquote>
-    <p><strong>NOTE:</strong> This works only if the <i>Courier</i>
-    mail server is configured, via the <i>Courier</i> mail server
-    Authentication Library, to validate login IDs that consist of a
-    full E-mail address, "<code>user@domain</code>", with the login
-    ID corresponding to the mailbox's E-mail address.</p>
+    <p><strong>NOTE:</strong> This works only if the
+    <em>Courier</em> mail server is configured, via the
+    <em>Courier</em> mail server Authentication Library, to
+    validate login IDs that consist of a full E-mail address,
+    "<code>user@domain</code>", with the login ID corresponding to
+    the mailbox's E-mail address.</p>
   </blockquote>
 
   <p>Enabling this setting removes the possibility of the
-  <i>Courier</i> mail server sending abusive backscatter bounces to
-  external recipients, from a compromised trusted sender, even if
-  the compromised trusted sender uses authenticated SMTP. Instead
-  of sending the bounces to the forged return address, they get
-  redirected to the sender's mailbox.</p>
+  <em>Courier</em> mail server sending abusive backscatter bounces
+  to external recipients, from a compromised trusted sender, even
+  if the compromised trusted sender uses authenticated SMTP.
+  Instead of sending the bounces to the forged return address, they
+  get redirected to the sender's mailbox.</p>
 
   <blockquote>
     <p><strong>NOTE:</strong> The authenticated address is used for
@@ -2399,7 +2408,7 @@ esmtp session required        pam_permit.so
     this option to have any effect. When relaying privileges are
     granted to explicit IP address ranges (see the preceding
     "<a href="#access">Create smtp access list</a>" section), The
-    <i>Courier</i> mail server will not have the sender's
+    <em>Courier</em> mail server will not have the sender's
     authenticated login address (unless the sender voluntary
     authenticates).</p>
   </blockquote>
@@ -2413,16 +2422,16 @@ esmtp session required        pam_permit.so
     <li>
       <code>courierd</code>
 
-      <p>this file controls general aspects of the <i>Courier</i>
+      <p>this file controls general aspects of the <em>Courier</em>
       mail server's message processing. A default file is installed
       with comments describing what the various options are. Review
       the default options, and make whatever changes you deem
       appropriate. You will probably need to make changes to this
       configuration file in order to select the correct way to
-      deliver local mail (whether to have the <i>Courier</i> mail
+      deliver local mail (whether to have the <em>Courier</em> mail
       server handle the delivery directly, or whether to run
       procmail or maildrop). There are comments in this file that
-      tell you what needs to be done to have the <i>Courier</i>
+      tell you what needs to be done to have the <em>Courier</em>
       mail server use a separate local mail delivery agent, such as
       <code>procmail</code>, for mail delivery. Read and follow the
       instructions there.</p>
@@ -2431,20 +2440,20 @@ esmtp session required        pam_permit.so
     <li>
       <code>esmtpd</code>
 
-      <p>this is an important file that controls the <i>Courier</i>
-      mail server's ESMTP server. Options in this file include
-      setting the maximum limit on simultaneous server connections,
-      whether to disable certain optional SMTP features, whether or
-      not you have a mail filter module installed, and whether or
-      not blacklists are used.</p>
+      <p>this is an important file that controls the
+      <em>Courier</em> mail server's ESMTP server. Options in this
+      file include setting the maximum limit on simultaneous server
+      connections, whether to disable certain optional SMTP
+      features, whether or not you have a mail filter module
+      installed, and whether or not blacklists are used.</p>
     </li>
 
     <li>
       <code>esmtpd-msa</code>
 
-      <p>this file controls the <i>Courier</i> mail server's ESMTP
-      message submission server (RFC 2476). The settings in this
-      file supplement the settings in <code>esmtpd</code>. The
+      <p>this file controls the <em>Courier</em> mail server's
+      ESMTP message submission server (RFC 2476). The settings in
+      this file supplement the settings in <code>esmtpd</code>. The
       default startup script first reads <code>esmtpd</code>, then
       <code>esmtpd-msa</code> in order to initialize the ESMTP
       message submission server on port 587.</p>
@@ -2465,23 +2474,25 @@ esmtp session required        pam_permit.so
     <li>
       <code>pop3d</code>
 
-      <p>this file sets various options for the <i>Courier</i> mail
-      server's POP3 server. The <i>Courier</i> mail server's POP3
-      server can be used only if mail is stored in Maildirs. You
-      will need to use another POP3 server if you choose to deliver
-      your mail to legacy mailbox files. A default configuration
-      file is installed, describing the available options.</p>
+      <p>this file sets various options for the <em>Courier</em>
+      mail server's POP3 server. The <em>Courier</em> mail server's
+      POP3 server can be used only if mail is stored in Maildirs.
+      You will need to use another POP3 server if you choose to
+      deliver your mail to legacy mailbox files. A default
+      configuration file is installed, describing the available
+      options.</p>
     </li>
 
     <li>
       <code>imapd</code>
 
-      <p>this file sets various options for the <i>Courier</i> mail
-      server's IMAP server. The <i>Courier</i> mail server's IMAP
-      server can be used only if mail is stored in Maildirs. You
-      will need to use another IMAP server if you choose to deliver
-      your mail to legacy mailbox files. A default configuration
-      file is installed, describing the available options.</p>
+      <p>this file sets various options for the <em>Courier</em>
+      mail server's IMAP server. The <em>Courier</em> mail server's
+      IMAP server can be used only if mail is stored in Maildirs.
+      You will need to use another IMAP server if you choose to
+      deliver your mail to legacy mailbox files. A default
+      configuration file is installed, describing the available
+      options.</p>
     </li>
   </ul>
 
@@ -2490,11 +2501,11 @@ esmtp session required        pam_permit.so
 <code>echo "qmail" &gt;/usr/lib/courier/etc/dotextension</code>
 </pre>
 
-  <p>Run this command if you are installing the <i>Courier</i> mail
-  server on a system that's currently running the Qmail mail
-  server. The <i>Courier</i> mail server will now read
+  <p>Run this command if you are installing the <em>Courier</em>
+  mail server on a system that's currently running the Qmail mail
+  server. The <em>Courier</em> mail server will now read
   <code>.qmail</code> files for delivery instructions, instead of
-  <code>.courier</code> files. The <i>Courier</i> mail server's
+  <code>.courier</code> files. The <em>Courier</em> mail server's
   <code>.courier</code> files are mostly compatible with Qmail's
   <code>.qmail</code> files, but there are some minor differences.
   Still, most of your <code>.qmail</code> files should work without
@@ -2506,8 +2517,8 @@ esmtp session required        pam_permit.so
   <code>/usr/lib/courier/etc/locals</code> is a list of all the
   domains that are considered local. Mail to any address in any
   local domain is handled as a local delivery. If this file does
-  not exist the <i>Courier</i> mail server will use the contents of
-  the <code>me</code> configuration file, or it will obtain its
+  not exist the <em>Courier</em> mail server will use the contents
+  of the <code>me</code> configuration file, or it will obtain its
   machine name from the operating system.</p>
 
   <p>This file contains a list of domains, one per line. In most
@@ -2540,33 +2551,33 @@ esmtp session required        pam_permit.so
   Usually you can simply append what you have in
   <code>/usr/lib/courier/etc/locals</code>. If
   <code>/usr/lib/courier/etc/esmtpacceptmailfor</code> does not
-  exist, The <i>Courier</i> mail server will accept mail only for
+  exist, The <em>Courier</em> mail server will accept mail only for
   the machine name listed in <code>/usr/lib/courier/etc/me</code>,
   (or the system machine name).</p>
 
   <p>Like <code>/usr/lib/courier/etc/locals</code>, prepending a
   period to a domain name in <code>esmtpacceptmailfor</code> will
-  cause the <i>Courier</i> mail server to accept mail for all
+  cause the <em>Courier</em> mail server to accept mail for all
   subdomains of this domain.</p>
 
   <h2><a name="uucp" id="uucp">OPTIONAL: Configure UUCP</a></h2>
 
-  <p>The <i>Courier</i> mail server is capable of sending and
-  receiving mail via UUCP. The <i>Courier</i> mail server does not
-  implement UUCP directly, but instead uses your existing UUCP
+  <p>The <em>Courier</em> mail server is capable of sending and
+  receiving mail via UUCP. The <em>Courier</em> mail server does
+  not implement UUCP directly, but instead uses your existing UUCP
   software to send and receive mail.</p>
 
-  <p>The <i>Courier</i> mail server's UUCP functionality has been
+  <p>The <em>Courier</em> mail server's UUCP functionality has been
   tested with Taylor UUCP 1.06. It's likely that some minor
-  tweaking will be necessary to get the <i>Courier</i> mail server
-  working with other UUCP builds. Give it a shot, and keep an eye
-  out for problems.</p>
+  tweaking will be necessary to get the <em>Courier</em> mail
+  server working with other UUCP builds. Give it a shot, and keep
+  an eye out for problems.</p>
 
   <h3><code>/usr/lib/courier/etc/uucpme</code></h3>This
   configuration file must be initialized to list the UUCP node name
-  that this machine is known as. Currently the <i>Courier</i> mail
-  server does not support multiple UUCP node aliases for the same
-  machine.
+  that this machine is known as. Currently the <em>Courier</em>
+  mail server does not support multiple UUCP node aliases for the
+  same machine.
 
   <h3><code>/usr/lib/courier/etc/uucpneighbors</code></h3>This
   configuration file contains a list of all the nodes that your
@@ -2575,21 +2586,21 @@ esmtp session required        pam_permit.so
   configuration files, and some maintenance will be necessary to
   keep both lists in sync. That is, unfortunately, unavoidable. The
   <code>makeuucpneighbors</code> commands turns this plain text
-  file into a database, which is what the <i>Courier</i> mail
+  file into a database, which is what the <em>Courier</em> mail
   server uses directly. The format of the
   <code>uucpneighbors</code> configuration file is described in the
   <a href="courieruucp.html"><code>makeuucpneighbors(8)</code></a>
   manual page.
 
   <h3><code>/usr/lib/courier/etc/uuucprewriteheaders</code></h3>The
-  <i>Courier</i> mail server automatically rewrites message
+  <em>Courier</em> mail server automatically rewrites message
   envelope addresses from ESMTP to UUCP format. If this file
   exists, the addresses in the headers of messages sent to/from
   UUCP addresses will also be rewritten.
 
   <h2>Configure UUCP domain aliases</h2>
 
-  <p>The <i>Courier</i> mail server can accept mail addressed to
+  <p>The <em>Courier</em> mail server can accept mail addressed to
   <code>&lt;user@example.com&gt;</code>, and then forward it to
   <code>uucp!bang!path!user</code>, via UUCP. This is done by
   adding a UUCP virtual domain alias to your aliases file, see
@@ -2608,18 +2619,18 @@ esmtp session required        pam_permit.so
   aliasing</a></h2>
 
   <p>In addition to using LDAP for authentication and for managing
-  accounts, The <i>Courier</i> mail server can use an LDAP
+  accounts, The <em>Courier</em> mail server can use an LDAP
   directory for routing, or "aliasing" mail.</p>
 
   <p>The term "aliasing" refers to substituting one or more
   addresses for another address. A one-to-one substitution results
-  in the <i>Courier</i> mail server accepting mail for one address,
-  and delivering the mail to another address. A one-to-many
-  substitution results in the <i>Courier</i> mail server accepting
-  mail for one address, and delivering a separate copy of the
-  message to every address defined by the alias.</p>
+  in the <em>Courier</em> mail server accepting mail for one
+  address, and delivering the mail to another address. A
+  one-to-many substitution results in the <em>Courier</em> mail
+  server accepting mail for one address, and delivering a separate
+  copy of the message to every address defined by the alias.</p>
 
-  <p>The <i>Courier</i> mail server supports a basic form of
+  <p>The <em>Courier</em> mail server supports a basic form of
   aliasing using a GDBM or DB-based database. The <a href=
   "makealiases.html"><code>makealiases(8)</code></a> command reads
   a plain text file containing the aliasing rules, the creates a
@@ -2631,7 +2642,7 @@ esmtp session required        pam_permit.so
   <a href="dot-courier.html"><code>dot-courier(5)</code></a>
   delivery instruction files.</p>
 
-  <p>The <i>Courier</i> mail server can use an LDAP directory
+  <p>The <em>Courier</em> mail server can use an LDAP directory
   instead of a GDBM or a DB database, to perform essentially the
   same function. If OpenLDAP is available at time of installation,
   the installation script installs the <a href=
@@ -2651,17 +2662,17 @@ esmtp session required        pam_permit.so
   <h2><a name="filter" id="filter">OPTIONAL: Configure mail
   filtering</a></h2>
 
-  <p>The <i>Courier</i> mail server includes several options for
-  selectively filtering mail. In general, The <i>Courier</i> mail
+  <p>The <em>Courier</em> mail server includes several options for
+  selectively filtering mail. In general, The <em>Courier</em> mail
   server provides only the plug-in interfaces by which arbitrary
   external mail filters can be used to selectively accept or reject
-  messages. The <i>Courier</i> mail server comes only with some
+  messages. The <em>Courier</em> mail server comes only with some
   sample code that demonstrates how to write a mail filter. An
   actual mail filter must be written and installed separately.
   Please note that running mail filters can have a non-trivial
   impact on mail system performance and throughput.</p>
 
-  <p>The <i>Courier</i> mail server provides two mail filtering
+  <p>The <em>Courier</em> mail server provides two mail filtering
   interfaces:</p>
 
   <ul>
@@ -2670,19 +2681,19 @@ esmtp session required        pam_permit.so
       <p>these filters are installed and will be used to filter
       every incoming message. Global mail filters are permanently
       running daemons that create and listen on a filesystem domain
-      socket. Each new message that the <i>Courier</i> mail server
-      receives must be acknowledged by every global mail filter.
-      Note that if global mail filters are installed, but their
-      daemons are not running, The <i>Courier</i> mail server will
-      not accept any new messages.</p>
+      socket. Each new message that the <em>Courier</em> mail
+      server receives must be acknowledged by every global mail
+      filter. Note that if global mail filters are installed, but
+      their daemons are not running, The <em>Courier</em> mail
+      server will not accept any new messages.</p>
     </li>
 
     <li>Local mail filter
 
       <p>this filter can be used when the message is addressed to a
-      local recipient - when the <i>Courier</i> mail server itself
-      will deliver the message to a physical mailbox. Local mail
-      filtering is designed to be primarily used by the
+      local recipient - when the <em>Courier</em> mail server
+      itself will deliver the message to a physical mailbox. Local
+      mail filtering is designed to be primarily used by the
       <code>maildrop</code> mail filter. With the local mail
       filtering installed, individual recipients can create files
       containing mail filtering instructions that can selectively
@@ -2700,35 +2711,35 @@ esmtp session required        pam_permit.so
 
   <h3>Miscellaneous UUCP configuration</h3>
 
-  <p>The <i>Courier</i> mail server sends UUCP mail by running
+  <p>The <em>Courier</em> mail server sends UUCP mail by running
   <code>rmail</code> via <code>uux</code>. The configuration script
   searches for the <code>uux</code> command in the default search
   path. If your <code>uux</code> command is not in a directory
   that's in your search path you will have to modify
   <code>PATH</code> before running configure.</p>
 
-  <p>The <i>Courier</i> mail server receives UUCP mail by expecting
-  your UUCP software to run the <code>rmail</code> command, which
-  is installed in <code>/usr/lib/courier/bin</code>. (It's actually
-  a soft link to <code>sendmail</code>, but we'll talk about it
-  later). Your UUCP software probably does not run commands from
-  this directory by default, so you will have to make the necessary
-  adjustments. You can always create another soft link in a
-  directory that UUCP searches by default.</p>
+  <p>The <em>Courier</em> mail server receives UUCP mail by
+  expecting your UUCP software to run the <code>rmail</code>
+  command, which is installed in <code>/usr/lib/courier/bin</code>.
+  (It's actually a soft link to <code>sendmail</code>, but we'll
+  talk about it later). Your UUCP software probably does not run
+  commands from this directory by default, so you will have to make
+  the necessary adjustments. You can always create another soft
+  link in a directory that UUCP searches by default.</p>
 
   <h2><a name="start" id="start">Starting and stopping the
-  <i>Courier</i> mail server</a></h2>
+  <em>Courier</em> mail server</a></h2>
 
-  <p>To start the <i>Courier</i> mail server, run the command
+  <p>To start the <em>Courier</em> mail server, run the command
   <code>/usr/lib/courier/sbin/courier start</code>. To stop the
-  <i>Courier</i> mail server, run the command
+  <em>Courier</em> mail server, run the command
   <code>/usr/lib/courier/sbin/courier stop</code>. See the
   <code>courier(8)</code> manual page for more information.</p>
 
   <p>You should add these commands to your system startup and
   shutdown scripts.</p>
 
-  <p>Note that this command starts and stops the <i>Courier</i>
+  <p>Note that this command starts and stops the <em>Courier</em>
   mail server's core processes only. It does not start any
   additional daemon processes that you may need, such as the mail
   filtering daemon, the ESMTP server daemon, the POP3 server
@@ -2747,23 +2758,23 @@ esmtp session required        pam_permit.so
   process to start, and the last one to terminate. The remaining
   daemons may be started in any order.</p>
 
-  <h2><a name="parallel" id="parallel">Run the <i>Courier</i> mail
-  server in parallel to your mail server</a></h2>
+  <h2><a name="parallel" id="parallel">Run the <em>Courier</em>
+  mail server in parallel to your mail server</a></h2>
 
   <p>You now have several options for migrating from your existing
-  mail server to the <i>Courier</i> mail server:</p>
+  mail server to the <em>Courier</em> mail server:</p>
 
   <ul>
     <li>Your existing mail server can continue to handle incoming
-    mail, by listening on the smtp port. The <i>Courier</i> mail
+    mail, by listening on the smtp port. The <em>Courier</em> mail
     server will be used to send all outgoing mail. This is
     accomplished by configuring your mail software to run
     <code>/usr/lib/courier/bin/sendmail</code> to send mail,
     instead of your current sendmail program.</li>
 
-    <li>The <i>Courier</i> mail server can handle incoming mail by
-    listening on the smtp port, and your existing mail server can
-    continue to handle all outgoing mail. You will need to stop
+    <li>The <em>Courier</em> mail server can handle incoming mail
+    by listening on the smtp port, and your existing mail server
+    can continue to handle all outgoing mail. You will need to stop
     your existing mail server from listening on the smtp port, and
     run the following command:
       <pre>
@@ -2782,8 +2793,8 @@ esmtp session required        pam_permit.so
   <h2><a name="esmtpauth" id="esmtpauth">OPTIONAL: Configure ESMTP
   authentication and SSL</a></h2>
 
-  <p>The <i>Courier</i> mail server supports authenticated ESMTP in
-  order to grant ESMTP relaying privileges to remote users. The
+  <p>The <em>Courier</em> mail server supports authenticated ESMTP
+  in order to grant ESMTP relaying privileges to remote users. The
   following steps set up authenticated ESMTP:</p>
 
   <ul>
@@ -2799,11 +2810,11 @@ esmtp session required        pam_permit.so
     587 only.
 
       <p><code>ESMTPAUTH</code> is a list of SASL authentication
-      methods to use use. Currently, The <i>Courier</i> mail server
-      supports <code>LOGIN</code>, <code>PLAIN</code>,
+      methods to use use. Currently, The <em>Courier</em> mail
+      server supports <code>LOGIN</code>, <code>PLAIN</code>,
       <code>CRAM-SHA1</code> and <code>CRAM-MD5</code>. The list of
       authentication methods is sometimes influenced by the
-      installed authentication modules in the <i>Courier</i> mail
+      installed authentication modules in the <em>Courier</em> mail
       server Authentication Library. Not all authentication modules
       implement <code>CRAM-MD5/SHA1</code>. The authentication
       modules that support CRAM-MD5/SHA1 authentication are:
@@ -2821,18 +2832,18 @@ esmtp session required        pam_permit.so
     of this document. Consult the documentation for your PAM
     library for more information.</li>
 
-    <li>Restart the <i>Courier</i> mail server.</li>
+    <li>Restart the <em>Courier</em> mail server.</li>
   </ul>
 
   <h3>ESMTP over TLS/SSL</h3>
 
-  <p>The <i>Courier</i> mail server also supports ESMTP over
+  <p>The <em>Courier</em> mail server also supports ESMTP over
   TLS/SSL, by using the ESMTP STARTTLS extension:</p>
 
   <ul>
     <li>
       <p>To add SSL support you have to install OpenSSL or GnuTLS
-      before installing the <i>Courier</i> mail server. Download
+      before installing the <em>Courier</em> mail server. Download
       OpenSSL from <a target="_blank" href=
       "http://www.openssl.org/"><code>http://www.openssl.org/</code></a>,
       or GnuTLS from <a target="_blank" href=
@@ -2841,7 +2852,7 @@ esmtp session required        pam_permit.so
       <p>OpenSSL's support is well-tested, the GnuTLS version is a
       relatively new addition, and is considered experimental.
       Follow OpenSSL's or GnuTLS's installation instructions, then
-      build the <i>Courier</i> mail server.</p>
+      build the <em>Courier</em> mail server.</p>
 
       <blockquote>
         <p><b>NOTE:</b> Most systems already have an available
@@ -2853,12 +2864,12 @@ esmtp session required        pam_permit.so
       <blockquote>
         <p><b>NOTE:</b> The development libraries must be installed
         in addition to the runtime package, in order to build the
-        <i>Courier</i> mail server. On most systems, the
+        <em>Courier</em> mail server. On most systems, the
         development files (header files, libraries, etc...) are
         provided in a separate "devel" package. The base
         OpenSSL/GnuTLS package is not sufficient to build the
-        <i>Courier</i> mail server, the development libraries must
-        be installed.</p>
+        <em>Courier</em> mail server, the development libraries
+        must be installed.</p>
       </blockquote>
 
       <p>The OpenSSL library is selected when both OpenSSL and
@@ -2871,23 +2882,24 @@ esmtp session required        pam_permit.so
     certificate as <code>/usr/lib/courier/share/esmtpd.pem</code>.
     If this file exists, the STARTTLS ESMTP extension will be
     automatically advertised. This file must be owned by the userid
-    the <i>Courier</i> mail server is installed as, and MUST NOT be
-    world readable!</li>
+    the <em>Courier</em> mail server is installed as, and MUST NOT
+    be world readable!</li>
 
     <li>Note that SSL requires a signed X.509 certificate. You can
-    generate your own self-signed certificates with <i>OpenSSL</i>,
-    but mail clients will display a warning message the first time
-    they connect to the server. To prevent the warning message, you
-    will need to pay money to have your certificate signed by a
-    certificate authority. The gory details of setting up SSL is
-    beyond the scope of this document, and you should consult the
-    OpenSSL documentation for more information.</li>
+    generate your own self-signed certificates with
+    <em>OpenSSL</em>, but mail clients will display a warning
+    message the first time they connect to the server. To prevent
+    the warning message, you will need to pay money to have your
+    certificate signed by a certificate authority. The gory details
+    of setting up SSL is beyond the scope of this document, and you
+    should consult the OpenSSL documentation for more
+    information.</li>
 
     <li>The certificate must be installed as
     <code>/usr/lib/courier/share/esmtpd.pem</code>. This file
     <b>MUST NOT HAVE</b> any group or world permissions! It must be
-    owned by the <i>Courier</i> mail server userid (the userid used
-    to install the <i>Courier</i> mail server, usually
+    owned by the <em>Courier</em> mail server userid (the userid
+    used to install the <em>Courier</em> mail server, usually
     <code>courier</code> or <code>daemon</code>).</li>
 
     <li>In times of extreme desperation the script
@@ -2898,18 +2910,18 @@ esmtp session required        pam_permit.so
     not be overwritten). This makes it easier to have this script
     invoked from a package install script.</li>
 
-    <li>Restart the <i>Courier</i> mail server's ESMTP server after
-    installing the X.509 certificate.</li>
+    <li>Restart the <em>Courier</em> mail server's ESMTP server
+    after installing the X.509 certificate.</li>
   </ul>
 
-  <p>The <i>Courier</i> mail server will also use TLS/SSL when
+  <p>The <em>Courier</em> mail server will also use TLS/SSL when
   sending ESMTP mail, automatically. If the remote mail server
-  support STARTTLS, The <i>Courier</i> mail server will use it
+  support STARTTLS, The <em>Courier</em> mail server will use it
   automatically.</p>
 
   <p>SSL/TLS settings for the ESMTP client can be adjusted in the
   <code>/usr/lib/courier/etc/courierd</code> configuration file.
-  When sending mail using SSL, The <i>Courier</i> mail server can
+  When sending mail using SSL, The <em>Courier</em> mail server can
   optionally verify the remote server's X.509 certificate. This is
   done by setting <code>ESMTP_TLS_VERIFY_DOMAIN</code> to
   <code>1</code>, in <code>/usr/lib/courier/etc/courierd</code>.
@@ -2918,10 +2930,10 @@ esmtp session required        pam_permit.so
   certificate authorities. The PEM files must be hashed by
   OpenSSL's <code>c_rehash</code> script. When this is done, the
   remote server's X.509 certificate must signed by trusted root CA,
-  else the <i>Courier</i> mail server will bounce the
+  else the <em>Courier</em> mail server will bounce the
   recipient.</p>
 
-  <p>Starting with version 0.34, The <i>Courier</i> mail server
+  <p>Starting with version 0.34, The <em>Courier</em> mail server
   installs a default set of trusted public certificate authorities,
   and the default configuration will require the remote server to
   present an X.509 certificate that's signed by any trusted
@@ -2935,13 +2947,13 @@ esmtp session required        pam_permit.so
   <h2><a name="esmtpsecurity" id="esmtpsecurity">OPTIONAL:
   Configure the SECURITY ESMTP extension</a></h2>
 
-  <p>The <i>Courier</i> mail server includes an experimental
+  <p>The <em>Courier</em> mail server includes an experimental
   extension to ESMTP that can be used to set up secure E-mail
   delivery between trusted mail relays over an untrusted network.
   This is implemented by an experimental ESMTP extension in the
-  <i>Courier</i> mail server. Therefore, at present time both the
+  <em>Courier</em> mail server. Therefore, at present time both the
   sending and the receiving mail relay must be running the
-  <i>Courier</i> mail server that's configured to support this
+  <em>Courier</em> mail server that's configured to support this
   extension. The specification for this ESMTP extension is <a href=
   "draft-varshavchik-security-smtpext.txt">publicly available</a>.
   This is a very small extension of the existing, draft-standard
@@ -2981,18 +2993,19 @@ esmtp session required        pam_permit.so
   </ol>
 
   <p>The SECURITY extension is an optional tag that's attached to
-  an E-mail message. The <i>Courier</i> mail server requires
+  an E-mail message. The <em>Courier</em> mail server requires
   STARTTLS to forward SECURITY-tagged messages, and the receiving
   mail nodes must present an X.509 certificate, signed by the
-  private Certificate Authority, before the <i>Courier</i> mail
-  server will send the message. The <i>Courier</i> mail server will
-  refuse to send the message to a mail node that does not support
-  STARTTLS, or doesn't present a suitable X.509 certificate.</p>
+  private Certificate Authority, before the <em>Courier</em> mail
+  server will send the message. The <em>Courier</em> mail server
+  will refuse to send the message to a mail node that does not
+  support STARTTLS, or doesn't present a suitable X.509
+  certificate.</p>
 
   <p>Therefore, in an ideal world, mail clients will simply tag
   messages with the SECURITY extension. Obviously, this means that
   mail clients must be updated to implement this feature. Until
-  this happens, The <i>Courier</i> mail server will provide a
+  this happens, The <em>Courier</em> mail server will provide a
   workaround that automatically tags all messages for selected
   domains with the SECURITY extension. This is not a perfect
   solution, and it has some minor limitations, which will be
@@ -3048,13 +3061,13 @@ esmtp session required        pam_permit.so
 
   <p>The <code>CA.pl</code> script creates password-protected
   certificate keys by default. Password protected certificates
-  currently do not work with the <i>Courier</i> mail server. Adding
-  the <code>-nodes</code> parameter turns off password protection.
-  This means that it is vital to make sure that the trusted mail
-  relays are properly secured. All the encryption in the world will
-  not be of much use if the mail relays are running a rootable FTP
-  server (for example). Anyway, run <code>CA.pl</code> to create a
-  new certificate authority:</p>
+  currently do not work with the <em>Courier</em> mail server.
+  Adding the <code>-nodes</code> parameter turns off password
+  protection. This means that it is vital to make sure that the
+  trusted mail relays are properly secured. All the encryption in
+  the world will not be of much use if the mail relays are running
+  a rootable FTP server (for example). Anyway, run
+  <code>CA.pl</code> to create a new certificate authority:</p>
   <pre>
     ./CA.pl -newca
 </pre>
@@ -3144,16 +3157,16 @@ esmtp session required        pam_permit.so
 
   <p>Edit the <code>/usr/lib/courier/etc/esmtpd</code>
   configuration file. Set <code>TLS_CERTFILE</code> to
-  <code>/etc/mycert.pem</code>. The <i>Courier</i> mail server will
-  use <code>TLS_CERTFILE</code> to authenticate itself to other
-  trusted mail nodes.</p>
+  <code>/etc/mycert.pem</code>. The <em>Courier</em> mail server
+  will use <code>TLS_CERTFILE</code> to authenticate itself to
+  other trusted mail nodes.</p>
 
   <p>Edit the <code>/usr/lib/courier/etc/courierd</code>
   configuration file. Set <code>TLS_TRUSTSECURITYCERTS</code> to
-  <code>/etc/cacert.pem</code>. The <i>Courier</i> mail server will
-  not send ESMTP mail tagged with the SECURITY extension to other
-  mail relays unless they produce a certificate that's signed by
-  <code>TLS_TRUSTSECURITYCERTS</code>.</p>
+  <code>/etc/cacert.pem</code>. The <em>Courier</em> mail server
+  will not send ESMTP mail tagged with the SECURITY extension to
+  other mail relays unless they produce a certificate that's signed
+  by <code>TLS_TRUSTSECURITYCERTS</code>.</p>
 
   <h3>Testing</h3>
 
@@ -3162,13 +3175,13 @@ esmtp session required        pam_permit.so
   nodes called <code>send.example.com</code> and
   <code>receive.example.com</code>. The test messages are sent from
   <code>send.example.com</code>, and are addressed to
-  <code>receive.example.com</code>. The <i>Courier</i> mail server
-  must be restarted on both <code>send</code> and
+  <code>receive.example.com</code>. The <em>Courier</em> mail
+  server must be restarted on both <code>send</code> and
   <code>receive</code>, after reconfiguring the machines for each
   test. It is not strictly necessary to do this every time,
   actually, but it's simply easier to do make it a part of the
   routine. It is necessary to restart both the main the
-  <i>Courier</i> mail server daemon processes as well as the
+  <em>Courier</em> mail server daemon processes as well as the
   separate ESMTP daemon process (on <code>receive</code>):</p>
   <pre>
     courier stop
@@ -3208,7 +3221,7 @@ esmtp session required        pam_permit.so
     <code>/usr/lib/courier/share/esmtpd.pem</code>, which is the
     self-signed test certificate created by the
     <code>mkesmtpdcert</code> script, when STARTTLS support in the
-    <i>Courier</i> mail server was first set up.
+    <em>Courier</em> mail server was first set up.
 
       <p>Send a test message <b>WITHOUT</b> the "-S STARTTLS"
       option. This message should go through, assuming all the
@@ -3236,7 +3249,7 @@ esmtp session required        pam_permit.so
   with the <code>SECURITY</code> extension in order for them to be
   securely transmitted. This must be done by the sending mail
   client. Until mail clients support <code>SECURITY</code> The
-  <i>Courier</i> mail server can automatically add the
+  <em>Courier</em> mail server can automatically add the
   <code>SECURITY</code> tag to every message addressed to a domain.
   This is done by entering the domain in the
   <code>esmtproutes</code> configuration file using the following
@@ -3283,27 +3296,27 @@ receive.example.com:  /SECURITY=STARTTLS
 
   <p>There are some minor differences between using <code>-S
   STARTTLS</code> versus putting the domain into
-  <code>esmtproutes</code>. If the <i>sending</i> mail node forward
-  mail to this domain via UUCP, <code>-S STARTTLS</code> will
-  bounce. Since <code>esmtproutes</code> does not apply to UUCP,
-  putting this domain in <code>esmtproutes</code> will have no
-  effect whatsoever.</p>
+  <code>esmtproutes</code>. If the <em>sending</em> mail node
+  forward mail to this domain via UUCP, <code>-S STARTTLS</code>
+  will bounce. Since <code>esmtproutes</code> does not apply to
+  UUCP, putting this domain in <code>esmtproutes</code> will have
+  no effect whatsoever.</p>
 
   <h2><a name="spf" id="spf">OPTIONAL: Configure the Sender Policy
   Framework</a></h2>
 
-  <p>The <i>Courier</i> mail server can optionally check the return
-  address on all SMTP mail for the sender's published Sender Policy
-  Framework (SPF). Keep in mind SPF is an experimental protocol
-  that's still maturing. The <i>Courier</i> mail server's SPF
-  configuration is set up in the "bofh" configuration file, and is
-  fully explained in the <a href="courier.html">courier(8)</a>
-  manual page.</p>
+  <p>The <em>Courier</em> mail server can optionally check the
+  return address on all SMTP mail for the sender's published Sender
+  Policy Framework (SPF). Keep in mind SPF is an experimental
+  protocol that's still maturing. The <em>Courier</em> mail
+  server's SPF configuration is set up in the "bofh" configuration
+  file, and is fully explained in the <a href=
+  "courier.html">courier(8)</a> manual page.</p>
 
   <h2><a name="imap" id="imap">OPTIONAL: Configure the IMAP
   server</a></h2>
 
-  <p>The <i>Courier</i> mail server includes an integrated IMAP
+  <p>The <em>Courier</em> mail server includes an integrated IMAP
   server. The following steps set it up:</p>
 
   <ul>
@@ -3335,7 +3348,7 @@ receive.example.com:  /SECURITY=STARTTLS
   </ul>
 
   <p>NOTE: if you have previously installed the stand-alone version
-  of the <i>Courier</i> IMAP server, you will need to remove it
+  of the <em>Courier</em> IMAP server, you will need to remove it
   prior to using the directly integrated version. They use the same
   base source code, but have a slightly different
   configuration.</p>
@@ -3355,7 +3368,7 @@ receive.example.com:  /SECURITY=STARTTLS
   SSL</a></h2>
 
   <p>To add SSL support you have to install OpenSSL or GnuTLS
-  before installing the <i>Courier</i> mail server. Download
+  before installing the <em>Courier</em> mail server. Download
   OpenSSL from <a target="_blank" href=
   "http://www.openssl.org/"><code>http://www.openssl.org/</code></a>,
   or GnuTLS from <a target="_blank" href=
@@ -3364,7 +3377,7 @@ receive.example.com:  /SECURITY=STARTTLS
   <p>OpenSSL's support is well-tested, the GnuTLS version is a
   relatively new addition, and is considered experimental. Follow
   OpenSSL's or GnuTLS's installation instructions, then build the
-  <i>Courier</i> mail server.</p>
+  <em>Courier</em> mail server.</p>
 
   <blockquote>
     <p><b>NOTE:</b> Most systems already have an available OpenSSL
@@ -3376,10 +3389,10 @@ receive.example.com:  /SECURITY=STARTTLS
   <blockquote>
     <p><b>NOTE:</b> The development libraries must be installed in
     addition to the runtime package, in order to build the
-    <i>Courier</i> mail server. On most systems, the development
+    <em>Courier</em> mail server. On most systems, the development
     files (header files, libraries, etc...) are provided in a
     separate "devel" package. The base OpenSSL/GnuTLS package is
-    not sufficient to build the <i>Courier</i> mail server, the
+    not sufficient to build the <em>Courier</em> mail server, the
     development libraries must be installed.</p>
   </blockquote>
 
@@ -3398,8 +3411,8 @@ receive.example.com:  /SECURITY=STARTTLS
   both SSL and non-SSL connections by running both scripts.</p>
 
   <p>Note that SSL requires a valid, signed, X.509 certificate to
-  be installed where the <i>Courier</i> mail server expects to find
-  it. The default location for the X.509 certificate, in PEM
+  be installed where the <em>Courier</em> mail server expects to
+  find it. The default location for the X.509 certificate, in PEM
   format, is <code>/usr/lib/courier/share/imapd.pem</code>. The
   X.509 certificate must be signed by a certificate authority that
   is known to the IMAP client. You can generate your own
@@ -3429,11 +3442,11 @@ receive.example.com:  /SECURITY=STARTTLS
   <p>This server allows using the IMAP connection to send E-mail.
   Normally, the IMAP protocol provides only access to mail in an
   existing mail account, and mail clients must use SMTP in order to
-  send mail. The <i>Courier</i> IMAP server has an optional setting
-  to enable mail to be send via an IMAP connection in a manner that
-  should work with all existing IMAP mail clients. This can be
-  useful when an account is logged in from a shared access pool
-  which normally blocks most access to the SMTP port.</p>
+  send mail. The <em>Courier</em> IMAP server has an optional
+  setting to enable mail to be send via an IMAP connection in a
+  manner that should work with all existing IMAP mail clients. This
+  can be useful when an account is logged in from a shared access
+  pool which normally blocks most access to the SMTP port.</p>
 
   <p>This is implemented by enabling a setting in the
   <code>imapd</code> configuration file that designates a folder as
@@ -3444,7 +3457,7 @@ receive.example.com:  /SECURITY=STARTTLS
   needs to be created, just like any other IMAP folder. It looks
   and acts like any other folder, except that each message added to
   the folder, via IMAP's APPEND or COPY command, will also be
-  mailed out by the <i>Courier</i> IMAP server to the addresses
+  mailed out by the <em>Courier</em> IMAP server to the addresses
   listed in the <code>To:</code>, <code>Cc:</code>, and
   <code>Bcc:</code> headers.</p>
 
@@ -3479,7 +3492,7 @@ receive.example.com:  /SECURITY=STARTTLS
   </blockquote>
 
   <blockquote>
-    <p><b>NOTE:</b> when enabled, the <i>Courier</i> IMAP server
+    <p><b>NOTE:</b> when enabled, the <em>Courier</em> IMAP server
     will advertize a private <code>XCOURIEROUTBOX</code> IMAP
     capability. It is theoretically possible to code an IMAP mail
     client that reads this capability and automatically configures
@@ -3502,19 +3515,19 @@ receive.example.com:  /SECURITY=STARTTLS
 
   <p>If <a target="_blank" href=
   "http://oss.sgi.com/projects/fam/">FAM, the File Alteration
-  Monitor</a> (<tt>http://oss.sgi.com/projects/fam/</tt>) or
+  Monitor</a> (<code>http://oss.sgi.com/projects/fam/</code>) or
   <a href="http://www.gnome.org/~veillard/gamin/" target=
   "_blank">Gamin</a> is installed, it will be possible to allow
   multiple clients to open the same folder, and have all clients to
   be simultaneously notified of any changes to the folder
   contents.</p>
 
-  <p>After installing the server see the <tt>imapd(8)</tt> manual
-  page for more information.</p>
+  <p>After installing the server see the <code>imapd(8)</code>
+  manual page for more information.</p>
 
   <h2><a name="smap" id="smap">OPTIONAL: Configure SMAP</a></h2>
 
-  <p>Starting with the <i>Courier</i> mail server 0.43, the IMAP
+  <p>Starting with the <em>Courier</em> mail server 0.43, the IMAP
   server supports an experimental mail access protocol, dubbed
   "Simple Mail Access Protocol". SMAP is an experiment to provide
   enhanced mail processing beyond what's currently possible with
@@ -3529,7 +3542,7 @@ receive.example.com:  /SECURITY=STARTTLS
   <h2><a name="pop3" id="pop3">OPTIONAL: Configure the POP3
   server</a></h2>
 
-  <p>The <i>Courier</i> mail server includes an integrated POP3
+  <p>The <em>Courier</em> mail server includes an integrated POP3
   server. The following steps will set it up:</p>
 
   <ul>
@@ -3585,9 +3598,9 @@ receive.example.com:  /SECURITY=STARTTLS
   <h2><a name="sslcert" id="sslcert">CERTIFICATE
   AUTHENTICATION</a></h2>
 
-  <p>The <i>Courier</i> mail server can use SSL certificates for
+  <p>The <em>Courier</em> mail server can use SSL certificates for
   authentication purposes. That is, instead of using a login ID and
-  a password, for accessing the mailbox, The <i>Courier</i> mail
+  a password, for accessing the mailbox, The <em>Courier</em> mail
   server uses a client-side SSL certificate. For certificate
   authentication purposes, one of the fields in your certificates'
   subject must match the login ID in the authentication database.
@@ -3604,7 +3617,7 @@ Subject: C=US,ST=New York,L=New York,O=Acme Widgets Inc,CN=John Smith,emailAddre
   login ID, the authentication database must provide login details
   for <code>johnsmith@example.com</code>. To enable certificate
   authentication, edit the following configuration files in
-  <i>sysconfdir</i>: <code>imapd-ssl</code>,
+  <em>sysconfdir</em>: <code>imapd-ssl</code>,
   <code>pop3d-ssl</code>, <code>esmtpd</code> and
   <code>esmtpd-ssl</code> (the <code>esmtpd</code> files enable SSL
   certificate authentication for incoming <code>SMTP</code>
@@ -3637,7 +3650,7 @@ Subject: C=US,ST=New York,L=New York,O=Acme Widgets Inc,CN=John Smith,emailAddre
       <blockquote>
         <p>NOTE: GnuTLS's <code>certtool</code> uses
         "<code>email</code>" as the name of this field. If the
-        <i>Courier</i> mail server is compiled with GnuTLS, you
+        <em>Courier</em> mail server is compiled with GnuTLS, you
         should still specify this field as
         "<code>emailaddress</code>".</p>
       </blockquote>
@@ -3698,9 +3711,9 @@ allow httpd_sys_script_t unconfined_t:unix_stream_socket connectto;
 
   <p>The webmail server can use either the ispell or the aspell
   package for spell checking. Install ispell or aspell before
-  installing the <i>Courier</i> mail server.</p>
+  installing the <em>Courier</em> mail server.</p>
 
-  <p>NOTE: <i>Courier</i> mail server assumes that the spell
+  <p>NOTE: <em>Courier</em> mail server assumes that the spell
   checking dictionary is called "english". Some systems use a
   different name for the default spell checking dictionary. To
   change the name of the spell checking dictionary used by the
@@ -3768,13 +3781,14 @@ allow httpd_sys_script_t unconfined_t:unix_stream_socket connectto;
 name&lt;tab&gt;host&lt;tab&gt;port&lt;tab&gt;suffix&lt;tab&gt;binddn&lt;tab&gt;bindpw
 </pre>
 
-  <p><i>&lt;tab&gt;</i> is a single ASCII TAB character.
-  <i>name</i> is the unique name for this LDAP server. <i>host</i>
-  and <i>port</i> specify the connection parameters. <i>suffix</i>
-  specifies the root LDAP entry whose subtree gets searched. The
-  <i>binddn</i> and <i>bindpw</i> fields are not presently used
-  (they were used in earlier version of the webmail server, before
-  the LDAP search interface was rewritten and simplified).</p>
+  <p><em>&lt;tab&gt;</em> is a single ASCII TAB character.
+  <em>name</em> is the unique name for this LDAP server.
+  <em>host</em> and <em>port</em> specify the connection
+  parameters. <em>suffix</em> specifies the root LDAP entry whose
+  subtree gets searched. The <em>binddn</em> and <em>bindpw</em>
+  fields are not presently used (they were used in earlier version
+  of the webmail server, before the LDAP search interface was
+  rewritten and simplified).</p>
 
   <h2><a name="calendaring" id="calendaring">OPTIONAL: Configure
   webmail calendaring</a></h2>
@@ -3842,8 +3856,8 @@ SetEnv SQWEBMAIL_TIMEOUTSOFT 3600
 
     <p><em>NOTE:</em> These settings limit only the maximum size of
     messages sent from the webmail server. The limit on the
-    incoming message size is set by other <i>Courier</i> mail
-    server settings (usually the <i>sizelimit</i> setting
+    incoming message size is set by other <em>Courier</em> mail
+    server settings (usually the <em>sizelimit</em> setting
     also).</p>
   </blockquote>
 
@@ -3890,8 +3904,8 @@ SetEnv SQWEBMAIL_TIMEOUTSOFT 3600
 
   <p>These variables must be set in the environment that runs the
   webmail <code>CGI</code> program. With Apache, these variables
-  can be set in the <i>httpd.conf</i> file by the
-  <code>SetEnv</code> command. <i>httpd.conf</i> example:</p>
+  can be set in the <em>httpd.conf</em> file by the
+  <code>SetEnv</code> command. <em>httpd.conf</em> example:</p>
 
   <blockquote>
     <pre>
@@ -3925,8 +3939,9 @@ SetEnv SQWEBMAIL_MAXMSGSIZE 4000000
 
   <p>When a pool of SqWebMail servers is combined for
   load-balancing, all servers must use the same random seed. This
-  is done by defining the <tt>SQWEBMAIL_RANDSEED</tt> environment
-  variable. This can be set in the <i>httpd.conf</i> as well:</p>
+  is done by defining the <code>SQWEBMAIL_RANDSEED</code>
+  environment variable. This can be set in the <em>httpd.conf</em>
+  as well:</p>
 
   <blockquote>
     <pre>
@@ -3934,8 +3949,8 @@ SetEnv SQWEBMAIL_RANDSEED 82738AZ
 </pre>
   </blockquote>
 
-  <p><tt>SQWEBMAIL_RANDSEED</tt> should contain up to ten letters
-  or numbers.</p>
+  <p><code>SQWEBMAIL_RANDSEED</code> should contain up to ten
+  letters or numbers.</p>
 
   <h3>Domain-based templates</h3>
 
@@ -3965,10 +3980,10 @@ SetEnv SQWEBMAIL_RANDSEED 82738AZ
   server to initialize</code> SQWEBMAIL_TEMPLATEDIR appropriately.
   For example, with Apache:</p>
   <pre>
-  &lt;VirtualHost <i>a.b.c.d</i>&gt;
-    ServerName <i>webmail.example.com</i>
+  &lt;VirtualHost <em>a.b.c.d</em>&gt;
+    ServerName <em>webmail.example.com</em>
     [...]
-    SetEnv SQWEBMAIL_TEMPLATEDIR <i>/usr/local/share/webmail/webmail.example.com</i>
+    SetEnv SQWEBMAIL_TEMPLATEDIR <em>/usr/local/share/webmail/webmail.example.com</em>
     [...]
   &lt;/VirtualHost&gt;
 </pre>The possibilities are endless.
@@ -4036,11 +4051,11 @@ SQWEBMAIL_IMAGEURL
   <pre>
   
   # Sqwebmail Alternate Template URL
-  ScriptAlias /cgi-bin/sqwebmail-alt-template <i>"/usr/local/apache/cgi-bin/sqwebmail"</i>
+  ScriptAlias /cgi-bin/sqwebmail-alt-template <em>"/usr/local/apache/cgi-bin/sqwebmail"</em>
 
-  &lt;Location <i>/cgi-bin/sqwebmail-alt-template</i>&gt;
-      Setenv SQWEBMAIL_TEMPLATEDIR <i>"/usr/local/share/sqwebmail/alternate-template"</i>
-      Setenv SQWEBMAIL_IMAGEURL <i>"/alternate-webmail"</i>
+  &lt;Location <em>/cgi-bin/sqwebmail-alt-template</em>&gt;
+      Setenv SQWEBMAIL_TEMPLATEDIR <em>"/usr/local/share/sqwebmail/alternate-template"</em>
+      Setenv SQWEBMAIL_IMAGEURL <em>"/alternate-webmail"</em>
       [...]
   &lt;/Location&gt;
       
@@ -4094,28 +4109,28 @@ SQWEBMAIL_IMAGEURL
 
   <h3>The big picture</h3>
 
-  <p>The <i>maildrop</i> mail filter is used to do the actual mail
-  filtering. <i>maildrop</i> must be installed as your local mail
-  delivery agent. The next thing to do is to actually learn how
-  <i>maildrop</i> works, and learn its filtering language. Although
-  the mail filter will be automaticaly generated here, you still
-  need to become familiar with the filtering language in order to
-  troubleshoot any installation problems. <i>maildrop</i> comes
-  with manual pages documenting the filtering language, as well as
-  some examples. Read them.</p>
+  <p>The <em>maildrop</em> mail filter is used to do the actual
+  mail filtering. <em>maildrop</em> must be installed as your local
+  mail delivery agent. The next thing to do is to actually learn
+  how <em>maildrop</em> works, and learn its filtering language.
+  Although the mail filter will be automaticaly generated here, you
+  still need to become familiar with the filtering language in
+  order to troubleshoot any installation problems.
+  <em>maildrop</em> comes with manual pages documenting the
+  filtering language, as well as some examples. Read them.</p>
 
   <h3>The little picture</h3>
 
   <p>Here's what's going to happen. The webmail server will
-  automatically generate a <i>maildrop</i> filtering recipe.
-  <i>maildrop</i> reads the recipe, and does its thing. Sounds
+  automatically generate a <em>maildrop</em> filtering recipe.
+  <em>maildrop</em> reads the recipe, and does its thing. Sounds
   simple enough, right?</p>
 
   <p>Well, it's not. There are a few little details that need to be
   resolved.</p>
 
-  <p>For starters, the default <i>maildrop</i> filtering recipe is
-  <code>$HOME/.mailfilter</code>. That's how things usually work
+  <p>For starters, the default <em>maildrop</em> filtering recipe
+  is <code>$HOME/.mailfilter</code>. That's how things usually work
   physical system accounts are used. When virtual mailboxes are
   installed, things are less murky. There are several ways to set
   up virtual mailboxes, described elsewhere in this INSTALL file,
@@ -4123,9 +4138,9 @@ SQWEBMAIL_IMAGEURL
   Somehow, the virtual mailboxes share the same physical account,
   and have the same $HOME. In that case the usual approach is for
   each virtual mailbox to have the corresponding mail filtering
-  recipe manually specified to <i>maildrop</i> as an extra command
-  line argument. Review the <i>maildrop</i> documentation for more
-  information.</p>
+  recipe manually specified to <em>maildrop</em> as an extra
+  command line argument. Review the <em>maildrop</em> documentation
+  for more information.</p>
 
   <p>Now, on the other hand, the webmail server doesn't really know
   anything about physical and virtual accounts. The mapping between
@@ -4141,8 +4156,9 @@ SQWEBMAIL_IMAGEURL
   way).</p>
 
   <p>So, the issue is that the webmail server needs to find the
-  corresponding <i>maildrop</i> filtering recipe, so it knows where
-  to write the mail delivery instructions. That's the deal</p>
+  corresponding <em>maildrop</em> filtering recipe, so it knows
+  where to write the mail delivery instructions. That's the
+  deal</p>
 
   <p>In order for mail filtering to be enabled, it is necessary to
   initialize the file named <code>maildirfilterconfig</code> in the
@@ -4150,37 +4166,38 @@ SQWEBMAIL_IMAGEURL
   simply reads this file. The contents of this file should be as
   follows:</p>
   <pre>
-MAILDIRFILTER=<i>pathtomailfilter</i>
-MAILDIR=<i>pathtomaildir</i>
+MAILDIRFILTER=<em>pathtomailfilter</em>
+MAILDIR=<em>pathtomaildir</em>
 </pre>
 
-  <p><i>pathtomailfilter</i> specifies the location of the
-  <i>maildrop</i> filtering recipe for this maildir, relative to
-  the <i>maildir</i> itself. Set the current directory to the
-  maildir directory. Now ask yourself, where's my <i>maildrop</i>
+  <p><em>pathtomailfilter</em> specifies the location of the
+  <em>maildrop</em> filtering recipe for this maildir, relative to
+  the <em>maildir</em> itself. Set the current directory to the
+  maildir directory. Now ask yourself, where's my <em>maildrop</em>
   filtering recipe?</p>
 
   <p>In most cases, where virtual mailboxes are not used,
   everyone's maildir is <code>$HOME/Maildir</code>, and
-  <i>maildrop</i> uses <code>$HOME/.mailfilter</code> by default.
-  In this case, <i>pathtomailfilter</i> must be set to
+  <em>maildrop</em> uses <code>$HOME/.mailfilter</code> by default.
+  In this case, <em>pathtomailfilter</em> must be set to
   <code>../.mailfilter</code>.</p>
 
   <p>When virtual mail accounts are used, this will obviously be
-  something else. The only requirement is that the <i>maildrop</i>
-  filtering recipe and the maildir <b>must be on the same
-  filesystem or partition</b>.</p>
+  something else. The only requirement is that the
+  <em>maildrop</em> filtering recipe and the maildir <b>must be on
+  the same filesystem or partition</b>.</p>
 
-  <p><i>pathtomaildir</i> is the other half of the story. When
-  <i>maildrop</i> gets a message to deliver, <i>maildrop</i> needs
-  to know where the mailboxes and folders are. <i>Maildrop</i>
-  begins running in what it considers to be the recipient's home
-  directory, reading either <code>.mailfilter</code>, by default,
-  or the file specified on the command line.</p>
+  <p><em>pathtomaildir</em> is the other half of the story. When
+  <em>maildrop</em> gets a message to deliver, <em>maildrop</em>
+  needs to know where the mailboxes and folders are.
+  <em>Maildrop</em> begins running in what it considers to be the
+  recipient's home directory, reading either
+  <code>.mailfilter</code>, by default, or the file specified on
+  the command line.</p>
 
   <p>The webmail server needs to generate filtering instruction
   that deliver messages to its maildir. By default, the maildir for
-  non-virtual accounts is $HOME/Maildir, so <i>pathtomaildir</i>
+  non-virtual accounts is $HOME/Maildir, so <em>pathtomaildir</em>
   needs to be set to <code>./Maildir</code>.</p>
 
   <h3>Summary for virtual accounts</h3>
@@ -4188,18 +4205,18 @@ MAILDIR=<i>pathtomaildir</i>
   <p>Basically, 99% of the time <code>MAILDIRFILTER</code> will be
   <code>../.mailfilter</code> and <code>MAILDIR</code> will be
   <code>./Maildir</code>. When virtual mail accounts are used,
-  <i>maildrop</i> still must be used as a mail delivery agent.
+  <em>maildrop</em> still must be used as a mail delivery agent.
   Somehow, the correct maildir that corresponds to the recipient's
   mail account must be specified as the argument to
-  <i>maildrop</i>. Usually all or most virtual accounts are set up
-  inside a single physical account. In that case it is necessary to
-  set up a different <i>maildrop</i> filtering recipe file for each
-  virtual mail account (since everyone's
+  <em>maildrop</em>. Usually all or most virtual accounts are set
+  up inside a single physical account. In that case it is necessary
+  to set up a different <em>maildrop</em> filtering recipe file for
+  each virtual mail account (since everyone's
   <code>$HOME/.mailfilter</code> will be the same file), and in
   each maildir specify the relative path to its corresponding
   filtering recipe, and the relative path to the maildir from the
   default home directory. Then, for each virtual mail account, the
-  mail server must run <i>maildrop</i> to do the actual mail
+  mail server must run <em>maildrop</em> to do the actual mail
   delivery, explicitly specifying the filtering recipe to be
   used.</p>
 
@@ -4213,7 +4230,7 @@ MAILDIR=<i>pathtomaildir</i>
   systemwide.</p>
 
   <p>Install the global <code>maildirfilterconfig</code> in the
-  <i>Courier</i> mail server's configuration directory
+  <em>Courier</em> mail server's configuration directory
   (<code>/usr/lib/courier/etc</code> by default).</p>
 
   <p>The global <code>maildirfilterconfig</code> will be used
@@ -4249,11 +4266,11 @@ MAILDIR=<i>pathtomaildir</i>
 
   <p>There are some options which can be used to change the webmail
   server's behavior for individual accounts, or globally, using the
-  "Account Options" feature in the <i>Courier</i> mail server
+  "Account Options" feature in the <em>Courier</em> mail server
   Authentication library. The individual account's setting takes
   precedence over the DEFAULTOPTIONS settings in the
-  <i>authdaemonrc</i> configuration, so for example if you want to
-  disable webmail access for most accounts but enable it for a
+  <em>authdaemonrc</em> configuration, so for example if you want
+  to disable webmail access for most accounts but enable it for a
   select few, you can set
   <code>DEFAULTOPTIONS="disablewebmail=1"</code> in the
   <code>authdaemonrc</code> configuration file, and add the option
@@ -4365,24 +4382,24 @@ MAILDIR=<i>pathtomaildir</i>
   automatically-appended footer text for webmail messages</a></h2>
 
   <p>
-  <code>/usr/lib/courier/share/sqwebmail/html/<i>LANG</i>/footer</code>
+  <code>/usr/lib/courier/share/sqwebmail/html/<em>LANG</em>/footer</code>
   - if this file exists, its contents will be appended to the end
   of every sent message from the webmail server. The actual
   directory where sqwebmail's html language files are installed may
-  be different with prebuilt Courier packages. <i>LANG</i> is the
+  be different with prebuilt Courier packages. <em>LANG</em> is the
   language code here, there can be a separate footer per installed
-  language. The <i>footer</i> file carries the following
+  language. The <em>footer</em> file carries the following
   requirements:</p>
 
   <ul>
     <li>
-      <p>The footer file must be coded in <tt>UTF-8</tt>.</p>
+      <p>The footer file must be coded in <code>UTF-8</code>.</p>
     </li>
 
     <li>
-      <p>The footer file must follow the <tt>format=flowed;
-      delsp=yes</tt> format, as specified by <tt>RFC 3676</tt>.
-      Capsule summary:</p>
+      <p>The footer file must follow the <code>format=flowed;
+      delsp=yes</code> format, as specified by <code>RFC
+      3676</code>. Capsule summary:</p>
 
       <ul>
         <li>
@@ -4419,6 +4436,10 @@ MAILDIR=<i>pathtomaildir</i>
           logically removed from the contents of the line.</p>
         </li>
       </ul>
+
+      <p>A convenient way to format text in flowed format is to use
+      the <code>leaf</code> editor that's part of the <a href=
+      "http://www.courier-mta.org/cone">Cone</a> package.</p>
     </li>
 
     <li>
@@ -4472,7 +4493,7 @@ MAILDIR=<i>pathtomaildir</i>
 
   <h3>Maildir quotas</h3>
 
-  <p>The <i>Courier</i> mail server can manually enforce a quota
+  <p>The <em>Courier</em> mail server can manually enforce a quota
   for mail accounts that use maildirs. This quota enforcement is
   implemented entirely in software, and is available only when
   maildirs are used. This quota implementation will also work with
@@ -4482,12 +4503,12 @@ MAILDIR=<i>pathtomaildir</i>
   server. To add a maildir quota with userdb, run the following
   commands, for example:</p>
   <pre>
-userdb <i>account</i> set quota=<i>quota</i>
+userdb <em>account</em> set quota=<em>quota</em>
 makeuserdb
 </pre>
 
-  <p>Here, <i>account</i> identifies the account to which the quota
-  applies, and <i>quota</i> is the quota specification, as
+  <p>Here, <em>account</em> identifies the account to which the
+  quota applies, and <em>quota</em> is the quota specification, as
   described in the <a href=
   "maildirquota.html"><code>maildirquota(7)</code></a> manual
   page.</p>
@@ -4500,7 +4521,7 @@ makeuserdb
 
   <p>It is possible to adjust certain parameters on an
   account-by-account basis. This feature is actually implemented in
-  the <i>Courier</i> mail server Authentication Library. See
+  the <em>Courier</em> mail server Authentication Library. See
   ACCOUNT OPTIONSin the <code>auth_generic</code> manual page.</p>
 
   <h2><a name="sendfax" id="sendfax">OPTIONAL: Configure outbound
@@ -4509,20 +4530,21 @@ makeuserdb
   <p>Fax sending is disabled by default and must be explicitly
   enabled, according to the following instructions. After fax
   sending is enabled, addressing an E-mail message to
-  <tt>&lt;5552000@fax&gt;</tt> will have this message faxed.</p>
+  <code>&lt;5552000@fax&gt;</code> will have this message
+  faxed.</p>
 
   <p>Of course, the necessary hardware and software must be
   available. The requisite hardware is a class 2 faxmodem attached
   to a serial port. Additional software, separate from the
-  <i>Courier</i> mail server, must also be installed. The
-  <i>Courier</i> mail server does not handle the actual job of
-  faxing. The <i>Courier</i> mail server only reformats E-mail
+  <em>Courier</em> mail server, must also be installed. The
+  <em>Courier</em> mail server does not handle the actual job of
+  faxing. The <em>Courier</em> mail server only reformats E-mail
   messages as fax images, and runs <a target="_blank" href=
   "http://alpha.greenie.net/mgetty/">mgetty+sendfax</a> to send the
-  fax. The <i>Courier</i> mail server also needs additional
+  fax. The <em>Courier</em> mail server also needs additional
   software to convert E-mail messages to faxes. All additional
   software must be separately installed, configured, and tested
-  before enabling faxing in the <i>Courier</i> mail server. Most
+  before enabling faxing in the <em>Courier</em> mail server. Most
   systems already include the following software as part of the
   base operating system, so in most cases adding fax support will
   not actually require any additional software to be installed,
@@ -4530,20 +4552,21 @@ makeuserdb
 
   <h3>mgetty+sendfax</h3>
 
-  <p><tt>mgetty+sendfax</tt> works with most Class 2 faxmodems. The
-  <i>Courier</i> mail server does not use the spooling scripts
-  found in the <tt>mgetty+sendfax</tt> package. The <i>Courier</i>
-  mail server uses its own mail spool. A fax message is handled no
-  differently than any other E-mail message. The only difference is
-  that the E-mail message is addressed to
-  <tt>&lt;phonenumber@fax&gt;</tt>.</p>
+  <p><code>mgetty+sendfax</code> works with most Class 2 faxmodems.
+  The <em>Courier</em> mail server does not use the spooling
+  scripts found in the <code>mgetty+sendfax</code> package. The
+  <em>Courier</em> mail server uses its own mail spool. A fax
+  message is handled no differently than any other E-mail message.
+  The only difference is that the E-mail message is addressed to
+  <code>&lt;phonenumber@fax&gt;</code>.</p>
 
-  <p><tt>mgetty+sendfax</tt> should be configured with its default
-  settings, EXCEPT as follows:</p>
+  <p><code>mgetty+sendfax</code> should be configured with its
+  default settings, EXCEPT as follows:</p>
 
   <ul>
-    <li>In <tt>/etc/mgetty+sendfax</tt>, the
-    <tt>"max-tries-continue"</tt> setting must be set to "n".</li>
+    <li>In <code>/etc/mgetty+sendfax</code>, the
+    <code>"max-tries-continue"</code> setting must be set to
+    "n".</li>
   </ul>
 
   <h3>groff or troff, ghostscript, NetPBM</h3>
@@ -4553,7 +4576,7 @@ makeuserdb
   <a target="_blank" href=
   "http://www.gnu.org/software/groff/groff.html">groff</a>. It
   should be possible to use the original UNIX troff instead of
-  groff, but this has not been tested. The <i>Courier</i> mail
+  groff, but this has not been tested. The <em>Courier</em> mail
   server generates the fax cover page from the contents of the
   E-mail message's headers. The initial text portion of the E-mail
   message will appear as fax cover page comments. Note that the
@@ -4566,8 +4589,8 @@ makeuserdb
   <p>On the cover page, the sender's name, the recipient's name,
   and the fax subject gets taken from the E-mail message's headers.
   The ability to use non-Latin characters depends on the support
-  from the underlying tools, <i>ghostscript</i> and <i>groff</i>,
-  for the default system locale.</p>
+  from the underlying tools, <em>ghostscript</em> and
+  <em>groff</em>, for the default system locale.</p>
 
   <p>Install the <a target="_blank" href=
   "http://netpbm.sourceforge.net/">NetPBM</a> library to add the
@@ -4578,19 +4601,19 @@ makeuserdb
 
   <h3>Enabling faxing</h3>
 
-  <p>The configuration file <tt>/usr/lib/courier/etc/faxrc</tt>
+  <p>The configuration file <code>/usr/lib/courier/etc/faxrc</code>
   must be edited in order to enable faxing. This file sets up the
   dialing parameters, and the default file disables faxing by
   rejecting all phone numbers. The configuration file has extensive
   comments that explain how dialing parameters are set.</p>
 
   <p>Using webadmin to set up fax sending is highly recommended. A
-  proper <tt>faxrc</tt> will automatically hide all the local
+  proper <code>faxrc</code> will automatically hide all the local
   daling conventions. Webadmin knows how to generate the dialing
   configuration for the North American dialing plan, with a
   configurable area code. Faxes should be addressed to a fixed ten
   digit area code+phone number address,
-  <tt>&lt;nnnxxxxxxx@fax&gt;</tt>, which will be converted for
+  <code>&lt;nnnxxxxxxx@fax&gt;</code>, which will be converted for
   dialing from the local area code appropriately. Webadmin can also
   optionally enable faxing to international 011 phone numbers.
   Webadmin can also fall back to a bare configuration where all
@@ -4599,7 +4622,7 @@ makeuserdb
 
   <h3>Sending faxes</h3>
 
-  <p>E-mail messages may contain attachments. The <i>Courier</i>
+  <p>E-mail messages may contain attachments. The <em>Courier</em>
   mail server combines all attachments in the message into a single
   fax transmission. Attachment types may be freely mixed. A single
   message may contain one plain text, and one PDF attachment, for
@@ -4608,22 +4631,22 @@ makeuserdb
 
   <ul>
     <li>
-      <tt>&lt;phonenumber@fax-lowres&gt;</tt>
+      <code>&lt;phonenumber@fax-lowres&gt;</code>
 
       <p>sends a low-resolution fax.</p>
     </li>
 
     <li>
-      <tt>&lt;phonenumber@fax-ignore&gt;</tt>
+      <code>&lt;phonenumber@fax-ignore&gt;</code>
 
-      <p>Ignore attachments that the <i>Courier</i> mail server
+      <p>Ignore attachments that the <em>Courier</em> mail server
       doesn't know how to convert to a FAX image format. Normally,
       if an attachment cannot be converted the whole message is
       returned as undeliverable.</p>
     </li>
 
     <li>
-      <tt>&lt;phonenumber@fax-cover&gt;</tt>
+      <code>&lt;phonenumber@fax-cover&gt;</code>
 
       <p>sends only the cover page. This can be useful for <a href=
       "dot-courier.html">.courier</a> files. See the <a href=
@@ -4633,29 +4656,29 @@ makeuserdb
   </ul>
 
   <p>These options can be combined:
-  <tt>&lt;phonenumber&gt;@fax-lowres-ignore&gt;</tt>.</p>
+  <code>&lt;phonenumber&gt;@fax-lowres-ignore&gt;</code>.</p>
 
   <h3>Cover pages</h3>
 
-  <p><tt>/usr/lib/courier/etc/faxcoverpage.tr</tt> is the troff
+  <p><code>/usr/lib/courier/etc/faxcoverpage.tr</code> is the troff
   source for the FAX cover page, which includes the first plain
   text section of the E-mail message. Do not attempt to play with
-  <tt>faxcoverpage.tr</tt> without a clear understanding of troff.
-  It is safe to make trivial changes (such as replacing the
+  <code>faxcoverpage.tr</code> without a clear understanding of
+  troff. It is safe to make trivial changes (such as replacing the
   "FACSIMILE COVER PAGE" text).</p>
 
   <h3>Dialing</h3>
 
-  <p>The <tt>/usr/lib/courier/etc/faxrc</tt> configuration file
+  <p>The <code>/usr/lib/courier/etc/faxrc</code> configuration file
   provides rudimentary phone number rewriting logic (stuff like
   dialing "9," to get outside line from a PBX). The default
-  <tt>faxrc</tt> configuration file specifies a typical dialing
+  <code>faxrc</code> configuration file specifies a typical dialing
   configuration for the North American numbering plan, with seven
   digit local phone numbers, and 1+ten digit long distance phone
-  numbers. The area code in the default <tt>faxrc</tt>
+  numbers. The area code in the default <code>faxrc</code>
   configuration file is set to "999", you will need to change it to
-  your area code (there are two places in <tt>faxrc</tt> where the
-  area code needs to be set).</p>
+  your area code (there are two places in <code>faxrc</code> where
+  the area code needs to be set).</p>
 
   <p>In general, messages should be addressed to the full ten-digit
   phone numbers. The local area code will be stripped
@@ -4669,8 +4692,8 @@ makeuserdb
   local phone system customization is required (for example,
   dialing 9 to get an outside line). Several places in North
   America now use ten digit local phone number overlays, with 1+ten
-  digit long distance dialing. TODO: Use <tt>webadmin</tt> if you
-  are not sure how to set this up.</p>
+  digit long distance dialing. TODO: Use <code>webadmin</code> if
+  you are not sure how to set this up.</p>
 
   <h3>Security</h3>
 
@@ -4686,39 +4709,39 @@ makeuserdb
   <h2><a name="recvfax" id="recvfax">OPTIONAL: Configure inbound
   faxing</a></h2>
 
-  <p><tt>mgetty</tt> has an option that runs a script called
-  "<tt>new_fax</tt>" after it receives a fax. The default location
-  for this script is either
-  <tt>/usr/local/lib/etc/mgetty+sendfax/new_fax</tt> or
-  <tt>/etc/mgetty+sendfax/new_fax</tt>. Consult your mgetty
-  documentation to determine if the <tt>new_fax</tt> option is
+  <p><code>mgetty</code> has an option that runs a script called
+  "<code>new_fax</code>" after it receives a fax. The default
+  location for this script is either
+  <code>/usr/local/lib/etc/mgetty+sendfax/new_fax</code> or
+  <code>/etc/mgetty+sendfax/new_fax</code>. Consult your mgetty
+  documentation to determine if the <code>new_fax</code> option is
   enabled, and the exact script location.</p>
 
-  <p>The <i>Courier</i> mail server provides a script -
-  <tt>/usr/lib/courier/share/faxmail/new_fax</tt> - that can be
-  used as mgetty's <tt>new_fax</tt> script. This script converts
-  incoming faxes to PNG images, and delivers it to a local mailbox.
-  Simply copy this script to mgetty's <tt>etc</tt> directory (or
-  install a soft link there), to automatically drop incoming faxes
-  to a local mailboxes.</p>
+  <p>The <em>Courier</em> mail server provides a script -
+  <code>/usr/lib/courier/share/faxmail/new_fax</code> - that can be
+  used as mgetty's <code>new_fax</code> script. This script
+  converts incoming faxes to PNG images, and delivers it to a local
+  mailbox. Simply copy this script to mgetty's <code>etc</code>
+  directory (or install a soft link there), to automatically drop
+  incoming faxes to a local mailboxes.</p>
 
-  <p>The <tt>/usr/lib/courier/etc/faxnotifyrc</tt> configuration
-  file specifies the mailbox that receives incoming faxes, and
-  several other related options.</p>
+  <p>The <code>/usr/lib/courier/etc/faxnotifyrc</code>
+  configuration file specifies the mailbox that receives incoming
+  faxes, and several other related options.</p>
 
   <h2><a name="analog" id="analog">OPTIONAL: Install the
-  <i>Courier</i> mail server log analyzer</a></h2>
+  <em>Courier</em> mail server log analyzer</a></h2>
 
-  <p>The <i>Courier</i> mail server log analyzer (the
-  <tt>courier-analog</tt> package) is a Perl script that generates
-  log summaries for the <i>Courier</i> mail server. The
-  <i>Courier</i> mail server log analyzer generates log summaries
+  <p>The <em>Courier</em> mail server log analyzer (the
+  <code>courier-analog</code> package) is a Perl script that
+  generates log summaries for the <em>Courier</em> mail server. The
+  <em>Courier</em> mail server log analyzer generates log summaries
   for incoming and outgoing SMTP connections, and IMAP and POP3
   activity. courier-analog can generate output in text or HTML
   format.</p>
 
-  <p>The <i>Courier</i> log analyzer is not included in the main
-  the <i>Courier</i> mail server tarball, it must be downloaded
+  <p>The <em>Courier</em> log analyzer is not included in the main
+  the <em>Courier</em> mail server tarball, it must be downloaded
   separately from <a href=
   "http://www.courier-mta.org/download.php#analog">http://www.courier-mta.org/download.php#analog</a>.
   After downloading and installing this package, see the
@@ -4754,9 +4777,9 @@ makeuserdb
   <h2><a name="sample" id="sample">Sample init script</a></h2>
 
   <p>You're now ready to configure your system to start the
-  <i>Courier</i> mail server at system boot time (and shut it down
-  at system shutdown). If your system uses system-V init scripts,
-  here's a sample script that you can install in your
+  <em>Courier</em> mail server at system boot time (and shut it
+  down at system shutdown). If your system uses system-V init
+  scripts, here's a sample script that you can install in your
   <code>/etc/rc?.d</code>directories. This is a slightly modified
   version of the init script that's used in my RPM package
   (<code>courier.sysvinit</code> file in the source code

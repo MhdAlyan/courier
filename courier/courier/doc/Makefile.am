@@ -17,7 +17,6 @@ nohtmlinfiles=  aliases.html \
 		changelog.html \
 		courierd.html \
 		courierdsn.html \
-		cvs.html \
 		documentation.html \
 		esmtp.html \
 		FAQ.html \
@@ -36,7 +35,8 @@ nohtmlinfiles=  aliases.html \
 		queue.html \
 		rpm.html \
 		status.html \
-		structures.html
+		structures.html \
+		svn.html
 
 nohtmlin=$(miscfiles) $(nohtmlinfiles)
 
@@ -631,7 +631,9 @@ htmldocfiles=$(nohtmlinfiles) $(htmlin) \
 dollar=$$
 id=$(dollar)Id
 
+WWW=$$HOME/www/www.courier-mta.org
+
 htmldoc: $(htmldocfiles)
-	for f in $(htmldocfiles); do test "$$f" = "footer.html" && continue; test "$$f" = "menu.html" && continue; test "$$f" = "header.html" && continue; test "$$f" = "index.html" && continue; test "$$f" = "main.html" && continue; b=`basename $$f`; d=../../html/$$b; h=`test ! -f $$d || perl -ne ' print $$1 if /\\$(id):([^\\$$]*)\\$$/' <$$d`; echo $$f; xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/courier.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >$$d; done
-	for f in index.html main.html header.html footer.html menu.html; do  b=`basename $$f`; d=../../html/$$b; h=`test ! -f $$d || perl -ne ' print $$1 if /\\$(id):([^\\$$]*)\\$$/' <$$d`; perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' <$$f >$$d; done
-	cp $(miscfiles) ../../html
+	for f in $(htmldocfiles); do test "$$f" = "footer.html" && continue; test "$$f" = "menu.html" && continue; test "$$f" = "header.html" && continue; test "$$f" = "index.html" && continue; test "$$f" = "main.html" && continue; b=`basename $$f`; d=$(WWW)/$$b; h=`test ! -f $$d || perl -ne ' print $$1 if /\\$(id):([^\\$$]*)\\$$/' <$$d`; echo $$f; xsltproc --nonet $(WWW)/xsl/courier.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >$$d; done
+	for f in index.html main.html header.html footer.html menu.html; do  b=`basename $$f`; d=$(WWW)/$$b; h=`test ! -f $$d || perl -ne ' print $$1 if /\\$(id):([^\\$$]*)\\$$/' <$$d`; perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' <$$f >$$d; done
+	cp $(miscfiles) $(WWW)

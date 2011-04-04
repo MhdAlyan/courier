@@ -40,3 +40,5 @@ testsuite.msgid5
 testsuite.msgid6
 
 EOF
+rm -f testsuite.msgid*
+rm -f testsuite.msg[12]

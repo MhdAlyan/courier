@@ -15,7 +15,7 @@
   <!-- Copyright 1998 - 2009 Double Precision, Inc.  See COPYING for -->
   <!-- distribution information. -->
 
-  <h2>Introduction</h2>The <i>Courier</i> mail server is a modular
+  <h2>Introduction</h2>The <em>Courier</em> mail server is a modular
   multiprotocol mail server that's designed to strike a balance
   between reasonable performance, flexibility and features.
 
@@ -30,10 +30,10 @@
     <li><a target="_blank" href="/webadmin/">Web-based
     administration and configuration tool</a> .</li>
 
-    <li>Local mailboxes can be accessed via POP3. The <i>Courier</i> mail
+    <li>Local mailboxes can be accessed via POP3. The <em>Courier</em> mail
     server includes an integrated POP3 server.</li>
 
-    <li>Local mailboxes can be accessed via IMAP. The <i>Courier</i> mail
+    <li>Local mailboxes can be accessed via IMAP. The <em>Courier</em> mail
     server includes an integrated IMAP server.</li>
 
     <li>A built-in IMAP/POP3 aggregator proxy. It is possible to
@@ -42,7 +42,7 @@
     POP3 clients, then connects to the right server based on the
     mailbox the connecting client is logging into.</li>
 
-    <li>Local mailboxes can be accessed via HTTP. The <i>Courier</i> mail
+    <li>Local mailboxes can be accessed via HTTP. The <em>Courier</em> mail
     server includes an <a href=
     "/sqwebmail/screenshots.html">integrated webmail
     server</a>.</li>
@@ -62,7 +62,7 @@
     <code>From:</code> header can be validated using SPF.</li>
 
     <li>DSN, PIPELINING, and 8BITMIME ESMTP extensions. The
-    <i>Courier</i> mail server automatically converts 8-bit messages to
+    <em>Courier</em> mail server automatically converts 8-bit messages to
     7-bit encoding, for relaying mail to external mail
     gateways.</li>
 
@@ -103,8 +103,8 @@
 
     <li>A faxmail gateway (experimental) that forwards E-mail
     messages via fax (requires a compatible class 2 faxmodem). The
-    <i>Courier</i> mail server doesn't implement the actual faxing all by
-    itself, actually. The <i>Courier</i> mail server uses additional
+    <em>Courier</em> mail server doesn't implement the actual faxing all by
+    itself, actually. The <em>Courier</em> mail server uses additional
     software (which must be separately installed), to take care of
     the low-level details. The popular <a target="_blank" href=
     "http://alpha.greenie.net/mgetty/">mgetty+sendfax</a> package
@@ -115,12 +115,12 @@
     "http://www.gnu.org/software/groff/groff.html">groff</a>, and
     the <a target="_blank" href=
     "http://netpbm.sourceforge.net/">NetPBM</a> library. The
-    <i>Courier</i> mail server glues all of these pieces together in a
+    <em>Courier</em> mail server glues all of these pieces together in a
     seamless manner any time an E-mail message addressed to
-    <tt>&lt;phonenumber@fax&gt;</tt> is received. The main textual
+    <code>&lt;phonenumber@fax&gt;</tt> is received. The main textual
     body of the E-mail message is placed on a cover page, and any
     attachments are converted to fax image format and transmitted
-    after the cover page. At this time, The <i>Courier</i> mail server
+    after the cover page. At this time, The <em>Courier</em> mail server
     knows how to send plain text, PDF, and Postscript attachments.
     GIF, JPEG, and PNG images can be sent to (one image per page).
     The additional software packages that were mentioned previously
@@ -129,10 +129,10 @@
     needs to be installed in order to get faxmailing up and
     running.</li>
 
-    <li>The <i>Courier</i> mail server includes a mailing list manager,
+    <li>The <em>Courier</em> mail server includes a mailing list manager,
     with fully automatic bounce processing.</li>
 
-    <li>You don't need a full-blown mail server? <i>Courier</i> mail
+    <li>You don't need a full-blown mail server? <em>Courier</em> mail
     server's <a target="_top" href=
     "http://www.courier-mta.org/courierimap/">IMAP server</a>,
     <a target="_top" href=
@@ -146,16 +146,16 @@
     These sub-packages are assembled from the same source code
     tree. The only difference is the top level makefile. Note: the
     independent builds are not always in sync with the main the
-    <i>Courier</i> mail server build at any given time. They follow their
+    <em>Courier</em> mail server build at any given time. They follow their
     own schedule, and may include a slightly older, or even more
     recent, code base! Over time, however, everything always syncs
     together since all builds are assembled from the same source
     code repository.</li>
 
-    <li>SOCKSv5 support. The <i>Courier</i> mail server can punch through
+    <li>SOCKSv5 support. The <em>Courier</em> mail server can punch through
     a SOCKS firewall to send outgoing mail. Receiving mail through
     a SOCKS firewall is not yet supported. To use SOCKS you need to
-    install the <i>Courier</i> mail server's Socks 5 proxy client
+    install the <em>Courier</em> mail server's Socks 5 proxy client
     library.</li>
 
     <li>PAM, LDAP, PostgreSQL (beta), or MySQL authentication. LDAP
@@ -185,7 +185,7 @@
     language (implemented by <code>maildrop</code>, see below).
     Mail filtering is implemented as an integral part of the mail
     server. Unwanted mail is rejected, and is not accepted by the
-    <i>Courier</i> mail server for delivery (the external mail relay
+    <em>Courier</em> mail server for delivery (the external mail relay
     receives the error, and it becomes the external relay's problem
     as to what to do with unwanted junk mail).</li>
 
@@ -195,10 +195,10 @@
     most simple <code>aliases</code> files should be usable.</li>
 
     <li>Optional ability to import most of <code>Qmail</code>'s
-    <code>.qmail</code> files (<i>Courier</i> mail server uses an almost
+    <code>.qmail</code> files (<em>Courier</em> mail server uses an almost
     100% compatible local mail delivery instruction format).</li>
 
-    <li>Most major components of the <i>Courier</i> mail server can be
+    <li>Most major components of the <em>Courier</em> mail server can be
     installed in non-default directories, allowing extreme
     customization for your particular environment.</li>
 
@@ -214,22 +214,22 @@
     backup server (this feature needs testing/feedback).</li>
   </ul>
 
-  <p>However, it is also important to note what the <i>Courier</i> mail
+  <p>However, it is also important to note what the <em>Courier</em> mail
   server does not have or will not support:</p>
 
   <ul>
     <li><code>.forward</code> files are partially supported. The
-    <i>Courier</i> mail server can import most basic
+    <em>Courier</em> mail server can import most basic
     <code>/etc/aliases</code> files from <a target="_blank" href=
     "http://www.sendmail.org">sendmail</a>, but sendmail's
     <code>.forward</code> and <code>/etc/aliases</code> files are
-    simply not 100% compatible with the <i>Courier</i> mail server's
+    simply not 100% compatible with the <em>Courier</em> mail server's
     security model. Most <code>.forward</code> and
     <code>/etc/aliases</code> files should be acceptable, but some
     may not.</li>
 
     <li><code>ETRN</code> is not, and will never be implemented.
-    It's a hack, and is functionally incompatible with the <i>Courier</i>
+    It's a hack, and is functionally incompatible with the <em>Courier</em>
     mail server's internal message dispatcher. If a mail node does
     not have constant network connectivity, there are better ways
     of arranging for mail transport than ETRN. The transient mail
@@ -237,17 +237,17 @@
     UUCP.<br /></li>
 
     <li>Workarounds for known defects in other mail software. The
-    <i>Courier</i> mail server will not accept mail with raw 8-bit
+    <em>Courier</em> mail server will not accept mail with raw 8-bit
     characters in the headers, because they are illegal. There are
     well-defined protocols that must be used to encode 8-bit text
     in mail headers. Non-compliant messages may result in the
-    <i>Courier</i> mail server itself issuing corrupted delivery status
+    <em>Courier</em> mail server itself issuing corrupted delivery status
     notifications, or mishandling the message in several other
     ways. Because of that corrupted mail will simply not be
-    accepted. Neither will the <i>Courier</i> mail server deliver mail to
+    accepted. Neither will the <em>Courier</em> mail server deliver mail to
     domains with improperly-defined MX records, even though other
     mail servers ignore the bad data. Additionally, certain popular
-    IMAP mail clients are known to not work with the <i>Courier</i> mail
+    IMAP mail clients are known to not work with the <em>Courier</em> mail
     server's IMAP server, due to an improper IMAP implementation by
     the mail client.</li>
 
@@ -266,7 +266,7 @@
 
   <ul>
     <li>A C++ compiler, <code>egcs</code> is recommended. Most of
-    the <i>Courier</i> mail server are written in C, but several major
+    the <em>Courier</em> mail server are written in C, but several major
     sections are written in C++.</li>
 
     <li>GNU make. Other <code>make</code>s may work, but that's not
@@ -281,7 +281,7 @@
 
     <li>The file system must support FIFOs. At least the file
     system that stores the mail queue must be able to support
-    FIFOs. The <i>Courier</i> mail server will not work with AFS.</li>
+    FIFOs. The <em>Courier</em> mail server will not work with AFS.</li>
 
     <li>Filesystem domain sockets must be available.</li>
 
@@ -291,14 +291,14 @@
   </ul>
 
   <h2>Additional information</h2>Here is a somewhat more detailed
-  overview of the <i>Courier</i> mail server's less prominent features:
+  overview of the <em>Courier</em> mail server's less prominent features:
 
-  <h3>Upgrade path</h3>The <i>Courier</i> mail server can be installed on
+  <h3>Upgrade path</h3>The <em>Courier</em> mail server can be installed on
   systems that were previously running sendmail or Qmail. Please
-  note that the <i>Courier</i> mail server will be able to support most
-  major features of both servers, however the <i>Courier</i> mail server
+  note that the <em>Courier</em> mail server will be able to support most
+  major features of both servers, however the <em>Courier</em> mail server
   is not, and will never be a 100%-compatible replacement for
-  either sendmail or Qmail. The <i>Courier</i> mail server does not
+  either sendmail or Qmail. The <em>Courier</em> mail server does not
   implement several legacy features of either MTA, and there are no
   plans to implement them in the future. The key differences are:
 
@@ -309,14 +309,14 @@
   <p>A local mail delivery agent, such as <code>procmail</code>,
   should be used for maximum compatibility with sendmail.</p>
 
-  <p>The <i>Courier</i> mail server expects system mailboxes to be in the
+  <p>The <em>Courier</em> mail server expects system mailboxes to be in the
   users' home directories. If your system mailboxes are all stored
   separately, in <code>/var/spool/mail</code> or somewhere else,
   you'll need to use a local delivery agent such as
   <code>procmail</code>.</p>
 
-  <p>The <i>Courier</i> mail server uses a filesystem lock on mailbox
-  files, The <i>Courier</i> mail server does not support old-fashioned
+  <p>The <em>Courier</em> mail server uses a filesystem lock on mailbox
+  files, The <em>Courier</em> mail server does not support old-fashioned
   dot-locking. If you need dot-locking, use <code>procmail</code>
   or <code>maildrop</code> (included).</p>
 
@@ -324,28 +324,28 @@
     <li>Qmail</li>
   </ul>
 
-  <p>A configuration switch allows the <i>Courier</i> mail server to read
-  <code>$HOME/.qmail</code> files, however the <i>Courier</i> mail
+  <p>A configuration switch allows the <em>Courier</em> mail server to read
+  <code>$HOME/.qmail</code> files, however the <em>Courier</em> mail
   server's implementation is not 100% identical to Qmail's. The
-  <i>Courier</i> mail server's <code>aliases</code> file is also used to
+  <em>Courier</em> mail server's <code>aliases</code> file is also used to
   implement Qmail-style virtual domains. A simple Perl script can
   be used to convert Qmail's <code>control/virtualdomains</code>
   into <code>aliases</code> entries.</p>
 
-  <p>The <i>Courier</i> mail server supports Maildirs natively.</p>
+  <p>The <em>Courier</em> mail server supports Maildirs natively.</p>
 
-  <p>The <i>Courier</i> mail server can use the <code>maildrop</code>
+  <p>The <em>Courier</em> mail server can use the <code>maildrop</code>
   mail filter as a local mail delivery agent. <code>maildrop</code>
-  is optional, but, if used, The <i>Courier</i> mail server will take
+  is optional, but, if used, The <em>Courier</em> mail server will take
   advantage of certain <code>maildrop</code>-specific features
   which optimize local mail delivery.</p>
 
-  <h2>Mail filters</h2>The <i>Courier</i> mail server has hooks for
+  <h2>Mail filters</h2>The <em>Courier</em> mail server has hooks for
   optional, site-defined, mail filters. You'll have to write them
   yourself, though. The administrator-defined mail filters can
-  block the message from being accepted by the <i>Courier</i> mail server
+  block the message from being accepted by the <em>Courier</em> mail server
   (if messages comes in via SMTP, the SMTP server will reject it).
-  The <i>Courier</i> mail server can also be configured to pause for a
+  The <em>Courier</em> mail server can also be configured to pause for a
   short period of time before attempting to deliver a message. If
   the mail filter detects a slew of duplicate messages coming in,
   the mail filter can block all future copies, and manually bounce
@@ -360,41 +360,41 @@
   <p>Currently the mail filtering API is not very well documented,
   but it's there.</p>
 
-  <h2>ESMTP extensions</h2>The <i>Courier</i> mail server implements
+  <h2>ESMTP extensions</h2>The <em>Courier</em> mail server implements
   <code>AUTH</code>, <code>PIPELINING</code>, <code><a href=
   "courierdsn.html">DSN</a></code>, <code>SIZE</code>, and
-  <code>8BITMIME</code> extensions to SMTP. The <i>Courier</i> mail
+  <code>8BITMIME</code> extensions to SMTP. The <em>Courier</em> mail
   server also includes a reference implementation of the
   experimental <code>XVERP</code> and <code>XEXDATA</code>
   extensions.
 
-  <p>The <i>Courier</i> mail server is a closed mail relay by default.
-  The <i>Courier</i> mail server cannot be accidentally configured as a
+  <p>The <em>Courier</em> mail server is a closed mail relay by default.
+  The <em>Courier</em> mail server cannot be accidentally configured as a
   completely open relay. A deliberate feat of stupidity is required
   for that to happen.</p>
 
-  <h2>ESMTP BOFH</h2>The <i>Courier</i> mail server does not deliver mail
-  to domains with broken MX records. The <i>Courier</i> mail server also
+  <h2>ESMTP BOFH</h2>The <em>Courier</em> mail server does not deliver mail
+  to domains with broken MX records. The <em>Courier</em> mail server also
   refuses to accept any mail with a return address in a domain with
   broken MX records.
 
-  <p>The <i>Courier</i> mail server can automatically blacklist domains
+  <p>The <em>Courier</em> mail server can automatically blacklist domains
   whose mail servers reject delivery status notifications.</p>
 
-  <h2>Header rewriting</h2>The <i>Courier</i> mail server will rewrite
+  <h2>Header rewriting</h2>The <em>Courier</em> mail server will rewrite
   headers and MIME-ify messages whenever appropriate. Header
   rewriting logic is hardcoded in C, there is no header rewriting
   language as in sendmail. An interpreted language imposes a
   drastic speed penalty. The rewriting library is fairly simple,
   and the the standard rewriting rules will do for most situations.
 
-  <p>The <i>Courier</i> mail server rejects messages with badly-formed or
-  missing MIME headers. The <i>Courier</i> mail server rejects messages
+  <p>The <em>Courier</em> mail server rejects messages with badly-formed or
+  missing MIME headers. The <em>Courier</em> mail server rejects messages
   containing 8-bit characters in the headers, or messages that
   contain 8-bit content, but do not have the required MIME headers.
   Accepting malformed messages of that kind can result in the
-  <i>Courier</i> mail server itself sending mail that violates the
-  relevant RFCs, therefore <i>Courier</i> mail server will simply reject
+  <em>Courier</em> mail server itself sending mail that violates the
+  relevant RFCs, therefore <em>Courier</em> mail server will simply reject
   improperly-formatted messages. There are well-defined RFC
   standards that explicitly spell out how mail containing 8-bit
   content or 8-bit headers should be encoded, and those standards
@@ -406,7 +406,7 @@
   message transport mechanisms such as UUCP can be implemented in a
   simple plug-in fashion, however some C coding will be required.
 
-  <h2>Message scheduling</h2>The <i>Courier</i> mail server supports
+  <h2>Message scheduling</h2>The <em>Courier</em> mail server supports
   VERPs, multiple recipients per message, and RFC1894-compliant
   delivery status notifications.
 
@@ -417,40 +417,40 @@
   implemented in the main scheduler, and applies to any transport
   mechanism, not just ESMTP.
 
-  <h2>Automatic restarts and garbage cleanup</h2>The <i>Courier</i> mail
+  <h2>Automatic restarts and garbage cleanup</h2>The <em>Courier</em> mail
   server's scheduling engine restarts itself automatically, on a
-  regular basis. This helps with memory fragmentation. The <i>Courier</i>
+  regular basis. This helps with memory fragmentation. The <em>Courier</em>
   mail server tries to restart itself during periods of system
   inactivity.
 
   <h2>Smart organization of the message queue and temporary
-  directories</h2>The <i>Courier</i> mail server automatically creates
+  directories</h2>The <em>Courier</em> mail server automatically creates
   subdirectories when necessary, and deletes them when they're
   empty. When there's a sudden peak in the number of messages added
   to the queue, directories used to store the messages grow in size
   to accomodate the additional entries. On many file systems, once
   those messages are deleted, the empty slack space in the
   directory is not reclaimed, and actually slows down subsequent
-  directory operations. The <i>Courier</i> mail server automatically
+  directory operations. The <em>Courier</em> mail server automatically
   removes empty directories, reclaiming the slack space.
 
   <h2>Smart installation layout</h2>
 
-  <p>The <i>Courier</i> mail server's configuration script will install
-  the <i>Courier</i> mail server into <code>/usr/lib/courier</code> by
+  <p>The <em>Courier</em> mail server's configuration script will install
+  the <em>Courier</em> mail server into <code>/usr/lib/courier</code> by
   default. Everything will go into several subdirectories there:
   the actual binaries, configuration files, the mail queue, manual
   pages, and auxiliary support files. Optional configuration
   switches allow pretty much every major subdirectory to be
   relocated anywhere else. For example, the Red Hat RPM package for
-  the <i>Courier</i> mail server relocates the configuration files to
+  the <em>Courier</em> mail server relocates the configuration files to
   <code>/etc/courier</code>, the manual pages to
   <code>/usr/man</code>, and the mail queue to
   <code>/var/spool/courier</code>.</p>
 
-  <h2>Mailing lists</h2>The <i>Courier</i> mail server can implement both
+  <h2>Mailing lists</h2>The <em>Courier</em> mail server can implement both
   sendmail and qmail-style address aliases. De-duping of
-  sendmail-style aliases is automatic. The <i>Courier</i> mail server
+  sendmail-style aliases is automatic. The <em>Courier</em> mail server
   source distribution also includes a complete mailing list
   manager.
 </body>
