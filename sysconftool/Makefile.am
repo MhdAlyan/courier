@@ -10,7 +10,6 @@ datascript_DATA=sysconftoolize.am
 acdir=@ACDIR@
 ac_DATA=sysconftool.m4
 
-EXTRA_DIST=COPYING COPYING.GPL
 man_MANS=sysconftool.1 sysconftoolcheck.1 sysconftool.7
 noinst_DATA=sysconftool.1.html sysconftoolcheck.1.html sysconftool.7.html
 
@@ -19,7 +18,8 @@ CLEANFILES=$(man_MANS) $(noinst_DATA)
 EXTRA_DIST= \
   sysconftool.1.html.in sysconftool.7.html.in sysconftoolcheck.1.html.in \
   sysconftool.1.in sysconftool.7.in sysconftoolcheck.1.in \
-  testsuite testsuite.txt sysconftool.spec sysconftoolize.am index.html
+  testsuite testsuite.txt sysconftool.spec sysconftoolize.am index.html \
+  COPYING COPYING.GPL
 
 
 if HAVE_SGML
