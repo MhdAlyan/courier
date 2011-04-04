@@ -13,7 +13,7 @@ then
 fi
 
 rm -rf $dstfile.tmpdir
-mkdir -p $distfile.tmpdir
+mkdir -p $dstfile.tmpdir
 xsltproc --nonet -o $dstfile.tmpdir/ /usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl $srcfile
 
 for f in $dstfile.tmpdir/*
