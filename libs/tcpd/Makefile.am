@@ -3,7 +3,7 @@
 # distribution information.
 
 
-DISTCLEANFILES=couriertls.config test.dat
+DISTCLEANFILES=couriertls.config
 
 noinst_PROGRAMS=@COURIERTCPD@ @STARTTLS@ tlscachetest
 EXTRA_PROGRAMS=couriertls couriertcpd
