@@ -183,11 +183,8 @@ README: html/main.html
 endif
 
 distrelease:
-	socksify cvs update
 	umask 022; $(MAKE) distcheck
 	$(MAKE) rpm
-	socksify cvs commit
-	socksify cvs tag -F courier-imap-latest
 	$(MAKE)
 	$(MAKE)
 	$(MAKE) release
@@ -302,22 +299,23 @@ install-configure-local:
 upload-beta:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify ssh grace.speakeasy.net echo @PACKAGE@-@VERSION@.tar.bz2 `ls -l @PACKAGE@-@VERSION@.tar.bz2 | awk ' { print $$5 } '` \>courier-mta.org/@PACKAGE@.beta
 	../sftools/release.pl mrsam $(SFPASSWD) courier imap-devel `echo @VERSION@|sed 's/.*\(........\)/\1/'` @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
 
 upload-dist:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify cvs tag -F -r courier-imap-latest \
-           `echo courier-imap-@VERSION@ | tr '.' '-'`
+	r="`svn info . | sed -n '/Repository Root:/p' | cut -d: -f2-`"; \
+	  svn rm -m 'Remove previous tag' $$r/tags/@PACKAGE@/@VERSION@ 2>/dev/null; \
+	  svn cp -m 'Tag @PACKAGE@' $$r/trunk $$r/tags/@PACKAGE@/@VERSION@
 	socksify ../sftools/release.pl mrsam $(SFPASSWD) courier imap @VERSION@ @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
-	socksify ssh grace.speakeasy.net rm -f courier-mta.org/@PACKAGE@.beta
 
 dollar=$$
 id=$(dollar)Id
 
+WWW=$$HOME/www/www.courier-mta.org
+
 htmldoc: INSTALL.html imap/README.html maildir/README.maildirquota.html maildir/README.sharedfolders.html maildir/README.imapkeywords.html imap/BUGS.html imap/README.proxy.html imap/README.html
-	for f in $^; do xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/imap.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >html/`basename $$f`; done
+	for f in $^; do xsltproc --nonet $(WWW)/xsl/imap.xsl $$f | perl -ne 's~\$(id):.*\$$~\$(id):'"$$h"'\$$~; print' >$(WWW)/imap/`basename $$f`; done
 	rm -rf doc
 	mkdir doc
 	xsltproc -o doc/ $(srcdir)/imap.xsl $(srcdir)/imap.xml
@@ -327,12 +325,12 @@ htmldoc: INSTALL.html imap/README.html maildir/README.maildirquota.html maildir/
 		tidy -i -asxml --doctype transitional \
 			--input-encoding utf8 --output-encoding ascii \
 			-q --tidy-mark no $$f >$$f.tmp; \
-		xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/postproc.xsl \
+		xsltproc --nonet $(WWW)/xsl/postproc.xsl \
 			$$f.tmp > $$f.tmp2; \
-		xsltproc --nonet $$HOME/www/www.courier-mta.org/xsl/imap.xsl \
+		xsltproc --nonet $(WWW)/xsl/imap.xsl \
 			 $$f.tmp2 >$$f; \
 		rm -f $$f.tmp*; done
-	mv -f doc/*.html html
+	mv -f doc/*.html $(WWW)/imap
 	rm -rf doc
 
 AUTOMAKE_OPTIONS=dist-bzip2
