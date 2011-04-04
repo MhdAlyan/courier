@@ -259,8 +259,6 @@ dist-hook: INSTALL.txt UPGRADE.txt maildrop.spec maildrop.lpspec
 #  For maintainer's use only
 #
 distrelease:
-	svn update
-	svn commit
 	umask 022; $(MAKE) distcheck
 	$(MAKE) rpm
 	$(MAKE)
