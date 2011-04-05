@@ -105,12 +105,7 @@ bump.rpm.release: sysconftool.spec
 	mv sysconftool.spec.new sysconftool.spec
 
 distrelease:
-	socksify cvs update
 	$(MAKE) rpm
-	socksify cvs commit
-	socksify cvs tag -F sysconftool-latest
-	socksify cvs rtag -r sysconftool-latest \
-		`echo sysconftool-@VERSION@ | tr '.' '-'` sysconftool
 	rm -f sysconftool.spec
 	$(MAKE)
 	$(MAKE)
@@ -118,13 +113,18 @@ distrelease:
 	$(MAKE) dorpm
 
 upload-beta:
+	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify scp @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig courier.sourceforge.net:/home/groups/c/co/courier/htdocs/beta/courier/.
-	socksify ssh courier.sourceforge.net echo @PACKAGE@-@VERSION@.tar.bz2 \>/home/groups/c/co/courier/courier.beta
+	../sftools/release.pl mrsam $(SFPASSWD) courier @PACKAGE@-devel `echo @VERSION@|sed 's/.*\(........\)/\1/'` @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
 
 upload-dist:
+	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify perl -e 'use Net::FTP; $$ftp=Net::FTP->new("upload.sourceforge.net.", Debug => 1, Passive => 1 ) || die; $$ftp->login("anonymous", "anonymous") || die; $$ftp->cwd("/incoming") && $$ftp->binary() && $$ftp->hash(1) && $$ftp->put("@PACKAGE@-@VERSION@.tar.bz2") && $$ftp->put("@PACKAGE@-@VERSION@.tar.bz2.sig") && exit 0; die;'
+	r="`svn info . | sed -n '/Repository Root:/p' | cut -d: -f2-`"; \
+	  svn rm -m 'Remove previous tag' $$r/tags/@PACKAGE@/@VERSION@ 2>/dev/null; \
+	  svn cp -m 'Tag @PACKAGE@' $$r/trunk $$r/tags/@PACKAGE@/@VERSION@
+	socksify ../sftools/release.pl mrsam $(SFPASSWD) courier @PACKAGE@ @VERSION@ @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
+
 
 release-dist:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
