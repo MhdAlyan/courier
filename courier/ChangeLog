@@ -1,3 +1,14 @@
+2011-04-07  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* imap/mkimapdcert.in (prefix): Create imapd.pem with 600 perms.
+
+	* imap/mkpop3dcert.in (prefix): Create pop3d.pem with 600 perms.
+
+2011-04-07  "Stefan Hornburg \(Racke\)" <racke@linuxia.de>
+
+	* courier/module.esmtp/mkesmtpdcert.in: Create esmtp.pem with 600
+	perms.
+
 0.66.0
 
 2011-04-02  Sam Varshavchik  <mrsam@courier-mta.com>

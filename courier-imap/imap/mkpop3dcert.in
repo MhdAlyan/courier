@@ -52,6 +52,8 @@ else
 	chmod 600 @certsdir@/pop3d.key
 	cp /dev/null @certsdir@/pop3d.cert
 	chmod 600 @certsdir@/pop3d.cert
+	cp /dev/null @certsdir@/pop3d.pem
+	chmod 600 @certsdir@/pop3d.pem
 
 	@CERTTOOL@ --generate-privkey --outfile pop3d.key
 	@CERTTOOL@ --generate-self-signed --load-privkey pop3d.key --outfile pop3d.cert --template @sysconfdir@/pop3d.cnf

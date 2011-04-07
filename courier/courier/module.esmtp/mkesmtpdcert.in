@@ -51,6 +51,9 @@ else
 	@CERTTOOL@ --generate-privkey --outfile esmtpd.key
 	@CERTTOOL@ --generate-self-signed --load-privkey esmtpd.key --outfile esmtpd.cert --template @sysconfdir@/esmtpd.cnf
 	@CERTTOOL@ --generate-dh-params >>esmtpd.cert
+
+	cp /dev/null @mydatadir@/esmtpd.pem
+	chmod 600 @mydatadir@/esmtpd.pem
 	cat esmtpd.key esmtpd.cert >esmtpd.pem
 	rm -f esmtpd.key esmtpd.cert
 fi

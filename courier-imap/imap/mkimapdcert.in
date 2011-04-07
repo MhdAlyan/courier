@@ -52,6 +52,8 @@ else
 	chmod 600 @certsdir@/imapd.key
 	cp /dev/null @certsdir@/imapd.cert
 	chmod 600 @certsdir@/imapd.cert
+	cp /dev/null @certsdir@/imapd.pem
+	chmod 600 @certsdir@/imapd.pem
 
 	@CERTTOOL@ --generate-privkey --outfile imapd.key
 	@CERTTOOL@ --generate-self-signed --load-privkey imapd.key --outfile imapd.cert --template @sysconfdir@/imapd.cnf

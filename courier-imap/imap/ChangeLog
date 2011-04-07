@@ -1,3 +1,9 @@
+2011-04-07  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* mkimapdcert.in (prefix): Create imapd.pem with 600 perms.
+
+	* mkpop3dcert.in (prefix): Create pop3d.pem with 600 perms.
+
 4.9.0
 
 2011-03-19  Sam Varshavchik  <mrsam@courier-mta.com>
