@@ -539,20 +539,18 @@ void mail::smapFETCHATTR::parseMimeHeader(std::string hdr,
 {
 	p=mail::mimestruct::parameterList();
 
-	size_t n=hdr.find(';');
+	string::iterator b=hdr.begin(), e=hdr.end();
 
-	if (n == std::string::npos)
+	name.clear();
+
+	while (b != e && *b != ';')
 	{
-		name=hdr;
-		mail::upper(name);
-		return;
+		if (!unicode_isspace((unsigned char)*b))
+			name += *b;
+		++b;
 	}
 
-	name=hdr.substr(0, n);
-	hdr=hdr.substr(n+1);
 	mail::upper(name);
-
-	string::iterator b=hdr.begin(), e=hdr.end();
 
 	while (b != e)
 	{
@@ -562,46 +560,62 @@ void mail::smapFETCHATTR::parseMimeHeader(std::string hdr,
 			continue;
 		}
 
-		string param="";
-		bool inQuote=false;
+		string::iterator s=b;
 
 		while (b != e)
 		{
-			if (!inQuote && (*b == ';' ||
-					 unicode_isspace((unsigned char)*b)))
-			{
-				b++;
+			if (*b == ';' ||
+			    unicode_isspace((unsigned char)*b) || *b == '=')
 				break;
-			}
-
-			if (*b == '"')
-			{
-				b++;
-				inQuote= !inQuote;
-				continue;
-			}
-
-			if (*b == '\\')
-			{
-				b++;
-				if (b == e)
-					break;
-			}
-
-			param += *b;
-			b++;
+			++b;
 		}
 
-		string value="1";
+		string name(s, b), value;
 
-		if ((n=param.find('=')) != std::string::npos)
+		while (b != e && unicode_isspace((unsigned char)*b))
+			++b;
+
+		if (b != e && *b == '=')
 		{
-			value=param.substr(n+1);
-			param=param.substr(0, n);
+			++b;
+
+			while (b != e && unicode_isspace((unsigned char)*b))
+				++b;
+
+			bool inQuote=false;
+
+			while (b != e)
+			{
+				if (!inQuote && (*b == ';' ||
+						 unicode_isspace(*b)))
+				{
+					b++;
+					break;
+				}
+
+				if (*b == '"')
+				{
+					++b;
+					inQuote= !inQuote;
+					continue;
+				}
+
+				if (*b == '\\')
+				{
+					++b;
+					if (b == e)
+						break;
+				}
+
+				value += *b;
+				b++;
+			}
 		}
+		else
+			value="1";
 
-		mail::upper(param);
+		mail::upper(name);
 
-		p.set_simple(param, value);
+		p.set_simple(name, value);
 	}
 }
