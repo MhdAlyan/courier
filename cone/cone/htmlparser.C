@@ -435,7 +435,9 @@ htmlParser::htmlParser(const std::string &htmlCharsetArg,
 	  demoronizer(demoronizerArg),
 	  conversionErrorFlag(false)
 {
-	tounicode.begin(htmlCharset);
+	if (!tounicode.begin(htmlCharset))
+		conversionErrorFlag=true;
+
 	currentLine.setDesiredWidth(0, getLineLength());
 }
 
