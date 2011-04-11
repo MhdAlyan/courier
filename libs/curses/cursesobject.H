@@ -20,6 +20,7 @@
 
 #include "../curses/curses_config.h"
 #include <set>
+#include <cstdio>
 
 class cursesPtrBase {
 public:
