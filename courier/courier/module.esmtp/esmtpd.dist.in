@@ -122,7 +122,6 @@ COURIERTLS=@bindir@/couriertls
 #
 # OpenSSL:
 #
-# SSL2 - SSLv2
 # SSL3 - SSLv3
 # SSL23 - either SSLv2 or SSLv3 (also TLS1, it seems)
 # TLS1 - TLS1
@@ -145,12 +144,7 @@ COURIERTLS=@bindir@/couriertls
 #
 # OpenSSL:
 #
-# TLS_CIPHER_LIST="ALL:!ADH:RC4+RSA:+SSLv2:@STRENGTH"
-#
-# When using the SSL23 protocol setting (see above), the following setting
-# should turn off SSL2 (leaving just SSL3 and TLS1) and all anonymous ciphers:
-#
-# TLS_CIPHER_LIST="SSLv3:TLSv1:!SSLv2:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH"
+# TLS_CIPHER_LIST="SSLv3:TLSv1:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH"
 #
 # GnuTLS:
 #

@@ -551,11 +551,11 @@ SSL_CTX *tls_create(int isserver, const struct tls_info *info)
 	if (!protocol || !*protocol)
 		protocol="SSL23";
 
-	ctx=SSL_CTX_new(protocol && strcmp(protocol, "SSL2") == 0
-							? SSLv2_method():
-		protocol && strcmp(protocol, "SSL3") == 0 ? SSLv3_method():
-		protocol && strcmp(protocol, "SSL23") == 0 ? SSLv23_method():
-		TLSv1_method());
+	ctx=SSL_CTX_new(protocol && strcmp(protocol, "SSL3") == 0
+			? SSLv3_method():
+			protocol && strcmp(protocol, "SSL23") == 0
+			? SSLv23_method():
+			TLSv1_method());
 
 	if (!ctx)
 	{
@@ -567,7 +567,7 @@ SSL_CTX *tls_create(int isserver, const struct tls_info *info)
 	SSL_CTX_set_options(ctx, SSL_OP_ALL);
 
 	if (!ssl_cipher_list)
-		ssl_cipher_list="SSLv3:TLSv1:!SSLv2:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH";
+		ssl_cipher_list="SSLv3:TLSv1:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH";
 
 	SSL_CTX_set_cipher_list(ctx, ssl_cipher_list);
 	SSL_CTX_set_timeout(ctx, session_timeout);

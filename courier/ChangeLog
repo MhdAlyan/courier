@@ -1,3 +1,8 @@
+2011-04-11  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* tcpd/libcouriertls.c (tls_create): Remove SSLv2_method().
+	(tls_create): Remove "!SSLv2" from the default TLS_CIPHER_LIST.
+
 2011-04-07  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* imap/mkimapdcert.in (prefix): Create imapd.pem with 600 perms.
