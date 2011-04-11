@@ -1,3 +1,7 @@
+2011-04-11  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* curses/cursesobject.H (c): Added #include <cstdio> for NULL.
+
 2011-04-07  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* cone/htmlparser.C (htmlParser): Flag an unknown source character
