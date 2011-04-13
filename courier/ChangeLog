@@ -1,3 +1,9 @@
+0.66.1
+
+2011-04-13  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* msg2html.c (showmsgrfc2369_header): Fix memory corruption.
+
 2011-04-11  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* tcpd/libcouriertls.c (tls_create): Remove SSLv2_method().

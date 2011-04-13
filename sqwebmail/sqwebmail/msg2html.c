@@ -422,6 +422,7 @@ static void showmsgrfc2369_header(struct msg2html_info *info, const char *p)
 				free(p);
 				q=strdup(b.ptr ? b.ptr:"");
 				buf_free(&b);
+				next->p=q;
 			}
 			rfca->addrs[i].tokens->ptr=q;
 			rfca->addrs[i].tokens->len=q ? strlen(q):0;
