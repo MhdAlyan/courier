@@ -384,7 +384,7 @@ size_t htmlParser::linebuf::wordtoolong(size_t w)
 			towidechar(towidth_iter(&*p),
 				   towidth_iter(&*b),
 				   towidechar_wcwidth_iter(col));
-		if (w + grapheme_width > desiredWidth)
+		if (w + grapheme_width > desiredWidth && s < p)
 		{
 			parser->fmtline(&*s, &*p, true);
 			s=b=p;

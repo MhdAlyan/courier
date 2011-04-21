@@ -1,3 +1,15 @@
+0.87
+
+2011-04-20  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* cone/cache.H (Cache): Broken cache logic.
+
+	* cone/htmlparser.C (wordtoolong): A word whose width was larger than
+	available display width resulted in an infinite loop.
+
+	* curses/widechar.C (charwidth): Handle wcwidth() returning -1 by
+	treating it as 1, for the purposes of estimated character width.
+
 2011-04-11  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* curses/cursesobject.H (c): Added #include <cstdio> for NULL.

@@ -175,7 +175,13 @@ widecharbuf &widecharbuf::operator=(const widecharbuf &o)
 size_t widecharbuf::charwidth(wchar_t ch, ssize_t atcol)
 {
 	if (ch != '\t')
-		return ::wcwidth(ch);
+	{
+		int s=::wcwidth(ch);
+
+		if (s == -1)
+			s=1; // Unprintable character, punt
+		return s;
+	}
 
 	size_t cnt=0;
 

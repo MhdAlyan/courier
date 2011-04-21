@@ -36,11 +36,13 @@ public:
 			{
 				hash.erase(*queue.begin());
 				queue.erase(queue.begin());
-				--cacheSize;
 			}
 
 			queue.push_back(v.first);
-			++cacheSize;
+		}
+		else
+		{
+			hash.erase(v.first);
 		}
 		hash.insert(v);
 	}
