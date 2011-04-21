@@ -636,8 +636,8 @@ void CursesMessage::beginReformat(size_t w)
 	std::string displayFilename=getDisplayFilename();
 	std::string indexFilename=getIndexFilename();
 
-	displayFile=fopen(displayFilename.c_str(), "w");
-	indexFile=fopen(indexFilename.c_str(), "w");
+	displayFile=fopen(displayFilename.c_str(), "w+");
+	indexFile=fopen(indexFilename.c_str(), "w+");
 
 	if (displayFile)
 		fcntl(fileno(displayFile), F_SETFD, FD_CLOEXEC);
