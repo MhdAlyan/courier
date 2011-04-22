@@ -1,3 +1,10 @@
+2011-04-22  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* cone/cone.dist.in (TLS_STARTTLS_PROTOCOL): Provide a default
+	setting of TLS_STARTTLS_PROTOCOL for new cone installs only.
+
+0.88
+
 2011-04-21  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* cone/cursesmessage.C (beginReformat): Fix bug exposed by cache.H

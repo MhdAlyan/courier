@@ -67,6 +67,8 @@ UNDERLINE_HACK=0
 #
 # It takes the same values for OpenSSL/GnuTLS as TLS_PROTOCOL
 
+TLS_STARTTLS_PROTOCOL=TLS1
+
 ##NAME: TLS_CIPHER_LIST:0
 #
 # TLS_CIPHER_LIST optionally sets the list of ciphers to be used by the
