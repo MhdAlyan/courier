@@ -1,3 +1,7 @@
+2011-04-25  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* cone/cursesmessage.C (reformat): Typo in error message.
+
 2011-04-22  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* cone/cone.dist.in (TLS_STARTTLS_PROTOCOL): Provide a default

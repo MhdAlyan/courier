@@ -1090,7 +1090,7 @@ bool CursesMessage::reformat()
 					:
 					_("The previous text contained"
 					  " some characters that were not valid"
-					  " characters in the \"%1\" character"
+					  " characters in the \"%1%\" character"
 					  " set.")
 					) << orig_charset
 					  << display_chset;
