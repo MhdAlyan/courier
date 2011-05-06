@@ -198,13 +198,13 @@ struct libmail_u_convert_toimaputf7 {
 	size_t utf7encodebuf_cnt;
 
 	/* Accumulated bits for base64 encoding */
-	u_int32_t utf7bits;
+	uint32_t utf7bits;
 
 	/* How many bits in utf7bits */
-	u_int16_t utf7bitcount;
+	uint16_t utf7bitcount;
 
 	/* Flag: in base64mode */
-	u_int16_t utfmode;
+	uint16_t utfmode;
 
 	int errflag;
 
@@ -343,7 +343,7 @@ static int do_convert_toutf7(const char *text, size_t cnt, void *arg)
 
 	/* We better be getting UCS-2 here! */
 
-	const u_int16_t *utext=(const u_int16_t *)text;
+	const uint16_t *utext=(const uint16_t *)text;
 	cnt /= 2;
 
 	while (cnt)
@@ -381,7 +381,7 @@ static int do_convert_toutf7(const char *text, size_t cnt, void *arg)
 		}
 
 		toutf7->utf7bits = (toutf7->utf7bits << 16) |
-			(((u_int32_t)*utext) & 0xFFFF);
+			(((uint32_t)*utext) & 0xFFFF);
 		toutf7->utf7bitcount += 16;
 
 		++utext;
@@ -391,7 +391,7 @@ static int do_convert_toutf7(const char *text, size_t cnt, void *arg)
 
 		while (toutf7->utf7bitcount >= 6)
 		{
-			u_int32_t v;
+			uint32_t v;
 			int n;
 
 			if (toutf7->errflag)
@@ -453,11 +453,11 @@ struct libmail_u_convert_fromimaputf7 {
 	struct libmail_u_convert_hdr hdr;
 
 	/* Accumulated UCS-2 stream */
-	u_int16_t convbuf[512];
+	uint16_t convbuf[512];
 	size_t convbuf_cnt;
 
 	/* Accumulated base64 bits */
-	u_int32_t modbits;
+	uint32_t modbits;
 
 	/* How many bits extracted from a base64 stream */
 
@@ -583,7 +583,7 @@ static int convert_fromutf7(void *ptr,
 			/* Not in the base64 encoded stream */
 
 			convert_fromutf7_add(fromutf7,
-					     ((u_int16_t)*text) & 0xFFFF);
+					     ((uint16_t)*text) & 0xFFFF);
 			++text;
 			--cnt;
 			continue;
@@ -619,7 +619,7 @@ static int convert_fromutf7(void *ptr,
 			/* Got a UCS-2 char */
 
 			int shiftcnt=fromutf7->modcnt - 16;
-			u_int32_t v=fromutf7->modbits;
+			uint32_t v=fromutf7->modbits;
 
 			if (shiftcnt)
 				v >>= shiftcnt;
@@ -799,7 +799,7 @@ static int init_iconv(struct libmail_u_convert_iconv *h,
 }
 
 static void convert_flush(struct libmail_u_convert_iconv *);
-static void convert_flush_iconv(struct libmail_u_convert_iconv *, char **,
+static void convert_flush_iconv(struct libmail_u_convert_iconv *, const char **,
 				size_t *);
 
 /*
@@ -883,7 +883,7 @@ static int deinit_iconv(void *ptr, int *errptr)
 
 static void convert_flush(struct libmail_u_convert_iconv *h)
 {
-	char *p;
+	const char *p;
 	size_t n;
 
 	if (h->bufcnt == 0 || h->errflag)
@@ -917,7 +917,7 @@ static void convert_flush(struct libmail_u_convert_iconv *h)
 */
 
 static void convert_flush_iconv(struct libmail_u_convert_iconv *h,
-				char **inbuf, size_t *inbytesleft)
+				const char **inbuf, size_t *inbytesleft)
 {
 	int save_errno;
 
