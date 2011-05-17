@@ -21,6 +21,13 @@ static int decode_raw(struct rfc2045 *p, const char *s, size_t l)
 
 static const char xdigit[]="0123456789ABCDEF";
 
+static int tou(char c)
+{
+	if (c >= 'a' && c <= 'f')
+		return c + ('A'-'a');
+	return c;
+}
+
 static int do_decode_qp(struct rfc2045 *p)
 {
 char	*a, *b, *c, *end;
@@ -38,12 +45,12 @@ int	d;
 		if (!*a || a >= end || isspace((int)(unsigned char)*a))
 			break;
 
-		if ((c=strchr(xdigit, *a)) == 0) continue;
+		if ((c=strchr(xdigit, tou(*a))) == 0) continue;
 		d= (c-xdigit)*16;
 		++a;
 		if (!*a || a >= end)
 			break;
-		if ((c=strchr(xdigit, *a)) == 0) continue;
+		if ((c=strchr(xdigit, tou(*a))) == 0) continue;
 		d += c-xdigit;
 		++a;
 		*b++=d;

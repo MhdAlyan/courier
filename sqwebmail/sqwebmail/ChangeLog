@@ -1,3 +1,8 @@
+2011-05-17  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* rfc2045/rfc2045cdecode.c: Tolerate lowercase hexadecimal characters
+	in quoted-printable-encoded content.
+
 2011-05-06  Thomas Jacob <jacob@internet24.de>
 
 	* unicode/unicode.c: Compilation fixes.
