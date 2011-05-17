@@ -1,3 +1,8 @@
+2011-05-17  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* rfc2045/rfc2045cdecode.c: Tolerate lowercase hexadecimal characters
+	in quoted-printable-encoded content.
+
 2011-04-25  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* cone/cursesmessage.C (reformat): Typo in error message.
