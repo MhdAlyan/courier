@@ -15,6 +15,7 @@
 // will return NULL
 
 #include <set>
+#include <cstdio>
 
 #include "namespace.H"
 
