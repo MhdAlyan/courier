@@ -84,7 +84,7 @@ int i=0;
 ], , AC_DEFINE_UNQUOTED(HAVE_SIGHOLD,1,[ Whether sighold() is available ]))
 
 
-AC_COMPILE_IFELSE([
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([
 
 #include <stdio.h>
 
@@ -92,7 +92,7 @@ int main()
 {
    setvbuf(stderr, NULL, _IOLBF, BUFSIZ);
 }
-],
+])],
 	AC_DEFINE_UNQUOTED(HAVE_SETVBUF_IOLBF,1,[Whether setvbuf(..._IOLBF) works])
 )
 

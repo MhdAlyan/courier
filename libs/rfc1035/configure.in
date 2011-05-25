@@ -124,7 +124,7 @@ UINT32="$int32"
 AC_CACHE_CHECK([for socklen_t],
 	courier_cv_hassocklen_t,
  
-AC_COMPILE_IFELSE(
+AC_COMPILE_IFELSE([
 AC_LANG_SOURCE( [
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -132,7 +132,7 @@ AC_LANG_SOURCE( [
 socklen_t sl_t;
 ],[
 	accept(0, 0, &sl_t);
-]),
+])],
 	courier_cv_hassocklen_t=yes,
 	courier_cv_hassocklen_t=no)
 )
