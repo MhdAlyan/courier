@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl
-dnl Copyright 1998 - 2010 Double Precision, Inc.  See COPYING for
+dnl Copyright 1998 - 2011 Double Precision, Inc.  See COPYING for
 dnl distribution information.
 
 AC_PREREQ(2.63)
@@ -322,7 +322,7 @@ else
 	LDAPLIBS=""
 
         AC_MSG_CHECKING(whether -lresolv is needed for res_query)
-	AC_LINK_IFELSE(AC_LANG_PROGRAM([
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([
 #include <sys/types.h>
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
@@ -331,12 +331,12 @@ else
 
 void (*func)()= (void (*)())res_query;
 ],
-			[  (*func)(); ]),
+			[  (*func)(); ])],
         	AC_MSG_RESULT(no),
 		[
         	LIBS="-lresolv $LIBS"
 
-		AC_LINK_IFELSE(AC_LANG_PROGRAM([
+		AC_LINK_IFELSE([AC_LANG_PROGRAM([
 #include <sys/types.h>
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
@@ -345,7 +345,7 @@ void (*func)()= (void (*)())res_query;
 
 void (*func)()= (void (*)())res_query;
 ],
-			[  (*func)(); ]), [
+			[  (*func)(); ])], [
         		LDAPLIBS="-lresolv $LDAPLIBS"
 			HAVE_LDAP=1
         		AC_MSG_RESULT(yes)
@@ -848,7 +848,7 @@ AC_ARG_WITH(stdheaderdir,
 AC_CACHE_CHECK([for socklen_t],
 	authlib_cv_hassocklen_t,
  
-AC_COMPILE_IFELSE(
+AC_COMPILE_IFELSE([
 AC_LANG_SOURCE( [
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -856,7 +856,7 @@ AC_LANG_SOURCE( [
 socklen_t sl_t;
 ],[
 	accept(0, 0, &sl_t);
-]),
+])],
 	authlib_cv_hassocklen_t=yes,
 	authlib_cv_hassocklen_t=no)
 )
