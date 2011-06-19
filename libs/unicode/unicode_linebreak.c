@@ -427,7 +427,7 @@ static int unwind_lb25_seenophy(unicode_lb_info_t i)
 {
 	int rc;
 
-	uint8_t class=i->savedclass;
+	/*uint8_t class=i->savedclass;*/
 	int nolb25_flag=1;
 
 	i->next_handler=next_def;
@@ -440,7 +440,7 @@ static int unwind_lb25_seenophy(unicode_lb_info_t i)
 		if (rc)
 			return rc;
 
-		class=UNICODE_LB_CM;
+		/*class=UNICODE_LB_CM;*/
 		nolb25_flag=0;
 	} while (i->savedcmcnt--);
 	return 0;

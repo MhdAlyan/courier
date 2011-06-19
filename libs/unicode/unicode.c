@@ -959,7 +959,7 @@ static void convert_flush_iconv(struct libmail_u_convert_iconv *h,
 		outp=outbuf;
 		outleft=sizeof(outbuf);
 
-		n=iconv(h->h, inbuf, inbytesleft, &outp, &outleft);
+		n=iconv(h->h, (char **)inbuf, inbytesleft, &outp, &outleft);
 
 		save_errno=errno;
 

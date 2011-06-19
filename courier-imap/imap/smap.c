@@ -1929,7 +1929,6 @@ static int do_fetch(unsigned long n, void *vp)
 	{
 		struct rfc2045 *rfcp=fetch_alloc_rfc2045(n, fp);
 		int fd;
-		int rc;
 
 		if (!rfcp)
 			return -1;
