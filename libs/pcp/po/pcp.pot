@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pcp 0.10\n"
 "Report-Msgid-Bugs-To: http://www.courier-mta.org\n"
-"POT-Creation-Date: 2011-04-04 09:34-0400\n"
+"POT-Creation-Date: 2011-06-19 11:25-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: pcp.c:199 pcp.c:1450
+#: pcp.c:199 pcp.c:1448
 #, c-format
 msgid "ERROR: Unable to obtain authentication token from the server.\n"
 msgstr ""
@@ -81,78 +81,78 @@ msgid ""
 "\n"
 msgstr ""
 
-#: pcp.c:598
+#: pcp.c:597
 msgid "all"
 msgstr ""
 
-#: pcp.c:780
+#: pcp.c:778
 msgid "CANCELLED: "
 msgstr ""
 
-#: pcp.c:782
+#: pcp.c:780
 msgid "(event not yet commited) "
 msgstr ""
 
-#: pcp.c:805
+#: pcp.c:803
 #, c-format
 msgid "%d events found.\n"
 msgstr ""
 
-#: pcp.c:1085
+#: pcp.c:1083
 #, c-format
 msgid "Event: %s\n"
 msgstr ""
 
-#: pcp.c:1109
+#: pcp.c:1107
 #, c-format
 msgid "       %s\n"
 msgstr ""
 
-#: pcp.c:1114
+#: pcp.c:1112
 #, c-format
 msgid "    **** CANCELLED ****\n"
 msgstr ""
 
-#: pcp.c:1116
+#: pcp.c:1114
 #, c-format
 msgid "    **** EVENT NOT YET COMMITED ****\n"
 msgstr ""
 
-#: pcp.c:1119
+#: pcp.c:1117
 #, c-format
 msgid "    Participant: %s\n"
 msgstr ""
 
-#: pcp.c:1250
+#: pcp.c:1248
 #, c-format
 msgid "Attachment: %s (%s)\n"
 msgstr ""
 
-#: pcp.c:1321
+#: pcp.c:1319
 #, c-format
 msgid ""
 "    (The following text was converted from %s)\n"
 "\n"
 msgstr ""
 
-#: pcp.c:1423
+#: pcp.c:1421
 #, c-format
 msgid "Password: "
 msgstr ""
 
-#: pcp.c:1479
+#: pcp.c:1477
 #, c-format
 msgid ""
 "ERROR:\n"
 "%s\n"
 msgstr ""
 
-#: pcp.c:1500 pcp.c:1530
+#: pcp.c:1498 pcp.c:1528
 #, c-format
 msgid "ERROR: ACLs not supported.\n"
 msgstr ""
 
-#: pcp.c:1644
+#: pcp.c:1642
 #, c-format
 msgid ""
 "Usage: pcp [options] [command]\n"
@@ -166,7 +166,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: pcp.c:1656
+#: pcp.c:1654
 msgid ""
 "Commands:\n"
 "   init\n"
@@ -184,55 +184,55 @@ msgid ""
 "   listacl\n"
 msgstr ""
 
-#: pcp.c:1749
+#: pcp.c:1747
 msgid "add"
 msgstr ""
 
-#: pcp.c:1750
+#: pcp.c:1748
 msgid "update"
 msgstr ""
 
-#: pcp.c:1752
+#: pcp.c:1750
 msgid "init"
 msgstr ""
 
-#: pcp.c:1758
+#: pcp.c:1756
 msgid "login"
 msgstr ""
 
-#: pcp.c:1767
+#: pcp.c:1765
 msgid "connect"
 msgstr ""
 
-#: pcp.c:1785
+#: pcp.c:1783
 msgid "sconnect"
 msgstr ""
 
-#: pcp.c:1804
+#: pcp.c:1802
 msgid "cancel"
 msgstr ""
 
-#: pcp.c:1813
+#: pcp.c:1811
 msgid "delete"
 msgstr ""
 
-#: pcp.c:1822
+#: pcp.c:1820
 msgid "uncancel"
 msgstr ""
 
-#: pcp.c:1864
+#: pcp.c:1862
 #, c-format
 msgid "Error: -s is required\n"
 msgstr ""
 
-#: pcp.c:1877
+#: pcp.c:1875
 msgid "list"
 msgstr ""
 
-#: pcp.c:1882
+#: pcp.c:1880
 msgid "setacl"
 msgstr ""
 
-#: pcp.c:1898
+#: pcp.c:1896
 msgid "listacl"
 msgstr ""

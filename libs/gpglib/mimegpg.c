@@ -81,7 +81,6 @@ int main(int argc, char **argv)
 	int dosign=0;
 	int doencode=0;
 	int dodecode=0;
-	pid_t reformime_pid;
 	int rc;
 	const char *passphrase_fd=0;
 	struct libmail_gpg_info gpg_info;
@@ -154,8 +153,6 @@ int main(int argc, char **argv)
 
 	if (dosign || doencode)
 		dodecode=0;
-
-	reformime_pid=0;
 
 #if 0
 	if (dosign && !doencode)

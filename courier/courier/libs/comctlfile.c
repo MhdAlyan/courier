@@ -40,7 +40,7 @@ int ctlfile_openfn(const char *n, struct ctlfile *p, int ro, int chk)
 struct	stat	stat_buf;
 unsigned nlines=2, nreceipients=1;
 char	*cp;
-unsigned i, j, rcnt, orcnt, dsncnt, nrcnt;
+ unsigned i, j, rcnt, orcnt, dsncnt;
 char	*q;
 static char deferred_status[2]={COMCTLFILE_DELDEFERRED, 0};
 
@@ -135,7 +135,7 @@ static char deferred_status[2]={COMCTLFILE_DELDEFERRED, 0};
 		p->delstatus[i]=deferred_status;
 	}
 
-	for (i=0, nrcnt=0, rcnt=0, orcnt=0, dsncnt=0; p->lines[i]; i++)
+	for (i=0, rcnt=0, orcnt=0, dsncnt=0; p->lines[i]; i++)
 	{
 		switch (p->lines[i][0])	{
 		case COMCTLFILE_SENDER:

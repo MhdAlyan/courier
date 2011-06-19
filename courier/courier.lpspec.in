@@ -333,7 +333,8 @@ rm -f $__installdir%{_sysconfdir}/*.authpam
 
 echo '/etc/profile.d/courier.sh 755 bin bin config' >>permissions.dat
 echo '/etc/profile.d/courier.csh 755 bin bin config' >>permissions.dat
-echo '%{initdir}/courier 755 bin bin config' >>permissions.dat
+echo '%{_datadir}/courier.sysvinit 755 bin bin' >>permissions.dat
+echo '/lib/systemd/system/courier.service 644 root root' >>permissions.dat
 
 #
 #  Translate permissions.dat to spec file format
@@ -498,9 +499,10 @@ maildir/maildirmake $__installdir/etc/skel/Maildir
 
 # Convenient init file.
 
-%{__mkdir_p} $__installdir%{initdir}
+%{__cp} courier.sysvinit $__installdir%{_datadir}/courier.sysvinit
 
-%{__cp} courier.sysvinit $__installdir%{initdir}/courier
+%{__mkdir_p} $__installdir/lib/systemd/system
+%{__cp} courier.service $__installdir/lib/systemd/system
 
 #
 # Make up some /etc/profile.d scripts
@@ -607,6 +609,11 @@ done
 # -----------------------------------------------------------------------------
 
 %post
+if test -f %{initdir}/courier
+then
+	/sbin/chkconfig --del courier
+	/bin/systemctl stop courier.service || :
+fi
 
 if test -f %{_sysconfdir}/userdb || test -d %{_sysconfdir}/userdb
 then
@@ -617,8 +624,8 @@ else
 	chown --reference=%{_sysconfdir} %{_sysconfdir}/userdb
 fi
 
-/sbin/chkconfig --del courier
-/sbin/chkconfig --add courier
+/bin/systemctl daemon-reload || :
+
 %{_datadir}/sysconftool `%{__cat} %{_datadir}/configlist` >/dev/null
 %if %alternatives
 /usr/sbin/alternatives --install /usr/sbin/sendmail mta %{_bindir}/sendmail 91 \
@@ -627,9 +634,10 @@ fi
    --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
    --initscript courier
 
-if test "$1" != 0
+if test -f %{initdir}/courier
 then
-	/sbin/service courier condrestart >/dev/null 2>&1
+	# Alternatives puts it back
+	/sbin/chkconfig --del courier
 fi
 %endif
 
@@ -640,6 +648,12 @@ fi
    --slave /usr/bin/rmail mta-rmail %{_bindir}/rmail \
    --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
    --initscript courier
+
+if test -f %{initdir}/courier
+then
+	# Alternatives puts it back
+	/sbin/chkconfig --del courier
+fi
 %endif
 
 %postun
@@ -648,15 +662,16 @@ if test "$1" = 0 ; then
 	/usr/sbin/alternatives --remove mta %{_bindir}/sendmail
 fi
 %endif
-
+if test "$1" != 0
+then
+	/bin/systemctl try-restart courier.service || :
+fi
+/bin/systemctl daemon-reload || :
 %preun
 if test "$1" = "0"
 then
-	%{_sbindir}/esmtpd stop
-	%{_sbindir}/esmtpd-msa stop
-	%{initdir}/courier stop >/dev/null
-
-        /sbin/chkconfig --del courier
+	/bin/systemctl stop courier.service
+	/bin/systemctl disable courier.service
 fi
 
 %preun ldap
@@ -718,26 +733,6 @@ then
 	chmod 400 %{_sysconfdir}/webadmin/password
 	chown --reference=%{_sysconfdir}/webadmin %{_sysconfdir}/webadmin/password
 fi
-
-%triggerpostun -- courier < 0.35
-test -x %{_sbindir}/makeuserdb && %{_sbindir}/makeuserdb
-
-%triggerpostun -- courier
-
-test -f /etc/pam.d/esmtp || test ! -f /etc/pam.d/esmtp.lpmnew* || mv -f /etc/pam.d/esmtp.lpmnew* /etc/pam.d/esmtp
-
-%triggerpostun imapd -- courier-imapd
-
-test -f /etc/pam.d/imap || test ! -f /etc/pam.d/imap.lpmnew* || mv -f /etc/pam.d/imap.lpmnew* /etc/pam.d/imap
-
-%triggerpostun pop3d -- courier-pop3d
-
-test -f /etc/pam.d/pop3 || test ! -f /etc/pam.d/pop3.lpmnew* || mv -f /etc/pam.d/pop3.lpmnew* /etc/pam.d/pop3
-
-%triggerpostun webmail -- courier-webmail
-
-test -f /etc/pam.d/webmail || test ! -f /etc/pam.d/webmail.lpmnew* || mv -f /etc/pam.d/webmail.lpmnew* /etc/pam.d/webmail
-test -f /etc/pam.d/calendar || test ! -f /etc/pam.d/calendar.lpmnew* || mv -f /etc/pam.d/calendar.lpmnew* /etc/pam.d/calendar
 
 # -----------------------------------------------------------------------------
 

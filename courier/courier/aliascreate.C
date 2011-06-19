@@ -415,13 +415,11 @@ static RETSIGTYPE sighup_sig(int signum)
 
 int cppmain(int argc, char **argv)
 {
-int	argn;
-
 #if HAVE_SETLOCALE
 	setlocale(LC_ALL, "C");
 #endif
 
-	argn=cargs(argc, argv, arginfo);
+	cargs(argc, argv, arginfo);
 
 	if ((!dumpflag && !aliasfilename) || !tmpfilename)
 		usage();

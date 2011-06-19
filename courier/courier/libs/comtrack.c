@@ -130,7 +130,6 @@ int track_read(int (*cb_func)(time_t timestamp, int status,
 	int i;
 	char linebuf[BUFSIZ];
 	char *p;
-	time_t t;
 
 	for (i=0; i <= TRACK_NHOURS; ++i)
 	{
@@ -149,8 +148,6 @@ int track_read(int (*cb_func)(time_t timestamp, int status,
 			if (!p)
 				continue;
 			++p;
-
-			t=libmail_atotime_t(linebuf);
 
 			if (*p)
 			{

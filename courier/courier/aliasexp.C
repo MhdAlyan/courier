@@ -303,12 +303,11 @@ static int expaliases(std::string line, struct rw_transport *module,
 static int aliasexp(std::istream &is, struct rw_transport *module)
 {
 std::string	line, next_line;
-unsigned linenum=0, start_line;
+unsigned linenum=0;
 int	rc=0;
 std::string	filename;
 
 	line="";
-	start_line=1;
 
 	while (std::getline(is, next_line).good())
 	{
@@ -346,7 +345,6 @@ std::string	filename;
 		if (expaliases(line, module, linenum, filename))
 			rc=1;
 		line=next_line;
-		start_line=linenum;
 	}
 
 	if (expaliases(line, module, linenum, filename))

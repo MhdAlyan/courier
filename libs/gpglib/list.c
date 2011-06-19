@@ -258,11 +258,11 @@ static int dolist_callback(char *line, void *vp1,
 	char *trust;
 	char *length;
 	int algo;
-	char *keyid;
+	/*char *keyid;*/
 	char *crdate;
 	char *expdate;
-	char *localid;
-	char *ownertrust;
+	/*char *localid;*/
+	/*char *ownertrust;*/
 	char *userid;
 	char *p;
 	const char *stat;
@@ -299,11 +299,11 @@ static int dolist_callback(char *line, void *vp1,
 	trust=p; p=nextword(p);
 	length=p; p=nextword(p);
 	algo=atoi(p); p=nextword(p);
-	keyid=p; p=nextword(p);
+	/*keyid=p;*/ p=nextword(p);
 	crdate=p; p=nextword(p);
 	expdate=p; p=nextword(p);
-	localid=p; p=nextword(p);
-	ownertrust=p; p=nextword(p);
+	/*localid=p;*/ p=nextword(p);
+	/*ownertrust=p;*/ p=nextword(p);
 	userid=p; p=nextword(p);
 
 	{

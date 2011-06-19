@@ -74,12 +74,12 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Provides:         smtpdaemon server(smtp)
 Provides:         config(courier) = %{version}-%{release}
 AutoProv:         no
-Requires(post):   /sbin/chkconfig
-Requires(preun):  /sbin/chkconfig
+Requires(post):   /bin/systemctl
+Requires(preun):  /bin/systemctl
 Requires:         fileutils
 %if %alternatives
 Obsoletes:        courier-sendmail-wrapper
-Requires(postun): /sbin/chkconfig
+Requires(postun): /bin/systemctl
 Provides:         /usr/sbin/sendmail /usr/bin/mailq /usr/bin/rmail /usr/bin/newaliases
 %endif
 
@@ -371,7 +371,8 @@ rm -f $RPM_BUILD_ROOT%{_sysconfdir}/*.authpam
 
 echo '/etc/profile.d/courier.sh 755 bin bin config' >>permissions.dat
 echo '/etc/profile.d/courier.csh 755 bin bin config' >>permissions.dat
-echo '%{initdir}/courier 755 bin bin config' >>permissions.dat
+echo '%{_datadir}/courier.sysvinit 755 bin bin' >>permissions.dat
+echo '/lib/systemd/system/courier.service 644 root root' >>permissions.dat
 
 #
 #  Translate permissions.dat to spec file format
@@ -534,9 +535,10 @@ maildir/maildirmake $RPM_BUILD_ROOT/etc/skel/Maildir
 
 # Convenient init file.
 
-%{__mkdir_p} $RPM_BUILD_ROOT%{initdir}
+%{__cp} courier.sysvinit $RPM_BUILD_ROOT%{_datadir}/courier.sysvinit
 
-%{__cp} courier.sysvinit $RPM_BUILD_ROOT%{initdir}/courier
+%{__mkdir_p} $RPM_BUILD_ROOT/lib/systemd/system
+%{__cp} courier.service $RPM_BUILD_ROOT/lib/systemd/system
 
 #
 # Make up some /etc/profile.d scripts
@@ -640,35 +642,14 @@ done
 
 %{__cp} sysconftool $RPM_BUILD_ROOT%{_datadir}/sysconftool
 
-######
-##
-## Ok, upgrades are going to get ugly.  Because we install $filename.dist
-## instead of $filename, and the old package has $filename listed as a config,
-## RPM will back up $filename to $filename.rpmsave.  This will happen AFTER
-## we will run the post scripts, effectively blowing away our configurations.
-## PUT THEM BACK BY RUNNING THE FOLLOWING SCRIPT FROM A TRIGGER.
-
-%{__cat} >$RPM_BUILD_ROOT%{_datadir}/sysconftool-rpmupgrade <<EOF
-#!/bin/sh
-
-for f in \$* "."
-do
-	if test \$f = "."
-	then
-		continue
-	fi
-
-	base=\`echo \$f | sed 's/\\.dist\$//'\`
-	if test -f \$base.dist -a ! -f \$base
-	then
-		%{__cp} -pr \$base.dist \$base
-	fi
-done
-EOF
-
 # -----------------------------------------------------------------------------
 
 %post
+if test -f %{initdir}/courier
+then
+	/sbin/chkconfig --del courier
+	/bin/systemctl stop courier.service || :
+fi
 
 if test -f %{_sysconfdir}/userdb || test -d %{_sysconfdir}/userdb
 then
@@ -679,8 +660,8 @@ else
 	chown --reference=%{_sysconfdir} %{_sysconfdir}/userdb
 fi
 
-/sbin/chkconfig --del courier
-/sbin/chkconfig --add courier
+/bin/systemctl daemon-reload || :
+
 %{_datadir}/sysconftool `%{__cat} %{_datadir}/configlist` >/dev/null
 %if %alternatives
 /usr/sbin/alternatives --install /usr/sbin/sendmail mta %{_bindir}/sendmail 91 \
@@ -688,6 +669,13 @@ fi
    --slave /usr/bin/rmail mta-rmail %{_bindir}/rmail \
    --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
    --initscript courier
+
+if test -f %{initdir}/courier
+then
+	# Alternatives puts it back
+	/sbin/chkconfig --del courier
+fi
+
 %endif
 
 %triggerpostun -- courier-sendmail-wrapper
@@ -697,6 +685,12 @@ fi
    --slave /usr/bin/rmail mta-rmail %{_bindir}/rmail \
    --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
    --initscript courier
+
+if test -f %{initdir}/courier
+then
+	# Alternatives puts it back
+	/sbin/chkconfig --del courier
+fi
 %endif
 
 %postun
@@ -706,20 +700,18 @@ if test "$1" = 0 ; then
 fi
 %endif
 
+/bin/systemctl daemon-reload || :
+
 if test "$1" != 0
 then
-	/sbin/service courier condrestart >/dev/null 2>&1
+	/bin/systemctl try-restart courier.service || :
 fi
 
 %preun
-
 if test "$1" = "0"
 then
-	%{_sbindir}/esmtpd stop
-	%{_sbindir}/esmtpd-msa stop
-	%{initdir}/courier stop >/dev/null
-
-        /sbin/chkconfig --del courier
+	/bin/systemctl stop courier.service
+	/bin/systemctl disable courier.service
 fi
 
 %preun ldap
@@ -784,32 +776,6 @@ then
 	chown --reference=%{_sysconfdir}/webadmin %{_sysconfdir}/webadmin/password
 fi
 
-%triggerpostun -- courier < 0.35
-test -x %{_sbindir}/makeuserdb && %{_sbindir}/makeuserdb
-
-%triggerpostun -- courier
-test ! -f %{_datadir}/configlist || %{_datadir}/sysconftool-rpmupgrade `%{__cat} %{_datadir}/configlist` >/dev/null
-
-test -f /etc/pam.d/esmtp || test ! -f /etc/pam.d/esmtp.rpmnew || mv -f /etc/pam.d/esmtp.rpmnew /etc/pam.d/esmtp
-
-%triggerpostun imapd -- courier-imapd
-test ! -f %{_datadir}/configlist.imap || %{_datadir}/sysconftool-rpmupgrade `%{__cat} %{_datadir}/configlist.imap` >/dev/null
-
-test -f /etc/pam.d/imap || test ! -f /etc/pam.d/imap.rpmnew || mv -f /etc/pam.d/imap.rpmnew /etc/pam.d/imap
-
-%triggerpostun pop3d -- courier-pop3d
-test ! -f %{_datadir}/configlist.pop3 || %{_datadir}/sysconftool-rpmupgrade `%{__cat} %{_datadir}/configlist.pop3` >/dev/null
-
-test -f /etc/pam.d/pop3 || test ! -f /etc/pam.d/pop3.rpmnew || mv -f /etc/pam.d/pop3.rpmnew /etc/pam.d/pop3
-
-%triggerpostun webmail -- courier-webmail
-test ! -f %{_datadir}/configlist.webmail || %{_datadir}/sysconftool-rpmupgrade `%{__cat} %{_datadir}/configlist.webmail` >/dev/null
-
-test -f /etc/pam.d/webmail || test ! -f /etc/pam.d/webmail.rpmnew || mv -f /etc/pam.d/webmail.rpmnew /etc/pam.d/webmail
-test -f /etc/pam.d/calendar || test ! -f /etc/pam.d/calendar.rpmnew || mv -f /etc/pam.d/calendar.rpmnew /etc/pam.d/calendar
-
-# -----------------------------------------------------------------------------
-
 %files -f filelist
 %if %alternatives
 %attr(-, root, root) /usr/bin/sendmail
@@ -819,7 +785,6 @@ test -f /etc/pam.d/calendar || test ! -f /etc/pam.d/calendar.rpmnew || mv -f /et
 %attr(555, bin, bin) %doc README.REDHAT AUTHORS COPYING
 %attr(-, bin, bin) %doc htmldoc/*
 %attr(555, bin, bin) %{_datadir}/sysconftool
-%attr(555, bin, bin) %{_datadir}/sysconftool-rpmupgrade
 %attr(444, bin, bin) %{_datadir}/configlist
 
 %attr(-, root, root) /etc/skel/Maildir

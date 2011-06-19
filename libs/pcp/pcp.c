@@ -586,7 +586,6 @@ static void list(int argn, int argc, char **argv, int flags)
 {
 	struct listinfo listinfo;
 	int all_flag=0;
-	int showevent=0;
 	struct PCP *pcp;
 	struct PCP_list_all list_all;
 
@@ -611,7 +610,6 @@ static void list(int argn, int argc, char **argv, int flags)
 			     listinfo.list_to=
 			     parse_datetime(&argn, argc, argv)) == 0)
 				usage();
-			showevent=1;
 			continue;
 		}
 

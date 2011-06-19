@@ -423,7 +423,7 @@ MATCHEDSTR **matches;
 int	i, found;
 int	morebefore, moreafter;
 const char	*nomsg, *selectalllab;
-const char	*unselectalllab, *golab;
+ const char	*unselectalllab;
 const char	*qerrmsg;
 long highend;
 unsigned long last_message_searched=0;
@@ -488,7 +488,6 @@ unsigned long *last_message_searched_ptr=NULL;
 
 	time(&current_time);
 	nomsg=getarg("NOMESSAGES");
-	golab=getarg("GO");
 	selectalllab=getarg("SELECTALL");
 	unselectalllab=getarg("UNSELECTALL");
 
@@ -746,11 +745,6 @@ static void do_folder_navigate(const char *dir, size_t pos, long highend,
 
 	if (morebefore)
 	{
-	size_t	beforepos;
-
-		if (pos < pref_flagpagesize)	beforepos=0;
-		else	beforepos=pos-pref_flagpagesize;
-
 		printf("<a href=\"");
 		output_scriptptrget();
 		printf("&amp;form=folder&amp;pos=0\" style=\"text-decoration: none\">");
@@ -3279,7 +3273,6 @@ static void do_folderlist(const char *inbox_pfix,
 
 		size_t	j;
 		const char *pfix;
-		int isshared=0;
 		int isunsubscribed=0;
 		const char	*img=folder_img;
 
@@ -3291,7 +3284,6 @@ static void do_folderlist(const char *inbox_pfix,
 			char	*dir;
 			struct	stat	stat_buf;
 
-			isshared=1;
 			pfix="+++";
 
 			dir=maildir_shareddir(".",

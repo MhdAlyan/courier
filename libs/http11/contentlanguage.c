@@ -129,8 +129,9 @@ double *weights=malloc(naccept ? sizeof(double)*naccept:1);
 DIR	*p;
 struct dirent *de;
 size_t	i;
+#if 0
 double	missweight=1;
-
+#endif
 char	*bestlang=0;
 double	bestweight=0;
 int	found_nondefault_match=0;
@@ -142,10 +143,11 @@ int	found_nondefault_match=0;
 		enomem();
 	}
 	(void)parse_accept_string(acc_lang, languages, weights);
+#if 0
 	for (i=0; i<naccept; i++)
 		if (strcmp(languages[i], "*") == 0)	missweight=weights[i];
 		/* Default weight */
-
+#endif
 	p=opendir(libdir);
 	while (p && (de=readdir(p)) != 0)
 	{
