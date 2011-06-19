@@ -1,3 +1,10 @@
+2011-06-19  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* Fix gcc 4.6 warnings
+
+	* sqwebmail.spec.in: switch to systemd. Remove script used when
+	upgrading from ancient pre-sysconftool versions.
+
 2011-05-25  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* Fix autoconf warnings.

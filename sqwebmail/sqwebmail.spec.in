@@ -42,7 +42,7 @@ Group: Applications/Mail
 Source: http://download.sourceforge.net/courier/@PACKAGE@-@VERSION@.tar.bz2
 Url: http://www.courier-mta.org/sqwebmail
 BuildRoot: %{_tmppath}/sqwebmail-install
-Requires: /sbin/chkconfig /etc/cron.hourly expect
+Requires: /bin/systemctl /etc/cron.hourly expect
 Requires: %(which gpg >/dev/null 2>/dev/null && echo 'gnupg >= 1.0.5' && exit 0; echo gnupg2)
 
 %if %is_not_mandrake
@@ -158,68 +158,29 @@ EOF
 # Red Hat init.d file
 #
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{initdir}
+%{__mkdir} -p $RPM_BUILD_ROOT/lib/systemd/system
 
-%{__cat} >$RPM_BUILD_ROOT%{initdir}/sqwebmail <<EOF
-#!/bin/sh
-#
-# chkconfig: 2345 50 50
-# description: Start SqWebMail
-#
-#
-#
+%{__cat} >$RPM_BUILD_ROOT/lib/systemd/system/sqwebmail.service <<EOF
+[Unit]
+Description=SqWebMail
+Wants=network.target
+Wants=courier-authlib.service
+Wants=mail-transfer-agent.target
+After=network.target
+After=courier-authlib.service
+After=mail-transfer-agent.target
 
-case "\$1" in
-start)
-        cd /
-	touch /var/lock/subsys/sqwebmail
+[Install]
+WantedBy=multi-user.target
 
-	echo -n "Starting SqWebMail:"
-
-	%{_libexecdir}/sqwebmaild.rc start
-	echo " sqwebmaild"
-	;;
-stop)
-	echo -n "Stopping SqWebMail:"
-	%{_libexecdir}/sqwebmaild.rc stop
-	echo " sqwebmaild"
-	;;
-restart)
-	\$0 stop
-	\$0 start
-	;;
-condrestart)
-	[ -f /var/lock/subsys/sqwebmail ] && \$0 restart || :
-	;;
-reload)
-	echo -n "Restarting SqWebMail:"
-	%{_libexecdir}/sqwebmaild.rc reload
-	echo " done"
-        ;;
-esac
-exit 0
+[Service]
+Type=forking
+RemainAfterExit=true
+ExecStart=%{_libexecdir}/sqwebmaild.rc start
+ExecStop=%{_libexecdir}/sqwebmaild.rc stop
 EOF
 
 %{__cp} sysconftool $RPM_BUILD_ROOT%{scriptdir}/sysconftool
-%{__cat} >$RPM_BUILD_ROOT%{scriptdir}/sysconftool-rpmupgrade <<EOF
-#!/bin/sh
-
-for f in \$* "."
-do
-	if test \$f = "."
-	then
-		continue
-	fi
-
-	base=\`echo \$f | sed 's/\\.dist\$//'\`
-	if test -f \$base.dist -a ! -f \$base
-	then
-		%{__cp} -pr \$base.dist \$base
-	fi
-done
-EOF
-
-chmod 555 $RPM_BUILD_ROOT%{scriptdir}/sysconftool-rpmupgrade
 
 %{__cp} pcp/README.html pcp_README.html
 
@@ -240,31 +201,31 @@ test -d %{htmldir}/en || ln -fs en-us %{htmldir}/en
 if test -f %{initdir}/sqwebmail
 then
 	/sbin/chkconfig --del sqwebmail
-	/sbin/chkconfig --add sqwebmail
+	/bin/systemctl stop sqwebmail.service
 fi
 
 %{scriptdir}/sysconftool %{_sysconfdir}/*.dist >/dev/null
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable sqwebmail.service &> /dev/null || :
 
 %preun
 
 if test "$1" = 0
 then
-	%{_libexecdir}/sqwebmaild.rc stop
+	/bin/systemctl stop sqwebmail.service
+	/bin/systemctl disable sqwebmail.service
+
 fi
-
-%triggerpostun -- sqwebmail
-
-test ! -x %{scriptdir}/sysconftool-rpmupgrade || %{scriptdir}/sysconftool-rpmupgrade %{_sysconfdir}/*.dist
-
-test -f /etc/pam.d/webmail || test ! -f /etc/pam.d/webmail.rpmnew || mv -f /etc/pam.d/webmail.rpmnew /etc/pam.d/webmail
-test -f /etc/pam.d/calendar || test ! -f /etc/pam.d/calendar.rpmnew || mv -f /etc/pam.d/calendar.rpmnew /etc/pam.d/calendar
 
 %postun
 test -d %{htmldir}/en || %{__rm} -f %{htmldir}/en
 
+/bin/systemctl daemon-reload || :
+
 if test "$1" != 0
 then
-	/sbin/service sqwebmail condrestart >/dev/null 2>&1
+	/bin/systemctl try-restart sqwebmail.service || :
 fi
 %files -f filelist
 %defattr(-, root, bin)
@@ -282,7 +243,7 @@ fi
 %{_sbindir}
 %{_mandir}
 
-%attr(555, root, root) %{initdir}/*
+%attr(644, root, root) /lib/systemd/system/*
 
 %attr(700, %{cacheowner}, bin) %{cachedir}
 %attr(644, root, root) %config(noreplace) /etc/pam.d/*

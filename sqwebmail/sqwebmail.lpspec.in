@@ -30,7 +30,7 @@ BuildRequires: libidn-devel
 
 %package
 Summary: SqWebMail webmail server
-Requires: /sbin/chkconfig /etc/cron.hourly expect
+Requires: /bin/systemctl /etc/cron.hourly expect
 Requires: %(which gpg 2>/dev/null && echo 'gnupg >= 1.0.5' && exit 0; echo gnupg2)
 
 %if %is_not_mandrake
@@ -128,46 +128,26 @@ EOF
 # Red Hat init.d file
 #
 
-%{__mkdir} -p $__installdir%{initdir}
+%{__mkdir} -p $__installdir/lib/systemd/system
 
-%{__cat} >$__installdir%{initdir}/sqwebmail <<EOF
-#!/bin/sh
-#
-# chkconfig: 2345 50 50
-# description: Start authdaemon daemon for SqWebMail
-#
-#
-#
+%{__cat} >$__installdir/lib/systemd/system/sqwebmail.service <<EOF
+[Unit]
+Description=SqWebMail
+Wants=network.target
+Wants=courier-authlib.service
+Wants=mail-transfer-agent.target
+After=network.target
+After=courier-authlib.service
+After=mail-transfer-agent.target
 
-case "\$1" in
-start)
-        cd /
-	touch /var/lock/subsys/sqwebmail
+[Install]
+WantedBy=multi-user.target
 
-	echo -n "Starting SqWebMail:"
-
-	%{_libexecdir}/sqwebmaild.rc start
-	echo " sqwebmaild"
-	;;
-stop)
-	echo -n "Stopping SqWebMail:"
-	%{_libexecdir}/sqwebmaild.rc stop
-	echo " sqwebmaild"
-	;;
-condrestart)
-	[ -f /var/lock/subsys/sqwebmail ] && \$0 restart || :
-	;;
-restart)
-	\$0 stop
-	\$0 start
-	;;
-reload)
-	echo -n "Restarting SqWebMail:"
-	%{_libexecdir}/sqwebmaild.rc reload
-	echo " done"
-        ;;
-esac
-exit 0
+[Service]
+Type=forking
+RemainAfterExit=true
+ExecStart=%{_libexecdir}/sqwebmaild.rc start
+ExecStop=%{_libexecdir}/sqwebmaild.rc stop
 EOF
 
 %{__cp} sysconftool $__installdir%{scriptdir}/sysconftool
@@ -191,16 +171,26 @@ test -d %{htmldir}/en || ln -fs en-us %{htmldir}/en
 if test -f %{initdir}/sqwebmail
 then
 	/sbin/chkconfig --del sqwebmail
-	/sbin/chkconfig --add sqwebmail
+	/bin/systemctl stop sqwebmail.service
 fi
 
 %{scriptdir}/sysconftool %{_sysconfdir}/*.dist >/dev/null
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable sqwebmail.service &> /dev/null || :
+
+%{scriptdir}/sysconftool %{_sysconfdir}/*.dist >/dev/null
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable sqwebmail.service &> /dev/null || :
 
 %preun
 
 if test "$1" = 0
 then
-	%{_libexecdir}/sqwebmaild.rc stop
+	/bin/systemctl stop sqwebmail.service
+	/bin/systemctl disable sqwebmail.service
+
 fi
 
 %postun
@@ -208,7 +198,7 @@ test -d %{htmldir}/en || %{__rm} -f %{htmldir}/en
 
 if test "$1" != 0
 then
-	/sbin/service sqwebmail condrestart >/dev/null 2>&1
+	/bin/systemctl try-restart sqwebmail.service || :
 fi
 
 %files -f filelist
@@ -230,7 +220,7 @@ fi
 %{_sbindir}
 %{_mandir}
 
-%attr(555, root, root) %{initdir}/*
+%attr(644, root, root) /lib/systemd/system/*
 
 %attr(700, %{cacheowner}, bin) %{cachedir}
 %attr(644, root, root) %config(noreplace) /etc/pam.d/*
