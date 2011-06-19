@@ -631,14 +631,7 @@ fi
 /usr/sbin/alternatives --install /usr/sbin/sendmail mta %{_bindir}/sendmail 91 \
    --slave /usr/bin/mailq mta-mailq %{_bindir}/mailq \
    --slave /usr/bin/rmail mta-rmail %{_bindir}/rmail \
-   --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
-   --initscript courier
-
-if test -f %{initdir}/courier
-then
-	# Alternatives puts it back
-	/sbin/chkconfig --del courier
-fi
+   --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases
 %endif
 
 %triggerpostun -- courier-sendmail-wrapper
@@ -646,14 +639,7 @@ fi
 /usr/sbin/alternatives --install /usr/sbin/sendmail mta %{_bindir}/sendmail 91 \
    --slave /usr/bin/mailq mta-mailq %{_bindir}/mailq \
    --slave /usr/bin/rmail mta-rmail %{_bindir}/rmail \
-   --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases \
-   --initscript courier
-
-if test -f %{initdir}/courier
-then
-	# Alternatives puts it back
-	/sbin/chkconfig --del courier
-fi
+   --slave /usr/bin/newaliases mta-newaliases %{_sbindir}/makealiases
 %endif
 
 %postun
