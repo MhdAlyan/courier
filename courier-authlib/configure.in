@@ -5,7 +5,7 @@ dnl Copyright 1998 - 2011 Double Precision, Inc.  See COPYING for
 dnl distribution information.
 
 AC_PREREQ(2.63)
-AC_INIT([courier-authlib],[0.63.1],[courier-users@lists.sourceforge.net])
+AC_INIT([courier-authlib],[0.63.1.20110619],[courier-users@lists.sourceforge.net])
 
 AC_CONFIG_SRCDIR([courierauth.h])
 AC_CONFIG_HEADERS([courier_auth_config.h])
@@ -46,6 +46,8 @@ eval "bindir=$bindir"
 eval "sbindir=$sbindir"
 eval "localstatedir=$localstatedir"
 eval "libexecdir=$libexecdir"
+eval "datarootdir=$datarootdir"
+eval "datedir=$datadir"
 
 AC_PATH_PROGS(EXPECT, expect, expect, $LPATH)
 
@@ -876,6 +878,6 @@ AC_SUBST(REPOSITORY)
 AM_CONDITIONAL(HAVE_SGML, test -d ${srcdir}/docbook)
 AC_CONFIG_SUBDIRS(bdbobj gdbmobj md5 sha1 libhmac numlib makedat userdb unicode rfc822 random128 liblock liblog)
 
-AC_CONFIG_FILES(Makefile authdaemond authdaemonrc authsystem.passwd README.authdebug.html dbobj.config dbobj.h authmigrate courier-authlib.spec courier-authlib.lpspec courier-authlib.sysvinit userdb-test-cram-md5.pl)
+AC_CONFIG_FILES(Makefile authdaemond authdaemonrc authsystem.passwd README.authdebug.html dbobj.config dbobj.h authmigrate courier-authlib.spec courier-authlib.lpspec courier-authlib.sysvinit courier-authlib.service userdb-test-cram-md5.pl)
 AC_OUTPUT
 

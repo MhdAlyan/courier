@@ -32,7 +32,7 @@ BuildRequires:      /usr/include/ltdl.h
 %package
 Summary:        Courier authentication library
 Group:          System Environment/Daemons
-Requires:       /sbin/chkconfig
+Requires:       /bin/systemctl
 
 The Courier authentication library provides authentication services for
 other Courier applications.
@@ -162,15 +162,23 @@ do
 		;;
 	esac
 done
-%{__mkdir_p} $__installdir%{_sysconfdir}/rc.d/init.d
-%{__install} -m 555 courier-authlib.sysvinit \
-	 $__installdir%{_sysconfdir}/rc.d/init.d/courier-authlib
+%{__mkdir_p} $__installdir%{_datadir}
+%{__install} -m 555 courier-authlib.sysvinit $__installdir%{_datadir}
+
+%{__mkdir_p} $__installdir/lib/systemd/system
+%{__install} -m 644 courier-authlib.service $__installdir/lib/systemd/system
 
 %post
 %{_libexecdir}/courier-authlib/sysconftool %{_sysconfdir}/authlib/*.dist >/dev/null
 
-/sbin/chkconfig --del courier-authlib
-/sbin/chkconfig --add courier-authlib
+if test -f /etc/rc.d/init.d/courier-authlib
+then
+        /sbin/chkconfig --del courier-authlib
+        /bin/systemctl stop courier-authlib.service || :
+fi
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable courier-authlib.service &> /dev/null || :
 
 %preun
 if test -x %{_sbindir}/authdaemond
@@ -180,14 +188,19 @@ fi
 
 if test "$1" = "0"
 then
-	/sbin/chkconfig --del courier-authlib
+        /bin/systemctl stop courier-authlib.service
+        /bin/systemctl disable courier-authlib.service
 fi
+
+%postun
+/bin/systemctl daemon-reload || :
 
 %files -f configfiles.base
 %defattr(-,root,root,-)
 %doc README README*html README.authmysql.myownquery README.ldap
 %doc NEWS COPYING* AUTHORS ChangeLog
-/etc/rc.d/init.d/*
+/lib/systemd/system/*
+%attr(755, bin, bin) %{_datadir}/courier-authlib.sysvinit
 %ghost %attr(600, root, root) %{_localstatedir}/spool/authdaemon/pid.lock
 %ghost %attr(644, root, root) %{_localstatedir}/spool/authdaemon/pid
 %ghost %attr(-, root, root) %{_localstatedir}/spool/authdaemon/socket

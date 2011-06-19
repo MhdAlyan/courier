@@ -56,7 +56,6 @@ char *courier_auth_ldap_escape(const char *str)
 {
 	char *escaped;
 	size_t escaped_cnt=1;
-	int rc;
 
 	escape_specials(str, NULL, &escaped_cnt);
 	escaped=malloc(escaped_cnt);

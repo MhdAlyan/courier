@@ -45,8 +45,8 @@ BuildRequires:      redhat-rpm-config
 %endif
 
 
-Requires(post):     /sbin/chkconfig
-Requires(preun):    /sbin/chkconfig
+Requires(post):     /bin/systemctl
+Requires(preun):    /bin/systemctl
 
 # Provides by symlinks in this release, for compatibility with 0.60,
 # will be removed in 0.62. This is temporary hack:
@@ -220,15 +220,24 @@ do
 		;;
 	esac
 done
-%{__mkdir_p} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
-%{__install} -m 555 courier-authlib.sysvinit \
-	 $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/courier-authlib
+%{__mkdir_p} $RPM_BUILD_ROOT%{_datadir}
+%{__install} -m 555 courier-authlib.sysvinit $RPM_BUILD_ROOT%{_datadir}
+
+%{__mkdir_p} $RPM_BUILD_ROOT/lib/systemd/system
+%{__install} -m 644 courier-authlib.service $RPM_BUILD_ROOT/lib/systemd/system
 
 %post
 %{_libexecdir}/courier-authlib/sysconftool %{_sysconfdir}/authlib/*.dist >/dev/null
+if test -f /etc/init.d/courier-authlib
+then
+# Upgrade to systemd
 
-/sbin/chkconfig --del courier-authlib
-/sbin/chkconfig --add courier-authlib
+        /sbin/chkconfig --del courier-authlib
+        /bin/systemctl stop courier-authlib.service || :
+fi
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable courier-authlib.service &> /dev/null || :
 
 %preun
 if test -x %{_sbindir}/authdaemond
@@ -238,8 +247,12 @@ fi
 
 if test "$1" = "0"
 then
-	/sbin/chkconfig --del courier-authlib
+        /bin/systemctl stop courier-authlib.service
+        /bin/systemctl disable courier-authlib.service
 fi
+
+%postun
+/bin/systemctl daemon-reload || :
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -249,7 +262,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README README*html README.authmysql.myownquery README.ldap
 %doc NEWS COPYING* AUTHORS ChangeLog
-/etc/rc.d/init.d/*
+/lib/systemd/system/*
+%attr(755, bin, bin) %{_datadir}/courier-authlib.sysvinit
 %ghost %attr(600, root, root) %{_localstatedir}/spool/authdaemon/pid.lock
 %ghost %attr(644, root, root) %{_localstatedir}/spool/authdaemon/pid
 %ghost %attr(-, root, root) %{_localstatedir}/spool/authdaemon/socket
