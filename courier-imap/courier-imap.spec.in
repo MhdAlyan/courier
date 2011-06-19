@@ -32,8 +32,9 @@ License: GPL
 Group: Applications/Mail
 Source: %{name}-@VERSION@.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Requires: /sbin/chkconfig fileutils textutils sh-utils sed
+Requires: fileutils textutils sh-utils sed
 %if %suse_version
+Requires: /sbin/chkconfig
 %else
 Requires: /bin/systemctl
 %endif

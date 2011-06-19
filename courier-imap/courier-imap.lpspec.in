@@ -97,8 +97,8 @@ full Courier mail server.  Install the Courier package instead.
 %{__mkdir_p} $__installdir%{initdir}
 %{__make} install DESTDIR=$__installdir
 
-%{__mkdir_p} $RPM_BUILD_ROOT%{_datadir}
-%{__mkdir_p} $RPM_BUILD_ROOT/lib/systemd/system
+%{__mkdir_p} $__installdir%{_datadir}
+%{__mkdir_p} $__installdir/lib/systemd/system
 
 #
 # Red Hat or SuSE like init.d file.
@@ -113,8 +113,8 @@ install -Dm 644 %{templdir}/pop3.pam $__installdir%{pamconfdir}/pop3
 install -Dm 644 %{templdir}/imap.pam $__installdir%{pamconfdir}/imap
 %else
 # Copy standard sysvinit file
-install -Dm 755 packaging/systemd/courier-imap.sysvinit $RPM_BUILD_ROOT/%{_datadir}
-install -Dm 644 packaging/systemd/courier-imap.service $RPM_BUILD_ROOT/lib/systemd/system
+install -Dm 755 packaging/systemd/courier-imap.sysvinit $__installdir/%{_datadir}
+install -Dm 644 packaging/systemd/courier-imap.service $__installdir/lib/systemd/system
 %endif
 
 #
