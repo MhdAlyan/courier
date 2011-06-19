@@ -1,7 +1,9 @@
 [Unit]
 Description=Courier-IMAP service
 Wants=network.target
+Wants=courier-authlib.service
 After=network.target
+After=courier-authlib.service
 
 [Install]
 WantedBy=mail-transfer-agent.target

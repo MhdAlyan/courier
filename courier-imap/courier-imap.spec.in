@@ -278,10 +278,10 @@ fi
 %{_libexecdir}/pop3d.rc stop
 %{_libexecdir}/pop3d-ssl.rc stop
 %else
-/sbin/systemctl stop courier-imap
 if test "$1" = "0"
 then
 	rm -f %{_localstatedir}/couriersslcache
+	/bin/systemctl stop courier-imap.service
 	/bin/systemctl disable courier-imap.service
 fi
 %endif
@@ -289,6 +289,10 @@ fi
 %if %{suse_version}
 %else
 /bin/systemctl daemon-reload &> /dev/null || :
+if test "$1" != "0"
+then
+   /bin/systemctl try-restart courier-imap.service
+fi
 %endif
 
 %files
