@@ -661,6 +661,7 @@ else
 fi
 
 /bin/systemctl daemon-reload || :
+/bin/systemctl enable courier.service &> /dev/null || :
 
 %{_datadir}/sysconftool `%{__cat} %{_datadir}/configlist` >/dev/null
 %if %alternatives
