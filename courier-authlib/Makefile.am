@@ -523,17 +523,11 @@ install-configure:
 distrelease:
 	umask 022; $(MAKE) distcheck
 	$(MAKE) rpm
-	socksify cvs commit
-	socksify cvs tag -F @PACKAGE@-latest
 	$(MAKE)
 	$(MAKE)
 	rm -f @PACKAGE@.spec @PACKAGE@.lpspec
 	$(MAKE) @PACKAGE@.spec @PACKAGE@.lpspec
 	$(MAKE) dist
-
-tagrelease:
-	socksify cvs tag -F -r @PACKAGE@-latest \
-               `echo @PACKAGE@-@VERSION@ | tr '.' '-'`
 
 rpm: rpm-build
 
