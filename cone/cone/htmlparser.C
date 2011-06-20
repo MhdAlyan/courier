@@ -605,6 +605,9 @@ void htmlParser::fmtline(const enhanced_char *cb,
 			const char *p=get_blockquote_pfix(b->attributes);
 
 			s.insert(s.end(), p, p+strlen(p));
+
+			if (*p != '>')
+				wrapped=false; // Do not line-wrap this
 		}
 		b++;
 	}
@@ -613,7 +616,10 @@ void htmlParser::fmtline(const enhanced_char *cb,
 		s.push_back(' ');
 
 	if (center)
+	{
 		s.insert(s.end(), center, (unicode_char)' ');
+		wrapped=false; // Do not line-wrap this
+	}
 
 	// Scan currentLine.  Each time attributes change, insert an
 	// attribute escape sequence into the text.
