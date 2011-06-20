@@ -215,8 +215,8 @@ dopublish:
 	rsync -a -v --delete-after repository-$(SUBDIR)/`lpm -q --distribution`/. headache:lpmtool.com/www/repositories/$(SUBDIR)/courier-sox/`lpm -q --distribution`
 
 upload-beta:
+	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify ssh grace.speakeasy.net echo @PACKAGE@-@VERSION@.tar.bz2 `ls -l @PACKAGE@-@VERSION@.tar.bz2 | awk ' { print $$5 } '` \>courier-mta.org/sox.beta
 	../sftools/release.pl mrsam $(SFPASSWD) courier sox-devel `echo @VERSION@|sed 's/.*\(........\)/\1/'` @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
 
 distrelease:
