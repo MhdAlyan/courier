@@ -8,6 +8,8 @@ SUBDIRS=gdbmobj bdbobj md5 sha1 libhmac numlib makedat userdb unicode rfc822 ran
 
 INCLUDES = $(LTDLINCL)
 
+AM_CPPFLAGS=-I liblock
+
 modules=@LIBAUTHUSERDB@ \
 	@LIBAUTHPAM@ @LIBAUTHPWD@ @LIBAUTHSHADOW@ \
 	@LIBAUTHPGSQL@ @LIBAUTHLDAP@ @LIBAUTHMYSQL@ \

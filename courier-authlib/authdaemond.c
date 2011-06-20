@@ -18,7 +18,6 @@
 #include	<fcntl.h>
 #include	<ctype.h>
 #include	"numlib/numlib.h"
-#include	"liblock/config.h"
 #include	"liblock/liblock.h"
 #include	"auth.h"
 #include	"authdaemonrc.h"
