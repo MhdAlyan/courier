@@ -610,8 +610,9 @@ upload-beta:
 upload-dist:
 	test -z "$(SFPASSWD)" && exit 1; exit 0
 	rm -f @PACKAGE@-@VERSION@.tar.bz2.sig; gpg --detach-sign --default-key mrsam@courier-mta.com @PACKAGE@-@VERSION@.tar.bz2; test -f @PACKAGE@-@VERSION@.tar.bz2.sig || exit 1
-	socksify cvs tag -F -r @PACKAGE@-latest \
-               `echo @PACKAGE@-@VERSION@ | tr '.' '-'`
+	r="`svn info . | sed -n '/Repository Root:/p' | cut -d: -f2-`"; \
+	  svn rm -m 'Remove previous tag' $$r/tags/@PACKAGE@/@VERSION@ 2>/dev/null; \
+	  svn cp -m 'Tag @PACKAGE@' $$r/trunk $$r/tags/@PACKAGE@/@VERSION@
 	socksify ../sftools/release.pl mrsam $(SFPASSWD) courier authlib @VERSION@ @PACKAGE@-@VERSION@.tar.bz2 @PACKAGE@-@VERSION@.tar.bz2.sig
 	socksify ssh grace.speakeasy.net rm -f courier-mta.org/courier-authlib.beta
 
