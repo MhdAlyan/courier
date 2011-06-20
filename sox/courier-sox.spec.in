@@ -23,11 +23,11 @@ Release: 1%{?dist}%{?courier_release}
 License: GPL
 Group: System Environment/Libraries
 URL: http://www.courier-mta.org
-Source0: %{name}-%{version}.tar.gz
+Source0: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildPreReq: libtool
-BuildPreReq: courier-authlib-devel
-BuildPreReq: /usr/include/ltdl.h
+BuildRequires: libtool
+BuildRequires: courier-authlib-devel
+BuildRequires: /usr/include/ltdl.h
 
 %description
 This package installs a Socks 5 client support library that allows applications
@@ -42,8 +42,9 @@ Requires: %{name} = 0:%{version}-%{release}
 Summary: Socks 5 server
 Group: Networking/Utilities
 Requires: %{name} = 0:%{version}-%{release}
-Requires(post):   /sbin/chkconfig
-Requires(preun):  /sbin/chkconfig
+Requires(post):   /bin/systemctl
+Requires(preun):  /bin/systemctl
+Requires(postun): /bin/systemctl
 
 %package utils
 Group: Networking/Utilities
@@ -84,8 +85,11 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir_p} $RPM_BUILD_ROOT%{_localstatedir}/run
 > $RPM_BUILD_ROOT%{_localstatedir}/run/sockd.pid
 
-%{__mkdir_p} $RPM_BUILD_ROOT%{initdir}
-%{__cp} courier-sox.sysvinit $RPM_BUILD_ROOT%{initdir}/courier-sox
+%{__mkdir_p} $RPM_BUILD_ROOT%{_datadir}
+%{__mkdir_p} $RPM_BUILD_ROOT/lib/systemd/system
+
+%{__cp} courier-sox.sysvinit $RPM_BUILD_ROOT%{_datadir}
+%{__cp} courier-sox.service $RPM_BUILD_ROOT/lib/systemd/system
 
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
 
@@ -117,15 +121,28 @@ fi
 
 %post server
 
-/sbin/chkconfig --del courier-sox
-/sbin/chkconfig --add courier-sox
+if test -f /etc/init.d/courier-sox
+then
+   /sbin/chkconfig --del courier-sox
+   /bin/systemctl stop courier-sox.service || :
+fi
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable courier-sox.service &> /dev/null || :
 
 %preun server
 
-%{initdir}/courier-sox stop >/dev/null
 if test "$1" = "0"
 then
-        /sbin/chkconfig --del courier-sox
+   /bin/systemctl stop courier-sox.service
+   /bin/systemctl disable courier-sox.service
+fi
+
+%postun server
+
+if test "$1" != "0"
+then
+   /bin/systemctl try-restart courier-sox.service
 fi
 
 %clean
@@ -156,7 +173,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/sockd
 %{_libexecdir}/sockd
 %attr(644,root,root) %ghost %verify(not size mtime md5) %{_localstatedir}/run/sockd.pid
-%attr(555,root,root) %{initdir}/*
+%{_datadir}/courier-sox.sysvinit
+/lib/systemd/system/*
 %{_mandir}/man1/sockd*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/pam.d/*
 

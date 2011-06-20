@@ -12,7 +12,7 @@ URL: http://www.courier-mta.org
 BuildRequires: libtool
 BuildRequires: courier-authlib-devel
 BuildRequires: /usr/include/ltdl.h
-Source: %{__name}-%{__version}.tar.gz
+Source: %{__name}-%{__version}.bz2
 %{?repository: Repository(pgpkeys.txt): http://download.lpmtool.com/@REPOSITORY@/courier-sox}
 
 %package
@@ -37,7 +37,7 @@ proxies.
 Summary: Socks 5 server
 Group: Networking/Utilities
 Requires: %{__name} = %{__version}-%{__release}
-Requires:   /sbin/chkconfig
+Requires:   /bin/systemctl
 
 This package contains the Courier Socks 5 server.
 Install this package if you want to run a Socks 5 server.
@@ -69,8 +69,11 @@ rm -rf $__installdir
 %{__mkdir_p} $__installdir%{_localstatedir}/run
 > $__installdir%{_localstatedir}/run/sockd.pid
 
-%{__mkdir_p} $__installdir%{initdir}
-%{__cp} courier-sox.sysvinit $__installdir%{initdir}/courier-sox
+%{__mkdir_p} $__installdir%{_datadir}
+%{__mkdir_p} $__installdir/lib/systemd/system
+
+%{__cp} courier-sox.sysvinit $__installdir%{_datadir}
+%{__cp} courier-sox.service $__installdir/lib/systemd/system
 
 %{__mkdir_p} $__installdir%{_sysconfdir}/pam.d
 if ls /lib*/security/pam_stack.so 2>/dev/null >/dev/null
@@ -102,15 +105,28 @@ fi
 
 %post server
 
-/sbin/chkconfig --del courier-sox
-/sbin/chkconfig --add courier-sox
+if test -f /etc/init.d/courier-sox
+then
+   /sbin/chkconfig --del courier-sox
+   /bin/systemctl stop courier-sox.service || :
+fi
+
+/bin/systemctl daemon-reload || :
+/bin/systemctl enable courier-sox.service &> /dev/null || :
 
 %preun server
 
-%{initdir}/courier-sox stop >/dev/null
 if test "$1" = "0"
 then
-        /sbin/chkconfig --del courier-sox
+   /bin/systemctl stop courier-sox.service
+   /bin/systemctl disable courier-sox.service
+fi
+
+%postun server
+
+if test "$1" != "0"
+then
+   /bin/systemctl try-restart courier-sox.service
 fi
 
 %files
@@ -133,7 +149,8 @@ fi
 %{_sbindir}/sockd
 %{_libexecdir}/sockd
 %attr(644,root,root) %ghost %verify(not size mtime md5) %{_localstatedir}/run/sockd.pid
-%attr(555,root,root) %{initdir}/*
+%{_datadir}/courier-sox.sysvinit
+/lib/systemd/system/*
 %{_mandir}/man1/sockd*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/pam.d/*
 

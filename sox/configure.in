@@ -6,7 +6,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([courier-sox],[0.11],[courier-users@lists.sourceforge.net])
+AC_INIT([courier-sox],[0.11.20110619],[courier-users@lists.sourceforge.net])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([sox.c])
 AC_CONFIG_HEADER([courier_socks_config.h])
@@ -342,5 +342,5 @@ AC_SUBST(REPOSITORY)
 AC_ARG_WITH(socks, [], [ : ], [ac_configure_args="$ac_configure_args --without-socks"])
 
 AC_CONFIG_SUBDIRS(soxwrap)
-AC_CONFIG_FILES(Makefile testcidr.sh courier-sox.spec courier-sox.lpspec courier-sox.sysvinit socks.h system sockd.rc mkbl4)
+AC_CONFIG_FILES(Makefile testcidr.sh courier-sox.spec courier-sox.lpspec courier-sox.sysvinit courier-sox.service socks.h system sockd.rc mkbl4)
 AC_OUTPUT
