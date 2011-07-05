@@ -1,3 +1,7 @@
+2011-07-05  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* courier.spec.in: Fix rpmlint warnings
+
 2011-06-19  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* Fix gcc 4.6 warnings
