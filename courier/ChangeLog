@@ -1,3 +1,7 @@
+2011-07-22  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* webmail/showmsg2html.c (error): Provide a definition for error().
+
 2011-07-11  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* imap/pop3d.dist.in: Add AUTHSERVICE settings. They've been supported

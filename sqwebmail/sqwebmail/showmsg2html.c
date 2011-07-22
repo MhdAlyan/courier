@@ -20,6 +20,12 @@ void rfc2045_error(const char *p)
 	exit(1);
 }
 
+void error(const char *p)
+{
+	fprintf(stderr, "%s\n", p);
+	exit(1);
+}
+
 void fake_exit(int rc)
 {
 	exit(rc);
