@@ -80,6 +80,6 @@ local mail delivery.</para>
     <para>
 <ulink url="courierpop3d.html"><citerefentry><refentrytitle>courierpop3d</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>,
 <ulink url="couriertcpd.html"><citerefentry><refentrytitle>couriertcpd</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>,
-<ulink url="authlib.html"><citerefentry><refentrytitle>authlib</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink>.</para>
+<ulink url="authlib/authlib.html"><citerefentry><refentrytitle>authlib</refentrytitle><manvolnum>7</manvolnum></citerefentry></ulink>.</para>
   </refsect1>
 </refentry>
