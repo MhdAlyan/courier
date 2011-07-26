@@ -237,10 +237,8 @@ or
 </pre>
 
   <p>If you are using userdb authentication, you definitely need to
-  read <a href="http://www.courier-mta.org/makeuserdb.html">man
-  makeuserdb</a>, <a href=
-  "http://www.courier-mta.org/userdb.html">man userdb</a>, and
-  <a href="http://www.courier-mta.org/userdbpw.html">man
+  read <a href="makeuserdb.html">man makeuserdb</a>, <a href=
+  "userdb.html">man userdb</a>, and <a href="userdbpw.html">man
   userdbpw</a>.</p>
 
   <h2>5. Use the mailing list</h2>

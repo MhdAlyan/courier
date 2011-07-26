@@ -10,6 +10,7 @@
 <xsl:param name="use.id.as.filename" select="1"/>
 
 <xsl:param name="funcsynopsis.style">ansi</xsl:param>
+
 <xsl:param name="table.borders.with.css" select="1" />
 
 <xsl:param name="default.table.frame" select="'collapse'" />
@@ -35,6 +36,19 @@ Copyright 1998 - 2009 Double Precision, Inc.  See COPYING for distribution
 information.
 
 </xsl:comment>
+</xsl:template>
+
+<!-- Bug fix 1.76.1 -->
+<xsl:template match="funcdef/function" mode="ansi-tabular">
+  <xsl:choose>
+    <xsl:when test="$funcsynopsis.decoration != 0">
+      <strong xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:xslo="http://www.w3.org/1999/XSL/Transform"><xsl:apply-templates mode="ansi-nontabular"/></strong>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:apply-templates mode="kr-tabular"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>
