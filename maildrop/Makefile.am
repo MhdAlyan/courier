@@ -46,7 +46,8 @@ install-deliverquota:
 uninstall-deliverquota:
 	rm -f $(DESTDIR)$(bindir)/deliverquota
 
-MAILDROPHTML=lockmail.html maildirmake.html maildropex.html \
+MAILDROPHTML=lockmail.html maildiracl.html maildirkw.html \
+	maildirmake.html maildropex.html \
 	maildir.html \
 	maildropfilter.html maildropgdbm.html maildrop.html mailbot.html \
 	makemime.html reformail.html reformime.html
@@ -168,6 +169,12 @@ maildir.html: maildir/maildir.html
 
 maildir.5: maildir/maildir.5
 	cp -f $(srcdir)/maildir/maildir.5 maildir.5
+
+maildiracl.html: maildir/maildiracl.html
+	cp -f maildir/maildiracl.html maildiracl.html
+
+maildirkw.html: maildir/maildirkw.html
+	cp -f maildir/maildirkw.html maildirkw.html
 
 maildirmake.html: maildir/maildirmake.html
 	cp -f maildir/maildirmake.html maildirmake.html
