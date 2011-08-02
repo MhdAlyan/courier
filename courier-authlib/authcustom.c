@@ -14,7 +14,7 @@
 
 #include	"auth.h"
 #include	"authcustom.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 
 
 static int auth_custom_login(const char *service, char *authdata,

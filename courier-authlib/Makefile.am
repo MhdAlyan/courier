@@ -51,7 +51,7 @@ libcourierauthcommon_la_SOURCES= \
 	auth.h courierauth.h \
 	authpwdenumerate.c \
 	authsaslfrombase64.c authsasltobase64.c \
-	authstaticlist.h \
+	courierauthstaticlist.h \
 	authsyschangepwd.c authsyscommon.c \
 	authldapescape.c \
 	cramlib.c cramlib.h \
@@ -301,7 +301,7 @@ libcourierauthsaslclient_la_LIBADD=libcourierauth.la
 libcourierauthsaslclient_la_LDFLAGS=-export-symbols-regex '^auth_sasl_client$$' -avoid-version
 
 include_HEADERS=courier_auth_config.h courierauth.h courierauthsasl.h \
-	courierauthsaslclient.h courierauthdebug.h
+	courierauthsaslclient.h courierauthdebug.h courierauthstaticlist.h
 
 courierauthconfig_SOURCES=authinfo.c
 

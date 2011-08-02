@@ -23,7 +23,7 @@
 #include	"authdaemonrc.h"
 #include	"courierauthdebug.h"
 #include	"pkglibdir.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include        "libhmac/hmac.h"
 #include        "cramlib.h"
 #include	<ltdl.h>
@@ -33,7 +33,7 @@
 #define	SOMAXCONN	5
 #endif
 
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 
 static unsigned ndaemons;
 

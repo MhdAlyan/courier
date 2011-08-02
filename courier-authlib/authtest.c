@@ -4,7 +4,7 @@
 */
 
 #include	"auth.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"courierauthsasl.h"
 #include	"courierauthdebug.h"
 #include	<stdio.h>

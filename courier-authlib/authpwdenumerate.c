@@ -16,7 +16,7 @@
 #endif
 
 #include	"auth.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 
 
 

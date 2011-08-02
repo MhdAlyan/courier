@@ -16,7 +16,7 @@
 
 #include	"auth.h"
 #include	"authpgsql.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"courierauthdebug.h"
 #include	"libhmac/hmac.h"
 #include	"cramlib.h"

@@ -14,7 +14,7 @@
 
 #include	"auth.h"
 #include	"authldap.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"courierauthdebug.h"
 
 

@@ -15,7 +15,7 @@
 #include	"numlib/numlib.h"
 
 #include	"courierauth.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"courierauthdebug.h"
 
 #include	"authpipelib.h"

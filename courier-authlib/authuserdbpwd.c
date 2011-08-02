@@ -17,7 +17,7 @@
 #endif
 #include	"userdb/userdb.h"
 #include	"auth.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"authwait.h"
 #include	"sbindir.h"
 #include	"courierauthdebug.h"

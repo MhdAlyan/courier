@@ -16,7 +16,7 @@
 #endif
 #include	"auth.h"
 #include	"authwait.h"
-#include	"authstaticlist.h"
+#include	"courierauthstaticlist.h"
 #include	"courierauthdebug.h"
 
 #if	HAVE_SECURITY_PAM_APPL_H

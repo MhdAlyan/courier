@@ -3,8 +3,8 @@
 ** distribution information.
 */
 
-#ifndef	authstaticlist_h
-#define	authstaticlist_h
+#ifndef	courierauthstaticlist_h
+#define	courierauthstaticlist_h
 
 #if	HAVE_CONFIG_H
 #include	"courier_auth_config.h"
