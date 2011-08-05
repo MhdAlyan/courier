@@ -1,5 +1,5 @@
 /*
-** Copyright 1998 - 2010 Double Precision, Inc.
+** Copyright 1998 - 2011 Double Precision, Inc.
 ** See COPYING for distribution information.
 **
 */
@@ -146,6 +146,27 @@ int	c, lastc;
 	fclose(f);
 }
 
+static FILE *
+openpop3dlist()
+{
+	int tries;
+	FILE *fp;
+
+	tries = 0;
+	do {
+		fp = fopen(POP3DLIST, "r");
+		if (fp != NULL)
+			return (fp);
+		if (errno != ESTALE) {
+			if (errno != ENOENT)
+				perror("failed to open " POP3DLIST " file");
+			return (NULL);
+		}
+		++tries;
+	} while (tries < 3); /* somewhat arbitrary */
+	fprintf(stderr, "failed to open pop3dlist file after retries\n");
+	return NULL;
+}
 
 /*
 ** Read courierpop3dsizelist
@@ -161,7 +182,7 @@ static struct msglist **readpop3dlist(unsigned long *uid)
 
 	char linebuf[1024];
 
-	FILE *fp=fopen(POP3DLIST, "r");
+	FILE *fp=openpop3dlist();
 
 	size_t i;
 	int vernum=0;

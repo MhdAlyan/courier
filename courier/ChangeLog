@@ -1,3 +1,8 @@
+2011-08-04  Michiel Boland <michiel@boland.org>
+
+	* pop3dserver.c (openpop3dlist): Try a few times to reopen pop3dsizelist
+	if it fails with ESTALE.
+
 2011-07-22  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* webmail/showmsg2html.c (error): Provide a definition for error().
