@@ -402,7 +402,7 @@ each one, and there is no system login associated with each mailbox.
 maildirs. It should be scalable to thousands of mailboxes. It can also be
 used to replace linear searches of <filename>/etc/passwd</filename> with a database
 lookup, see
-<ulink url="pw2userdb.html"><citerefentry><refentrytitle>pw2userdb</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>.</para>
+<ulink url="userdb.html"><citerefentry><refentrytitle>userdb</refentrytitle><manvolnum>8</manvolnum></citerefentry></ulink>.</para>
 
       <para>
 Note - you still MUST use some valid system userid and groupid that is
