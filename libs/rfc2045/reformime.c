@@ -996,7 +996,7 @@ int rc=0;
 		case 's':
 			if (!optarg && argn < argc)
 				optarg=argv[argn++];
-			if (optarg && *optarg)	section=optarg;
+			if (optarg && *optarg)	section=strdup(optarg);
 			break;
 		case 'i':
 			doinfo=1;

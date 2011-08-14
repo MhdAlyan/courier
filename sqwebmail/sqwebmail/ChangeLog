@@ -1,3 +1,8 @@
+2011-08-14  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* rfc2045/reformime.c (main2): On ia64 and arm, argv is in readonly
+	memory.
+
 2011-07-22  Sam Varshavchik  <mrsam@courier-mta.com>
 
 	* showmsg2html.c (error): Provide a definition for error().
