@@ -1,3 +1,8 @@
+2011-08-14  Sam Varshavchik  <mrsam@courier-mta.com>
+
+	* rfc2045/reformime.c (main2): On ia64 and arm, argv is in readonly
+	memory.
+
 2.5.4
 
 2011-05-17  Sam Varshavchik  <mrsam@courier-mta.com>
